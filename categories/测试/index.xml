@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>测试 on DeerStar的博客</title><link>https://example.com/categories/%E6%B5%8B%E8%AF%95/</link><description>Recent content in 测试 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 17 Aug 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml"/><item><title>你好，世界！</title><link>https://example.com/2023/test-chinese/</link><pubDate>Thu, 17 Aug 2023 00:00:00 +0000</pubDate><guid>https://example.com/2023/test-chinese/</guid><description>&lt;img src="https://example.com/2023/test-chinese/hello-cover.webp" alt="Featured image of post 你好，世界！" /&gt;&lt;h2 id="短代码测试"&gt;短代码测试
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>测试 on DeerStar的博客</title><link>https://example.com/categories/%E6%B5%8B%E8%AF%95/</link><description>Recent content in 测试 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 17 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/%E6%B5%8B%E8%AF%95/index.xml" rel="self" type="application/rss+xml"/><item><title>你好，世界！</title><link>https://example.com/2025/test-chinese/</link><pubDate>Wed, 17 Dec 2025 00:00:00 +0000</pubDate><guid>https://example.com/2025/test-chinese/</guid><description>&lt;img src="https://example.com/2025/test-chinese/hello-cover.webp" alt="Featured image of post 你好，世界！" /&gt;&lt;h2 id="短代码测试"&gt;短代码测试
 &lt;/h2&gt;
 &lt;blockquote class="quote"&gt;
 &lt;p&gt;三月，因久旱不雨，苏轼赴郿，祈雨于太白山之上清宫。数日后，虽有微雨，父老以为不足，于是，再陪宋太守亲往祭祷，回程路上，便见道中有云气自山中来，如群马奔突而至车座左右，苏轼一时好奇心起，开笼收云归家，作《攓云篇》。&lt;/p&gt;&lt;/blockquote&gt;
@@ -18,38 +18,38 @@
 &lt;/blockquote&gt;
 &lt;h2 id="图片"&gt;图片
 &lt;/h2&gt;
-&lt;p&gt;&lt;img src="https://example.com/2023/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
+&lt;p&gt;&lt;img src="https://example.com/2025/test-chinese/florian-klauer-nptLmg6jqDo-unsplash.jpg"
 width="667"
 height="1000"
-srcset="https://example.com/2023/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, https://example.com/2023/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
+srcset="https://example.com/2025/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e98fca2b4272416e.jpg 480w, https://example.com/2025/test-chinese/florian-klauer-nptLmg6jqDo-unsplash_hu_e3d37c9ded115b12.jpg 1024w"
 loading="lazy"
 alt="Photo by Florian Klauer on Unsplash"
 class="gallery-image"
 data-flex-grow="66"
 data-flex-basis="160px"
-&gt; &lt;img src="https://example.com/2023/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
+&gt; &lt;img src="https://example.com/2025/test-chinese/luca-bravo-alS7ewQ41M8-unsplash.jpg"
 width="1000"
 height="667"
-srcset="https://example.com/2023/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, https://example.com/2023/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
+srcset="https://example.com/2025/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_e13c58d5189f892c.jpg 480w, https://example.com/2025/test-chinese/luca-bravo-alS7ewQ41M8-unsplash_hu_8fc948b7ee525251.jpg 1024w"
 loading="lazy"
 alt="Photo by Luca Bravo on Unsplash"
 class="gallery-image"
 data-flex-grow="149"
 data-flex-basis="359px"
 &gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src="https://example.com/2023/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
+&lt;p&gt;&lt;img src="https://example.com/2025/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg"
 width="1000"
 height="750"
-srcset="https://example.com/2023/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://example.com/2023/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
+srcset="https://example.com/2025/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_503c0ebcc5245e10.jpg 480w, https://example.com/2025/test-chinese/helena-hertz-wWZzXlDpMog-unsplash_hu_48c98de55fb3c999.jpg 1024w"
 loading="lazy"
 alt="Photo by Helena Hertz on Unsplash"
 class="gallery-image"
 data-flex-grow="133"
 data-flex-basis="320px"
-&gt; &lt;img src="https://example.com/2023/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
+&gt; &lt;img src="https://example.com/2025/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash.jpg"
 width="667"
 height="1000"
-srcset="https://example.com/2023/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, https://example.com/2023/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
+srcset="https://example.com/2025/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_f81a3588c5c4a663.jpg 480w, https://example.com/2025/test-chinese/hudai-gayiran-3Od_VKcDEAA-unsplash_hu_1c52ba2a4ad7b9a0.jpg 1024w"
 loading="lazy"
 alt="Photo by Hudai Gayiran on Unsplash"
 class="gallery-image"
