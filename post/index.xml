@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on DeerStar的博客</title><link>https://deerstar.github.io/post/</link><description>Recent content in Posts on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 20 Dec 2025 12:40:00 +0800</lastBuildDate><atom:link href="https://deerstar.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>FPGA 学习资源：优质网站与社区推荐</title><link>https://deerstar.github.io/2025/fpga-learning-resources/</link><pubDate>Sat, 20 Dec 2025 12:40:00 +0800</pubDate><guid>https://deerstar.github.io/2025/fpga-learning-resources/</guid><description>&lt;p&gt;在 FPGA 的学习和开发过程中，找到优质的学习资源和活跃的技术社区至关重要。本文整理了一些经过实践检验的优质平台，希望能为 FPGA 学习者提供帮助。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on DeerStar的博客</title><link>https://deerstar.xyz/post/</link><description>Recent content in Posts on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 20 Dec 2025 12:40:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/post/index.xml" rel="self" type="application/rss+xml"/><item><title>FPGA 学习资源：优质网站与社区推荐</title><link>https://deerstar.xyz/2025/fpga-learning-resources/</link><pubDate>Sat, 20 Dec 2025 12:40:00 +0800</pubDate><guid>https://deerstar.xyz/2025/fpga-learning-resources/</guid><description>&lt;p&gt;在 FPGA 的学习和开发过程中，找到优质的学习资源和活跃的技术社区至关重要。本文整理了一些经过实践检验的优质平台，希望能为 FPGA 学习者提供帮助。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="-学习网站"&gt;📚 学习网站
 &lt;/h2&gt;
@@ -172,7 +172,7 @@
 &lt;li&gt;&lt;a class="link" href="../xilinx-jtag-driver-issue/" &gt;Xilinx JTAG 驱动问题排查与解决&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;em&gt;本文持续更新，欢迎在评论区分享你推荐的优质 FPGA 学习资源！&lt;/em&gt;&lt;/p&gt;</description></item><item><title>Xilinx JTAG 驱动问题排查与解决</title><link>https://deerstar.github.io/2025/xilinx-jtag-driver-issue/</link><pubDate>Sat, 20 Dec 2025 09:15:00 +0800</pubDate><guid>https://deerstar.github.io/2025/xilinx-jtag-driver-issue/</guid><description>&lt;h1 id="问题背景"&gt;问题背景
+&lt;p&gt;&lt;em&gt;本文持续更新，欢迎在评论区分享你推荐的优质 FPGA 学习资源！&lt;/em&gt;&lt;/p&gt;</description></item><item><title>Xilinx JTAG 驱动问题排查与解决</title><link>https://deerstar.xyz/2025/xilinx-jtag-driver-issue/</link><pubDate>Sat, 20 Dec 2025 09:15:00 +0800</pubDate><guid>https://deerstar.xyz/2025/xilinx-jtag-driver-issue/</guid><description>&lt;h1 id="问题背景"&gt;问题背景
 &lt;/h1&gt;
 &lt;p&gt;在 Windows 10 64 位系统中，当同时安装多个版本的 Vivado（如 Vivado 2016.4 和 Vivado 2018.1）后，USB-JTAG 下载器可能出现驱动识别异常问题。&lt;/p&gt;
 &lt;h2 id="环境信息"&gt;环境信息
@@ -314,7 +314,7 @@
 &lt;li&gt;Xilinx 官方技术支持：&lt;a class="link" href="https://support.xilinx.com" target="_blank" rel="noopener"
 &gt;https://support.xilinx.com&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Vivado Design Suite 用户指南&lt;/li&gt;
-&lt;/ul&gt;</description></item><item><title>听说</title><link>https://deerstar.github.io/2025/tingshuo/</link><pubDate>Wed, 17 Dec 2025 20:30:00 +0800</pubDate><guid>https://deerstar.github.io/2025/tingshuo/</guid><description>&lt;img src="https://deerstar.github.io/2025/tingshuo/%E7%A3%81%E5%B8%A6.jpg" alt="Featured image of post 听说" /&gt;&lt;h1 id="听说"&gt;听说
+&lt;/ul&gt;</description></item><item><title>听说</title><link>https://deerstar.xyz/2025/tingshuo/</link><pubDate>Wed, 17 Dec 2025 20:30:00 +0800</pubDate><guid>https://deerstar.xyz/2025/tingshuo/</guid><description>&lt;img src="https://deerstar.xyz/2025/tingshuo/%E7%A3%81%E5%B8%A6.jpg" alt="Featured image of post 听说" /&gt;&lt;h1 id="听说"&gt;听说
 &lt;/h1&gt;
 &lt;p&gt;班级微信群里突然有人发了条短视频链接：&amp;ldquo;卧槽，这不是咱班林雨晴吗？&amp;rdquo;&lt;/p&gt;
 &lt;p&gt;我点开，是个学术访谈节目。她穿着正装坐在演播厅里，侃侃而谈。视频标题写着：《对话青年学者:林雨晴谈人工智能前沿研究》。&lt;/p&gt;
