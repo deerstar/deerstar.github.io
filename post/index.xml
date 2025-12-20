@@ -1,4 +1,146 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on DeerStar的博客</title><link>https://deerstar.github.io/post/</link><description>Recent content in Posts on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 17 Dec 2025 20:30:00 +0800</lastBuildDate><atom:link href="https://deerstar.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>听说</title><link>https://deerstar.github.io/2025/tingshuo/</link><pubDate>Wed, 17 Dec 2025 20:30:00 +0800</pubDate><guid>https://deerstar.github.io/2025/tingshuo/</guid><description>&lt;img src="https://deerstar.github.io/2025/tingshuo/%E7%A3%81%E5%B8%A6.jpg" alt="Featured image of post 听说" /&gt;&lt;h1 id="听说"&gt;听说
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on DeerStar的博客</title><link>https://deerstar.github.io/post/</link><description>Recent content in Posts on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sat, 20 Dec 2025 09:15:00 +0800</lastBuildDate><atom:link href="https://deerstar.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Xilinx JTAG 驱动问题排查与解决</title><link>https://deerstar.github.io/2025/xilinx-jtag-driver-issue/</link><pubDate>Sat, 20 Dec 2025 09:15:00 +0800</pubDate><guid>https://deerstar.github.io/2025/xilinx-jtag-driver-issue/</guid><description>&lt;h1 id="问题背景"&gt;问题背景
+&lt;/h1&gt;
+&lt;p&gt;在 Windows 10 64 位系统中，当同时安装多个版本的 Vivado（如 Vivado 2016.4 和 Vivado 2018.1）后，USB-JTAG 下载器可能出现驱动识别异常问题。&lt;/p&gt;
+&lt;h2 id="环境信息"&gt;环境信息
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;目标平台&lt;/strong&gt;：Xilinx ZYNQ&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;操作系统&lt;/strong&gt;：Windows 10 64-bit&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;工具版本&lt;/strong&gt;：Vivado 2016.4、Vivado 2018.1 共存&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h1 id="问题现象"&gt;问题现象
+&lt;/h1&gt;
+&lt;p&gt;在第一次连接 USB-JTAG 下载器时，手动指定驱动程序位置为：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;C:\Xilinx\Vivado\2017.4\data\xicom\cable_drivers\nt64
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;系统提示驱动安装成功，但出现以下异常现象：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;硬件层面&lt;/strong&gt;：下载器上的连接指示灯不亮&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;系统识别&lt;/strong&gt;：设备管理器中显示设备名称为 &lt;code&gt;Xilinx Embedded Platform USB Firmware Loader&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;软件层面&lt;/strong&gt;：Vivado 无法识别到 JTAG 设备，无法进行下载和调试&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h1 id="问题分析"&gt;问题分析
+&lt;/h1&gt;
+&lt;p&gt;该问题的根本原因在于：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;多版本 Vivado 共存时，驱动程序可能互相冲突&lt;/li&gt;
+&lt;li&gt;系统安装了错误的固件加载驱动（Firmware Loader），而非实际工作驱动&lt;/li&gt;
+&lt;li&gt;缺少 Jungo WinDriver 底层驱动支持&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;正确的驱动应显示为 &lt;code&gt;Xilinx USB Cable&lt;/code&gt;，而非 &lt;code&gt;USB Firmware Loader&lt;/code&gt;。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id="解决方案"&gt;解决方案
+&lt;/h1&gt;
+&lt;h2 id="步骤-1安装-jungo-驱动"&gt;步骤 1：安装 Jungo 驱动
+&lt;/h2&gt;
+&lt;p&gt;Jungo WinDriver 是 Xilinx JTAG 设备的底层驱动基础。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;定位到较低版本 Vivado 的驱动目录，例如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;C:\Xilinx_16.4\Vivado\2016.4\data\xicom\cable_drivers\nt64\
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;以&lt;strong&gt;管理员权限&lt;/strong&gt;运行批处理文件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;install_drivers_wrapper.bat
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装完成后，打开设备管理器，确认出现 &lt;code&gt;Jungo - WinDriver&lt;/code&gt; 设备节点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="步骤-2卸载错误驱动"&gt;步骤 2：卸载错误驱动
+&lt;/h2&gt;
+&lt;p&gt;清除之前安装的错误固件加载驱动：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开设备管理器&lt;/li&gt;
+&lt;li&gt;找到 &lt;code&gt;Xilinx Embedded Platform USB Firmware Loader&lt;/code&gt; 设备&lt;/li&gt;
+&lt;li&gt;右键选择 &lt;strong&gt;&amp;ldquo;卸载设备&amp;rdquo;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;重要&lt;/strong&gt;：勾选 &lt;strong&gt;&amp;ldquo;删除此设备的驱动程序软件&amp;rdquo;&lt;/strong&gt; 选项&lt;/li&gt;
+&lt;li&gt;点击确认完成卸载&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：部分系统可能提示需要重启计算机，建议按提示重启以彻底清除驱动残留。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id="步骤-3重新识别设备"&gt;步骤 3：重新识别设备
+&lt;/h2&gt;
+&lt;p&gt;让系统自动安装正确的驱动：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;重新拔插 USB-JTAG 下载器&lt;/li&gt;
+&lt;li&gt;Windows 将自动检测设备并安装正确的驱动程序&lt;/li&gt;
+&lt;li&gt;此时设备管理器中应显示为 &lt;code&gt;Xilinx USB Cable&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;下载器指示灯正常点亮&lt;/li&gt;
+&lt;li&gt;打开 Vivado，在 Hardware Manager 中可正常识别 JTAG 设备&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h1 id="验证方法"&gt;验证方法
+&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;硬件验证&lt;/strong&gt;：USB-JTAG 下载器连接指示灯亮起（通常为绿色常亮或闪烁）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;系统验证&lt;/strong&gt;：设备管理器中显示 &lt;code&gt;Xilinx USB Cable&lt;/code&gt;，无感叹号或问号&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;软件验证&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;打开 Vivado&lt;/li&gt;
+&lt;li&gt;依次选择：&lt;code&gt;Flow&lt;/code&gt; → &lt;code&gt;Open Hardware Manager&lt;/code&gt; → &lt;code&gt;Open Target&lt;/code&gt; → &lt;code&gt;Auto Connect&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;成功识别到目标 FPGA 或 ZYNQ 器件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h1 id="经验总结"&gt;经验总结
+&lt;/h1&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;多版本共存&lt;/strong&gt;：建议在安装新版本 Vivado 前，先运行旧版本的 Jungo 驱动安装程序&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;驱动顺序&lt;/strong&gt;：优先使用较低版本（如 2016.x）的驱动安装脚本，兼容性更好&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;权限问题&lt;/strong&gt;：所有驱动相关操作必须使用管理员权限&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;彻底清除&lt;/strong&gt;：卸载驱动时务必勾选&amp;quot;删除驱动程序软件&amp;quot;，避免残留影响&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动识别&lt;/strong&gt;：正确的驱动应由 Windows 自动安装，无需手动指定 inf 文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h1 id="相关资源"&gt;相关资源
+&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://support.xilinx.com/s/article/54381" target="_blank" rel="noopener"
+&gt;Xilinx Answer 54381&lt;/a&gt; - Cable Driver Installation on Windows&lt;/li&gt;
+&lt;li&gt;Vivado 驱动路径（按实际安装位置替换版本号）：
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&amp;lt;Vivado安装目录&amp;gt;\data\xicom\cable_drivers\nt64\
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="参考链接"&gt;参考链接
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Xilinx 官方技术支持：&lt;a class="link" href="https://support.xilinx.com" target="_blank" rel="noopener"
+&gt;https://support.xilinx.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Vivado Design Suite 用户指南&lt;/li&gt;
+&lt;/ul&gt;</description></item><item><title>听说</title><link>https://deerstar.github.io/2025/tingshuo/</link><pubDate>Wed, 17 Dec 2025 20:30:00 +0800</pubDate><guid>https://deerstar.github.io/2025/tingshuo/</guid><description>&lt;img src="https://deerstar.github.io/2025/tingshuo/%E7%A3%81%E5%B8%A6.jpg" alt="Featured image of post 听说" /&gt;&lt;h1 id="听说"&gt;听说
 &lt;/h1&gt;
 &lt;p&gt;班级微信群里突然有人发了条短视频链接：&amp;ldquo;卧槽，这不是咱班林雨晴吗？&amp;rdquo;&lt;/p&gt;
 &lt;p&gt;我点开，是个学术访谈节目。她穿着正装坐在演播厅里，侃侃而谈。视频标题写着：《对话青年学者:林雨晴谈人工智能前沿研究》。&lt;/p&gt;
