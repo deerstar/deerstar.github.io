@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>编程 on DeerStar的博客</title><link>https://deerstar.xyz/tags/%E7%BC%96%E7%A8%8B/</link><description>Recent content in 编程 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 21 Dec 2025 13:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml"/><item><title>我的工具箱(三) · 编程开发篇</title><link>https://deerstar.xyz/2025/programming-tools-collection/</link><pubDate>Sun, 21 Dec 2025 13:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/programming-tools-collection/</guid><description>&lt;p&gt;优秀的开发工具能让编程事半功倍。本文整理软件开发中提升效率的工具。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-集成开发环境-ide"&gt;💻 集成开发环境 (IDE)
+&lt;/h2&gt;
+&lt;h3 id="1-visual-studio-code"&gt;1. Visual Studio Code
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://code.visualstudio.com/" target="_blank" rel="noopener"
+&gt;https://code.visualstudio.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量级但功能强大&lt;/li&gt;
+&lt;li&gt;丰富的插件生态&lt;/li&gt;
+&lt;li&gt;支持几乎所有编程语言&lt;/li&gt;
+&lt;li&gt;内置 Git 集成&lt;/li&gt;
+&lt;li&gt;远程开发支持（SSH、WSL、容器）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;必备插件&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;GitHub Copilot&lt;/strong&gt; - AI 代码助手&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitLens&lt;/strong&gt; - Git 增强工具&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Prettier&lt;/strong&gt; - 代码格式化&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ESLint / Pylint&lt;/strong&gt; - 代码检查&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Live Server&lt;/strong&gt; - 本地开发服务器&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Remote - SSH&lt;/strong&gt; - 远程开发&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-jetbrains-系列"&gt;2. JetBrains 系列
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.jetbrains.com/" target="_blank" rel="noopener"
+&gt;https://www.jetbrains.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐产品&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;PyCharm&lt;/strong&gt; - Python 开发&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IntelliJ IDEA&lt;/strong&gt; - Java 开发&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;WebStorm&lt;/strong&gt; - 前端开发&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CLion&lt;/strong&gt; - C/C++ 开发&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;智能代码补全和重构&lt;/li&gt;
+&lt;li&gt;强大的调试功能&lt;/li&gt;
+&lt;li&gt;内置数据库工具&lt;/li&gt;
+&lt;li&gt;学生可免费使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-vim--neovim"&gt;3. Vim / Neovim
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://neovim.io/" target="_blank" rel="noopener"
+&gt;https://neovim.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;终端下的编辑利器&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;li&gt;键盘操作效率极高&lt;/li&gt;
+&lt;li&gt;服务器开发必备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;学习曲线&lt;/strong&gt;：陡峭但值得投资&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-版本控制工具"&gt;🔧 版本控制工具
+&lt;/h2&gt;
+&lt;h3 id="1-git"&gt;1. Git
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://git-scm.com/" target="_blank" rel="noopener"
+&gt;https://git-scm.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分布式版本控制系统&lt;/li&gt;
+&lt;li&gt;开源项目标准&lt;/li&gt;
+&lt;li&gt;强大的分支管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;常用命令&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git clone &lt;span class="c1"&gt;# 克隆仓库&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git add &lt;span class="c1"&gt;# 添加文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git commit &lt;span class="c1"&gt;# 提交更改&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git push &lt;span class="c1"&gt;# 推送到远程&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git pull &lt;span class="c1"&gt;# 拉取更新&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git branch &lt;span class="c1"&gt;# 分支管理&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="2-github-desktop"&gt;2. GitHub Desktop
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://desktop.github.com/" target="_blank" rel="noopener"
+&gt;https://desktop.github.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 的可视化界面&lt;/li&gt;
+&lt;li&gt;降低 Git 使用门槛&lt;/li&gt;
+&lt;li&gt;与 GitHub 无缝集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-gitkraken"&gt;3. GitKraken
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.gitkraken.com/" target="_blank" rel="noopener"
+&gt;https://www.gitkraken.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;美观的图形化界面&lt;/li&gt;
+&lt;li&gt;强大的可视化工具&lt;/li&gt;
+&lt;li&gt;支持 Git Flow&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-调试工具"&gt;🐛 调试工具
+&lt;/h2&gt;
+&lt;h3 id="1-chrome-devtools"&gt;1. Chrome DevTools
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前端开发必备&lt;/li&gt;
+&lt;li&gt;实时调试 JavaScript&lt;/li&gt;
+&lt;li&gt;网络分析和性能优化&lt;/li&gt;
+&lt;li&gt;移动端设备模拟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-gdb-gnu-debugger"&gt;2. GDB (GNU Debugger)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C/C++ 调试标准工具&lt;/li&gt;
+&lt;li&gt;支持断点、单步、变量查看&lt;/li&gt;
+&lt;li&gt;可与 IDE 集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-pdb-python-debugger"&gt;3. pdb (Python Debugger)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 内置调试器&lt;/li&gt;
+&lt;li&gt;无需额外安装&lt;/li&gt;
+&lt;li&gt;支持交互式调试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-api-测试工具"&gt;🌐 API 测试工具
+&lt;/h2&gt;
+&lt;h3 id="1-postman"&gt;1. Postman
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.postman.com/" target="_blank" rel="noopener"
+&gt;https://www.postman.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;API 开发和测试标准工具&lt;/li&gt;
+&lt;li&gt;支持各种 HTTP 请求&lt;/li&gt;
+&lt;li&gt;可保存和分享请求集合&lt;/li&gt;
+&lt;li&gt;自动化测试和文档生成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-insomnia"&gt;2. Insomnia
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://insomnia.rest/" target="_blank" rel="noopener"
+&gt;https://insomnia.rest/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量级 API 客户端&lt;/li&gt;
+&lt;li&gt;支持 REST、GraphQL&lt;/li&gt;
+&lt;li&gt;界面简洁美观&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-curl"&gt;3. cURL
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;命令行 HTTP 工具&lt;/li&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;li&gt;适合自动化脚本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-包管理器"&gt;📦 包管理器
+&lt;/h2&gt;
+&lt;h3 id="1-npm-nodejs"&gt;1. npm (Node.js)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.npmjs.com/" target="_blank" rel="noopener"
+&gt;https://www.npmjs.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JavaScript 生态标准包管理器&lt;/li&gt;
+&lt;li&gt;海量第三方库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-pip-python"&gt;2. pip (Python)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://pypi.org/" target="_blank" rel="noopener"
+&gt;https://pypi.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 官方包管理器&lt;/li&gt;
+&lt;li&gt;简单易用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-homebrew-macoslinux"&gt;3. Homebrew (macOS/Linux)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://brew.sh/" target="_blank" rel="noopener"
+&gt;https://brew.sh/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 必备包管理器&lt;/li&gt;
+&lt;li&gt;轻松安装各种开发工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-代码质量工具"&gt;🔍 代码质量工具
+&lt;/h2&gt;
+&lt;h3 id="1-sonarqube"&gt;1. SonarQube
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.sonarsource.com/products/sonarqube/" target="_blank" rel="noopener"
+&gt;https://www.sonarsource.com/products/sonarqube/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;代码质量和安全分析&lt;/li&gt;
+&lt;li&gt;支持多种编程语言&lt;/li&gt;
+&lt;li&gt;持续集成友好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-eslint-javascript"&gt;2. ESLint (JavaScript)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JavaScript 代码检查标准&lt;/li&gt;
+&lt;li&gt;可自定义规则&lt;/li&gt;
+&lt;li&gt;IDE 深度集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-black-python"&gt;3. Black (Python)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 代码格式化&lt;/li&gt;
+&lt;li&gt;无需配置，开箱即用&lt;/li&gt;
+&lt;li&gt;格式统一&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-容器与虚拟化"&gt;🐳 容器与虚拟化
+&lt;/h2&gt;
+&lt;h3 id="1-docker"&gt;1. Docker
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.docker.com/" target="_blank" rel="noopener"
+&gt;https://www.docker.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;容器化部署标准&lt;/li&gt;
+&lt;li&gt;环境一致性保证&lt;/li&gt;
+&lt;li&gt;微服务架构基础&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-docker-compose"&gt;2. Docker Compose
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;多容器应用管理&lt;/li&gt;
+&lt;li&gt;YAML 配置简单&lt;/li&gt;
+&lt;li&gt;本地开发环境搭建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-性能分析工具"&gt;📊 性能分析工具
+&lt;/h2&gt;
+&lt;h3 id="1-valgrind-cc"&gt;1. Valgrind (C/C++)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存泄漏检测&lt;/li&gt;
+&lt;li&gt;性能分析&lt;/li&gt;
+&lt;li&gt;Linux 下的必备工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-chrome-lighthouse"&gt;2. Chrome Lighthouse
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;网页性能分析&lt;/li&gt;
+&lt;li&gt;SEO 和可访问性检查&lt;/li&gt;
+&lt;li&gt;自动生成优化建议&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-终端工具"&gt;🖥️ 终端工具
+&lt;/h2&gt;
+&lt;h3 id="1-windows-terminal"&gt;1. Windows Terminal
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows 下的现代终端&lt;/li&gt;
+&lt;li&gt;多标签支持&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-iterm2-macos"&gt;2. iTerm2 (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 终端增强&lt;/li&gt;
+&lt;li&gt;分屏和快捷键丰富&lt;/li&gt;
+&lt;li&gt;主题美化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-tmux"&gt;3. Tmux
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;终端复用器&lt;/li&gt;
+&lt;li&gt;会话保持&lt;/li&gt;
+&lt;li&gt;服务器开发必备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-开发心得"&gt;💡 开发心得
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;掌握快捷键&lt;/strong&gt;：熟练使用 IDE 快捷键能大幅提升效率&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;善用版本控制&lt;/strong&gt;：频繁提交，清晰的 commit message&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代码审查&lt;/strong&gt;：使用 Code Review 工具提升代码质量&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动化测试&lt;/strong&gt;：单元测试和集成测试不可少&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;持续集成&lt;/strong&gt;：自动化构建和部署流程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id="-更新记录"&gt;📝 更新记录
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;2025-12-21&lt;/strong&gt;：初次发布，整理常用编程工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;相关阅读&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="../useful-tools-collection/" &gt;我的工具箱 · 通用工具篇（一）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../fpga-tools-collection/" &gt;我的工具箱 · FPGA开发篇（二）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;本文持续更新中，欢迎在评论区分享你的工具推荐！&lt;/em&gt;&lt;/p&gt;</description></item></channel></rss>

@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>系统 on DeerStar的博客</title><link>https://deerstar.xyz/tags/%E7%B3%BB%E7%BB%9F/</link><description>Recent content in 系统 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 21 Dec 2025 15:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/%E7%B3%BB%E7%BB%9F/index.xml" rel="self" type="application/rss+xml"/><item><title>我的工具箱(五) · 系统工具篇</title><link>https://deerstar.xyz/2025/system-tools-collection/</link><pubDate>Sun, 21 Dec 2025 15:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/system-tools-collection/</guid><description>&lt;p&gt;系统工具是提升电脑使用体验的基础。本文整理 Windows、macOS、Linux 下的实用系统工具。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-文件搜索工具"&gt;🔍 文件搜索工具
+&lt;/h2&gt;
+&lt;h3 id="1-everything-windows"&gt;1. Everything (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.voidtools.com/" target="_blank" rel="noopener"
+&gt;https://www.voidtools.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows 下最快的文件搜索工具&lt;/li&gt;
+&lt;li&gt;秒级索引全盘文件&lt;/li&gt;
+&lt;li&gt;支持正则表达式搜索&lt;/li&gt;
+&lt;li&gt;小巧轻量，完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;使用技巧&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加到右键菜单&lt;/li&gt;
+&lt;li&gt;设置开机自启&lt;/li&gt;
+&lt;li&gt;使用快捷键快速调出&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-alfred-macos"&gt;2. Alfred (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.alfredapp.com/" target="_blank" rel="noopener"
+&gt;https://www.alfredapp.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 效率神器&lt;/li&gt;
+&lt;li&gt;文件搜索、快速启动&lt;/li&gt;
+&lt;li&gt;剪贴板历史、工作流自动化&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-utools-跨平台"&gt;3. uTools (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://u.tools/" target="_blank" rel="noopener"
+&gt;https://u.tools/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产跨平台效率工具&lt;/li&gt;
+&lt;li&gt;强大的快捷启动器&lt;/li&gt;
+&lt;li&gt;丰富的插件生态&lt;/li&gt;
+&lt;li&gt;支持 Windows、macOS、Linux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-文件管理工具"&gt;📁 文件管理工具
+&lt;/h2&gt;
+&lt;h3 id="1-total-commander-windows"&gt;1. Total Commander (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.ghisler.com/" target="_blank" rel="noopener"
+&gt;https://www.ghisler.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;双窗口文件管理器&lt;/li&gt;
+&lt;li&gt;强大的批量操作功能&lt;/li&gt;
+&lt;li&gt;支持 FTP、压缩包管理&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-directory-opus-windows"&gt;2. Directory Opus (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.gpsoft.com.au/" target="_blank" rel="noopener"
+&gt;https://www.gpsoft.com.au/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows 高级文件管理器&lt;/li&gt;
+&lt;li&gt;美观的界面&lt;/li&gt;
+&lt;li&gt;强大的文件操作功能&lt;/li&gt;
+&lt;li&gt;支持自定义工具栏&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-finder-增强-macos"&gt;3. Finder 增强 (macOS)
+&lt;/h3&gt;
+&lt;h4 id="path-finder"&gt;Path Finder
+&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.cocoatech.io/" target="_blank" rel="noopener"
+&gt;https://www.cocoatech.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 文件管理器增强&lt;/li&gt;
+&lt;li&gt;双窗口模式&lt;/li&gt;
+&lt;li&gt;更多文件操作选项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统清理优化"&gt;🧹 系统清理优化
+&lt;/h2&gt;
+&lt;h3 id="1-ccleaner-windows"&gt;1. CCleaner (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.ccleaner.com/" target="_blank" rel="noopener"
+&gt;https://www.ccleaner.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;清理系统垃圾文件&lt;/li&gt;
+&lt;li&gt;注册表清理&lt;/li&gt;
+&lt;li&gt;软件卸载管理&lt;/li&gt;
+&lt;li&gt;启动项管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：免费版功能已足够使用&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id="2-dism-windows"&gt;2. Dism++ (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://github.com/Chuyu-Team/Dism-Multi-language" target="_blank" rel="noopener"
+&gt;https://github.com/Chuyu-Team/Dism-Multi-language&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产开源系统优化工具&lt;/li&gt;
+&lt;li&gt;深度清理 Windows 更新垃圾&lt;/li&gt;
+&lt;li&gt;系统备份还原&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-cleanmymac-x-macos"&gt;3. CleanMyMac X (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://cleanmymac.com/" target="_blank" rel="noopener"
+&gt;https://cleanmymac.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 系统清理工具&lt;/li&gt;
+&lt;li&gt;清理缓存、日志文件&lt;/li&gt;
+&lt;li&gt;卸载软件残留&lt;/li&gt;
+&lt;li&gt;恶意软件检测&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="4-bleachbit-跨平台"&gt;4. BleachBit (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.bleachbit.org/" target="_blank" rel="noopener"
+&gt;https://www.bleachbit.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;li&gt;支持 Windows、Linux&lt;/li&gt;
+&lt;li&gt;清理浏览器缓存、系统临时文件&lt;/li&gt;
+&lt;li&gt;安全删除文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统监控工具"&gt;📊 系统监控工具
+&lt;/h2&gt;
+&lt;h3 id="1-process-explorer-windows"&gt;1. Process Explorer (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://learn.microsoft.com/sysinternals/" target="_blank" rel="noopener"
+&gt;https://learn.microsoft.com/sysinternals/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微软官方出品&lt;/li&gt;
+&lt;li&gt;增强版任务管理器&lt;/li&gt;
+&lt;li&gt;查看进程详细信息&lt;/li&gt;
+&lt;li&gt;分析进程树关系&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-istat-menus-macos"&gt;2. iStat Menus (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://bjango.com/mac/istatmenus/" target="_blank" rel="noopener"
+&gt;https://bjango.com/mac/istatmenus/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 系统监控工具&lt;/li&gt;
+&lt;li&gt;菜单栏显示 CPU、内存、网络等信息&lt;/li&gt;
+&lt;li&gt;详细的系统统计数据&lt;/li&gt;
+&lt;li&gt;美观的界面设计&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-htop-linux"&gt;3. htop (Linux)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;增强版 top 命令&lt;/li&gt;
+&lt;li&gt;彩色交互式界面&lt;/li&gt;
+&lt;li&gt;实时查看系统资源使用&lt;/li&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="4-glances-跨平台"&gt;4. Glances (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://nicolargo.github.io/glances/" target="_blank" rel="noopener"
+&gt;https://nicolargo.github.io/glances/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 编写的系统监控工具&lt;/li&gt;
+&lt;li&gt;跨平台支持&lt;/li&gt;
+&lt;li&gt;Web 界面查看&lt;/li&gt;
+&lt;li&gt;支持远程监控&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-磁盘管理工具"&gt;💾 磁盘管理工具
+&lt;/h2&gt;
+&lt;h3 id="1-diskgenius-windows"&gt;1. DiskGenius (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.diskgenius.cn/" target="_blank" rel="noopener"
+&gt;https://www.diskgenius.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产磁盘管理工具&lt;/li&gt;
+&lt;li&gt;分区管理、数据恢复&lt;/li&gt;
+&lt;li&gt;支持多种文件系统&lt;/li&gt;
+&lt;li&gt;免费版功能强大&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-treesize-free-windows"&gt;2. TreeSize Free (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.jam-software.com/treesize_free" target="_blank" rel="noopener"
+&gt;https://www.jam-software.com/treesize_free&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可视化磁盘空间占用&lt;/li&gt;
+&lt;li&gt;快速找出大文件&lt;/li&gt;
+&lt;li&gt;树状图直观展示&lt;/li&gt;
+&lt;li&gt;免费使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-wiztree-windows"&gt;3. WizTree (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.diskanalyzer.com/" target="_blank" rel="noopener"
+&gt;https://www.diskanalyzer.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;比 TreeSize 更快的扫描速度&lt;/li&gt;
+&lt;li&gt;直接读取 NTFS MFT&lt;/li&gt;
+&lt;li&gt;树状图和热力图双视图&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="4-daisydisk-macos"&gt;4. DaisyDisk (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://daisydiskapp.com/" target="_blank" rel="noopener"
+&gt;https://daisydiskapp.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 磁盘空间分析&lt;/li&gt;
+&lt;li&gt;美观的交互式圆环图&lt;/li&gt;
+&lt;li&gt;快速找出占用空间的文件&lt;/li&gt;
+&lt;li&gt;直接删除大文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-数据备份与恢复"&gt;🔐 数据备份与恢复
+&lt;/h2&gt;
+&lt;h3 id="1-recuva-windows"&gt;1. Recuva (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.ccleaner.com/recuva" target="_blank" rel="noopener"
+&gt;https://www.ccleaner.com/recuva&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;免费的数据恢复工具&lt;/li&gt;
+&lt;li&gt;支持硬盘、U盘、SD卡&lt;/li&gt;
+&lt;li&gt;深度扫描模式&lt;/li&gt;
+&lt;li&gt;操作简单&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-photorec-跨平台"&gt;2. PhotoRec (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.cgsecurity.org/wiki/PhotoRec" target="_blank" rel="noopener"
+&gt;https://www.cgsecurity.org/wiki/PhotoRec&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费数据恢复工具&lt;/li&gt;
+&lt;li&gt;支持多种文件系统&lt;/li&gt;
+&lt;li&gt;跨平台支持&lt;/li&gt;
+&lt;li&gt;恢复成功率高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-time-machine-macos"&gt;3. Time Machine (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 自带备份工具&lt;/li&gt;
+&lt;li&gt;自动增量备份&lt;/li&gt;
+&lt;li&gt;可恢复到任意时间点&lt;/li&gt;
+&lt;li&gt;操作简单直观&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-压缩解压工具"&gt;📦 压缩解压工具
+&lt;/h2&gt;
+&lt;h3 id="1-7-zip-windows"&gt;1. 7-Zip (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.7-zip.org/" target="_blank" rel="noopener"
+&gt;https://www.7-zip.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;li&gt;高压缩比&lt;/li&gt;
+&lt;li&gt;支持多种格式&lt;/li&gt;
+&lt;li&gt;右键菜单集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-bandizip-windows"&gt;2. Bandizip (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.bandisoft.com/bandizip/" target="_blank" rel="noopener"
+&gt;https://www.bandisoft.com/bandizip/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;li&gt;界面美观&lt;/li&gt;
+&lt;li&gt;支持预览压缩包内容&lt;/li&gt;
+&lt;li&gt;免费无广告&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-the-unarchiver-macos"&gt;3. The Unarchiver (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://theunarchiver.com/" target="_blank" rel="noopener"
+&gt;https://theunarchiver.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 解压缩工具&lt;/li&gt;
+&lt;li&gt;支持几乎所有压缩格式&lt;/li&gt;
+&lt;li&gt;自动检测文件编码&lt;/li&gt;
+&lt;li&gt;免费开源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-远程控制工具"&gt;🖥️ 远程控制工具
+&lt;/h2&gt;
+&lt;h3 id="1-teamviewer"&gt;1. TeamViewer
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.teamviewer.com/" target="_blank" rel="noopener"
+&gt;https://www.teamviewer.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;跨平台远程控制&lt;/li&gt;
+&lt;li&gt;个人使用免费&lt;/li&gt;
+&lt;li&gt;操作流畅&lt;/li&gt;
+&lt;li&gt;支持文件传输&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-todesk-国内"&gt;2. ToDesk (国内)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.todesk.com/" target="_blank" rel="noopener"
+&gt;https://www.todesk.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产远程控制软件&lt;/li&gt;
+&lt;li&gt;国内网络环境下更流畅&lt;/li&gt;
+&lt;li&gt;免费版功能完善&lt;/li&gt;
+&lt;li&gt;低延迟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-microsoft-remote-desktop"&gt;3. Microsoft Remote Desktop
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微软官方远程桌面&lt;/li&gt;
+&lt;li&gt;Windows 内置支持&lt;/li&gt;
+&lt;li&gt;稳定可靠&lt;/li&gt;
+&lt;li&gt;局域网内速度快&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统增强工具"&gt;🔧 系统增强工具
+&lt;/h2&gt;
+&lt;h3 id="1-powertoys-windows"&gt;1. PowerToys (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://github.com/microsoft/PowerToys" target="_blank" rel="noopener"
+&gt;https://github.com/microsoft/PowerToys&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微软官方出品&lt;/li&gt;
+&lt;li&gt;窗口管理、颜色拾取器&lt;/li&gt;
+&lt;li&gt;批量重命名、图片调整&lt;/li&gt;
+&lt;li&gt;完全免费开源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;核心功能&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;FancyZones&lt;/strong&gt; - 窗口布局管理&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PowerRename&lt;/strong&gt; - 批量重命名&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Color Picker&lt;/strong&gt; - 颜色拾取&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Image Resizer&lt;/strong&gt; - 图片批量调整&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-quicklook-windows"&gt;2. QuickLook (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://github.com/QL-Win/QuickLook" target="_blank" rel="noopener"
+&gt;https://github.com/QL-Win/QuickLook&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;模仿 macOS 的空格预览功能&lt;/li&gt;
+&lt;li&gt;快速预览文件内容&lt;/li&gt;
+&lt;li&gt;支持多种文件格式&lt;/li&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-snipaste-跨平台"&gt;3. Snipaste (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.snipaste.com/" target="_blank" rel="noopener"
+&gt;https://www.snipaste.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;强大的截图工具&lt;/li&gt;
+&lt;li&gt;截图贴图功能&lt;/li&gt;
+&lt;li&gt;标注和编辑&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-虚拟化工具"&gt;🎨 虚拟化工具
+&lt;/h2&gt;
+&lt;h3 id="1-vmware-workstation"&gt;1. VMware Workstation
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.vmware.com/" target="_blank" rel="noopener"
+&gt;https://www.vmware.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;专业虚拟机软件&lt;/li&gt;
+&lt;li&gt;性能强大&lt;/li&gt;
+&lt;li&gt;支持快照和克隆&lt;/li&gt;
+&lt;li&gt;个人版免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-virtualbox-跨平台"&gt;2. VirtualBox (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.virtualbox.org/" target="_blank" rel="noopener"
+&gt;https://www.virtualbox.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;li&gt;跨平台支持&lt;/li&gt;
+&lt;li&gt;功能完善&lt;/li&gt;
+&lt;li&gt;活跃的社区&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-parallels-desktop-macos"&gt;3. Parallels Desktop (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.parallels.com/" target="_blank" rel="noopener"
+&gt;https://www.parallels.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 上最好的虚拟机&lt;/li&gt;
+&lt;li&gt;与 macOS 深度集成&lt;/li&gt;
+&lt;li&gt;性能优秀&lt;/li&gt;
+&lt;li&gt;支持 M1/M2 芯片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统加速工具"&gt;⚡ 系统加速工具
+&lt;/h2&gt;
+&lt;h3 id="1-razer-cortex-游戏加速"&gt;1. Razer Cortex (游戏加速)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.razer.com/cortex" target="_blank" rel="noopener"
+&gt;https://www.razer.com/cortex&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;游戏性能优化&lt;/li&gt;
+&lt;li&gt;自动关闭后台程序&lt;/li&gt;
+&lt;li&gt;免费使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-火绒安全"&gt;2. 火绒安全
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.huorong.cn/" target="_blank" rel="noopener"
+&gt;https://www.huorong.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产轻量级安全软件&lt;/li&gt;
+&lt;li&gt;无广告、无弹窗&lt;/li&gt;
+&lt;li&gt;启动项管理&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-使用建议"&gt;💡 使用建议
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;定期清理&lt;/strong&gt;：每月清理一次系统垃圾和临时文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;监控资源&lt;/strong&gt;：使用系统监控工具了解资源占用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;及时备份&lt;/strong&gt;：重要数据定期备份，避免丢失&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;谨慎优化&lt;/strong&gt;：系统优化要适度，避免过度折腾&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全第一&lt;/strong&gt;：下载工具从官网获取，避免捆绑软件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id="-更新记录"&gt;📝 更新记录
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;2025-12-21&lt;/strong&gt;：初次发布，整理常用系统工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;相关阅读&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="../useful-tools-collection/" &gt;我的工具箱 · 通用工具篇（一）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../fpga-tools-collection/" &gt;我的工具箱 · FPGA开发篇（二）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../programming-tools-collection/" &gt;我的工具箱 · 编程开发篇（三）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../learning-tools-collection/" &gt;我的工具箱 · 学习效率篇（四）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;本文持续更新中，欢迎在评论区分享你的工具推荐！&lt;/em&gt;&lt;/p&gt;</description></item></channel></rss>

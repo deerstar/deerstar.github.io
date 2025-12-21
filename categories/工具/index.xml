@@ -1,4 +1,1420 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>工具 on DeerStar的博客</title><link>https://deerstar.xyz/categories/%E5%B7%A5%E5%85%B7/</link><description>Recent content in 工具 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 21 Dec 2025 11:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml"/><item><title>我的工具箱|01：通用工具篇</title><link>https://deerstar.xyz/2025/useful-tools-collection/</link><pubDate>Sun, 21 Dec 2025 11:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/useful-tools-collection/</guid><description>&lt;p&gt;工欲善其事，必先利其器。本文记录我在学习和工作中发现的好用工具，持续更新。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>工具 on DeerStar的博客</title><link>https://deerstar.xyz/categories/%E5%B7%A5%E5%85%B7/</link><description>Recent content in 工具 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 21 Dec 2025 15:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/categories/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml"/><item><title>我的工具箱(五) · 系统工具篇</title><link>https://deerstar.xyz/2025/system-tools-collection/</link><pubDate>Sun, 21 Dec 2025 15:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/system-tools-collection/</guid><description>&lt;p&gt;系统工具是提升电脑使用体验的基础。本文整理 Windows、macOS、Linux 下的实用系统工具。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-文件搜索工具"&gt;🔍 文件搜索工具
+&lt;/h2&gt;
+&lt;h3 id="1-everything-windows"&gt;1. Everything (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.voidtools.com/" target="_blank" rel="noopener"
+&gt;https://www.voidtools.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows 下最快的文件搜索工具&lt;/li&gt;
+&lt;li&gt;秒级索引全盘文件&lt;/li&gt;
+&lt;li&gt;支持正则表达式搜索&lt;/li&gt;
+&lt;li&gt;小巧轻量，完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;使用技巧&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;添加到右键菜单&lt;/li&gt;
+&lt;li&gt;设置开机自启&lt;/li&gt;
+&lt;li&gt;使用快捷键快速调出&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-alfred-macos"&gt;2. Alfred (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.alfredapp.com/" target="_blank" rel="noopener"
+&gt;https://www.alfredapp.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 效率神器&lt;/li&gt;
+&lt;li&gt;文件搜索、快速启动&lt;/li&gt;
+&lt;li&gt;剪贴板历史、工作流自动化&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-utools-跨平台"&gt;3. uTools (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://u.tools/" target="_blank" rel="noopener"
+&gt;https://u.tools/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产跨平台效率工具&lt;/li&gt;
+&lt;li&gt;强大的快捷启动器&lt;/li&gt;
+&lt;li&gt;丰富的插件生态&lt;/li&gt;
+&lt;li&gt;支持 Windows、macOS、Linux&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-文件管理工具"&gt;📁 文件管理工具
+&lt;/h2&gt;
+&lt;h3 id="1-total-commander-windows"&gt;1. Total Commander (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.ghisler.com/" target="_blank" rel="noopener"
+&gt;https://www.ghisler.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;双窗口文件管理器&lt;/li&gt;
+&lt;li&gt;强大的批量操作功能&lt;/li&gt;
+&lt;li&gt;支持 FTP、压缩包管理&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-directory-opus-windows"&gt;2. Directory Opus (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.gpsoft.com.au/" target="_blank" rel="noopener"
+&gt;https://www.gpsoft.com.au/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows 高级文件管理器&lt;/li&gt;
+&lt;li&gt;美观的界面&lt;/li&gt;
+&lt;li&gt;强大的文件操作功能&lt;/li&gt;
+&lt;li&gt;支持自定义工具栏&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-finder-增强-macos"&gt;3. Finder 增强 (macOS)
+&lt;/h3&gt;
+&lt;h4 id="path-finder"&gt;Path Finder
+&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.cocoatech.io/" target="_blank" rel="noopener"
+&gt;https://www.cocoatech.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 文件管理器增强&lt;/li&gt;
+&lt;li&gt;双窗口模式&lt;/li&gt;
+&lt;li&gt;更多文件操作选项&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统清理优化"&gt;🧹 系统清理优化
+&lt;/h2&gt;
+&lt;h3 id="1-ccleaner-windows"&gt;1. CCleaner (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.ccleaner.com/" target="_blank" rel="noopener"
+&gt;https://www.ccleaner.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;清理系统垃圾文件&lt;/li&gt;
+&lt;li&gt;注册表清理&lt;/li&gt;
+&lt;li&gt;软件卸载管理&lt;/li&gt;
+&lt;li&gt;启动项管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：免费版功能已足够使用&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id="2-dism-windows"&gt;2. Dism++ (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://github.com/Chuyu-Team/Dism-Multi-language" target="_blank" rel="noopener"
+&gt;https://github.com/Chuyu-Team/Dism-Multi-language&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产开源系统优化工具&lt;/li&gt;
+&lt;li&gt;深度清理 Windows 更新垃圾&lt;/li&gt;
+&lt;li&gt;系统备份还原&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-cleanmymac-x-macos"&gt;3. CleanMyMac X (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://cleanmymac.com/" target="_blank" rel="noopener"
+&gt;https://cleanmymac.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 系统清理工具&lt;/li&gt;
+&lt;li&gt;清理缓存、日志文件&lt;/li&gt;
+&lt;li&gt;卸载软件残留&lt;/li&gt;
+&lt;li&gt;恶意软件检测&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="4-bleachbit-跨平台"&gt;4. BleachBit (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.bleachbit.org/" target="_blank" rel="noopener"
+&gt;https://www.bleachbit.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;li&gt;支持 Windows、Linux&lt;/li&gt;
+&lt;li&gt;清理浏览器缓存、系统临时文件&lt;/li&gt;
+&lt;li&gt;安全删除文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统监控工具"&gt;📊 系统监控工具
+&lt;/h2&gt;
+&lt;h3 id="1-process-explorer-windows"&gt;1. Process Explorer (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://learn.microsoft.com/sysinternals/" target="_blank" rel="noopener"
+&gt;https://learn.microsoft.com/sysinternals/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微软官方出品&lt;/li&gt;
+&lt;li&gt;增强版任务管理器&lt;/li&gt;
+&lt;li&gt;查看进程详细信息&lt;/li&gt;
+&lt;li&gt;分析进程树关系&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-istat-menus-macos"&gt;2. iStat Menus (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://bjango.com/mac/istatmenus/" target="_blank" rel="noopener"
+&gt;https://bjango.com/mac/istatmenus/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 系统监控工具&lt;/li&gt;
+&lt;li&gt;菜单栏显示 CPU、内存、网络等信息&lt;/li&gt;
+&lt;li&gt;详细的系统统计数据&lt;/li&gt;
+&lt;li&gt;美观的界面设计&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-htop-linux"&gt;3. htop (Linux)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;增强版 top 命令&lt;/li&gt;
+&lt;li&gt;彩色交互式界面&lt;/li&gt;
+&lt;li&gt;实时查看系统资源使用&lt;/li&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="4-glances-跨平台"&gt;4. Glances (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://nicolargo.github.io/glances/" target="_blank" rel="noopener"
+&gt;https://nicolargo.github.io/glances/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 编写的系统监控工具&lt;/li&gt;
+&lt;li&gt;跨平台支持&lt;/li&gt;
+&lt;li&gt;Web 界面查看&lt;/li&gt;
+&lt;li&gt;支持远程监控&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-磁盘管理工具"&gt;💾 磁盘管理工具
+&lt;/h2&gt;
+&lt;h3 id="1-diskgenius-windows"&gt;1. DiskGenius (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.diskgenius.cn/" target="_blank" rel="noopener"
+&gt;https://www.diskgenius.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产磁盘管理工具&lt;/li&gt;
+&lt;li&gt;分区管理、数据恢复&lt;/li&gt;
+&lt;li&gt;支持多种文件系统&lt;/li&gt;
+&lt;li&gt;免费版功能强大&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-treesize-free-windows"&gt;2. TreeSize Free (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.jam-software.com/treesize_free" target="_blank" rel="noopener"
+&gt;https://www.jam-software.com/treesize_free&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可视化磁盘空间占用&lt;/li&gt;
+&lt;li&gt;快速找出大文件&lt;/li&gt;
+&lt;li&gt;树状图直观展示&lt;/li&gt;
+&lt;li&gt;免费使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-wiztree-windows"&gt;3. WizTree (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.diskanalyzer.com/" target="_blank" rel="noopener"
+&gt;https://www.diskanalyzer.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;比 TreeSize 更快的扫描速度&lt;/li&gt;
+&lt;li&gt;直接读取 NTFS MFT&lt;/li&gt;
+&lt;li&gt;树状图和热力图双视图&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="4-daisydisk-macos"&gt;4. DaisyDisk (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://daisydiskapp.com/" target="_blank" rel="noopener"
+&gt;https://daisydiskapp.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 磁盘空间分析&lt;/li&gt;
+&lt;li&gt;美观的交互式圆环图&lt;/li&gt;
+&lt;li&gt;快速找出占用空间的文件&lt;/li&gt;
+&lt;li&gt;直接删除大文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-数据备份与恢复"&gt;🔐 数据备份与恢复
+&lt;/h2&gt;
+&lt;h3 id="1-recuva-windows"&gt;1. Recuva (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.ccleaner.com/recuva" target="_blank" rel="noopener"
+&gt;https://www.ccleaner.com/recuva&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;免费的数据恢复工具&lt;/li&gt;
+&lt;li&gt;支持硬盘、U盘、SD卡&lt;/li&gt;
+&lt;li&gt;深度扫描模式&lt;/li&gt;
+&lt;li&gt;操作简单&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-photorec-跨平台"&gt;2. PhotoRec (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.cgsecurity.org/wiki/PhotoRec" target="_blank" rel="noopener"
+&gt;https://www.cgsecurity.org/wiki/PhotoRec&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费数据恢复工具&lt;/li&gt;
+&lt;li&gt;支持多种文件系统&lt;/li&gt;
+&lt;li&gt;跨平台支持&lt;/li&gt;
+&lt;li&gt;恢复成功率高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-time-machine-macos"&gt;3. Time Machine (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 自带备份工具&lt;/li&gt;
+&lt;li&gt;自动增量备份&lt;/li&gt;
+&lt;li&gt;可恢复到任意时间点&lt;/li&gt;
+&lt;li&gt;操作简单直观&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-压缩解压工具"&gt;📦 压缩解压工具
+&lt;/h2&gt;
+&lt;h3 id="1-7-zip-windows"&gt;1. 7-Zip (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.7-zip.org/" target="_blank" rel="noopener"
+&gt;https://www.7-zip.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;li&gt;高压缩比&lt;/li&gt;
+&lt;li&gt;支持多种格式&lt;/li&gt;
+&lt;li&gt;右键菜单集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-bandizip-windows"&gt;2. Bandizip (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.bandisoft.com/bandizip/" target="_blank" rel="noopener"
+&gt;https://www.bandisoft.com/bandizip/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;li&gt;界面美观&lt;/li&gt;
+&lt;li&gt;支持预览压缩包内容&lt;/li&gt;
+&lt;li&gt;免费无广告&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-the-unarchiver-macos"&gt;3. The Unarchiver (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://theunarchiver.com/" target="_blank" rel="noopener"
+&gt;https://theunarchiver.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 解压缩工具&lt;/li&gt;
+&lt;li&gt;支持几乎所有压缩格式&lt;/li&gt;
+&lt;li&gt;自动检测文件编码&lt;/li&gt;
+&lt;li&gt;免费开源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-远程控制工具"&gt;🖥️ 远程控制工具
+&lt;/h2&gt;
+&lt;h3 id="1-teamviewer"&gt;1. TeamViewer
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.teamviewer.com/" target="_blank" rel="noopener"
+&gt;https://www.teamviewer.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;跨平台远程控制&lt;/li&gt;
+&lt;li&gt;个人使用免费&lt;/li&gt;
+&lt;li&gt;操作流畅&lt;/li&gt;
+&lt;li&gt;支持文件传输&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-todesk-国内"&gt;2. ToDesk (国内)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.todesk.com/" target="_blank" rel="noopener"
+&gt;https://www.todesk.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产远程控制软件&lt;/li&gt;
+&lt;li&gt;国内网络环境下更流畅&lt;/li&gt;
+&lt;li&gt;免费版功能完善&lt;/li&gt;
+&lt;li&gt;低延迟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-microsoft-remote-desktop"&gt;3. Microsoft Remote Desktop
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微软官方远程桌面&lt;/li&gt;
+&lt;li&gt;Windows 内置支持&lt;/li&gt;
+&lt;li&gt;稳定可靠&lt;/li&gt;
+&lt;li&gt;局域网内速度快&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统增强工具"&gt;🔧 系统增强工具
+&lt;/h2&gt;
+&lt;h3 id="1-powertoys-windows"&gt;1. PowerToys (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://github.com/microsoft/PowerToys" target="_blank" rel="noopener"
+&gt;https://github.com/microsoft/PowerToys&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;微软官方出品&lt;/li&gt;
+&lt;li&gt;窗口管理、颜色拾取器&lt;/li&gt;
+&lt;li&gt;批量重命名、图片调整&lt;/li&gt;
+&lt;li&gt;完全免费开源&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;核心功能&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;FancyZones&lt;/strong&gt; - 窗口布局管理&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PowerRename&lt;/strong&gt; - 批量重命名&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Color Picker&lt;/strong&gt; - 颜色拾取&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Image Resizer&lt;/strong&gt; - 图片批量调整&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-quicklook-windows"&gt;2. QuickLook (Windows)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://github.com/QL-Win/QuickLook" target="_blank" rel="noopener"
+&gt;https://github.com/QL-Win/QuickLook&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;模仿 macOS 的空格预览功能&lt;/li&gt;
+&lt;li&gt;快速预览文件内容&lt;/li&gt;
+&lt;li&gt;支持多种文件格式&lt;/li&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-snipaste-跨平台"&gt;3. Snipaste (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.snipaste.com/" target="_blank" rel="noopener"
+&gt;https://www.snipaste.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;强大的截图工具&lt;/li&gt;
+&lt;li&gt;截图贴图功能&lt;/li&gt;
+&lt;li&gt;标注和编辑&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-虚拟化工具"&gt;🎨 虚拟化工具
+&lt;/h2&gt;
+&lt;h3 id="1-vmware-workstation"&gt;1. VMware Workstation
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.vmware.com/" target="_blank" rel="noopener"
+&gt;https://www.vmware.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;专业虚拟机软件&lt;/li&gt;
+&lt;li&gt;性能强大&lt;/li&gt;
+&lt;li&gt;支持快照和克隆&lt;/li&gt;
+&lt;li&gt;个人版免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-virtualbox-跨平台"&gt;2. VirtualBox (跨平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.virtualbox.org/" target="_blank" rel="noopener"
+&gt;https://www.virtualbox.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费&lt;/li&gt;
+&lt;li&gt;跨平台支持&lt;/li&gt;
+&lt;li&gt;功能完善&lt;/li&gt;
+&lt;li&gt;活跃的社区&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-parallels-desktop-macos"&gt;3. Parallels Desktop (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.parallels.com/" target="_blank" rel="noopener"
+&gt;https://www.parallels.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 上最好的虚拟机&lt;/li&gt;
+&lt;li&gt;与 macOS 深度集成&lt;/li&gt;
+&lt;li&gt;性能优秀&lt;/li&gt;
+&lt;li&gt;支持 M1/M2 芯片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-系统加速工具"&gt;⚡ 系统加速工具
+&lt;/h2&gt;
+&lt;h3 id="1-razer-cortex-游戏加速"&gt;1. Razer Cortex (游戏加速)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.razer.com/cortex" target="_blank" rel="noopener"
+&gt;https://www.razer.com/cortex&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;游戏性能优化&lt;/li&gt;
+&lt;li&gt;自动关闭后台程序&lt;/li&gt;
+&lt;li&gt;免费使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-火绒安全"&gt;2. 火绒安全
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.huorong.cn/" target="_blank" rel="noopener"
+&gt;https://www.huorong.cn/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产轻量级安全软件&lt;/li&gt;
+&lt;li&gt;无广告、无弹窗&lt;/li&gt;
+&lt;li&gt;启动项管理&lt;/li&gt;
+&lt;li&gt;完全免费&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-使用建议"&gt;💡 使用建议
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;定期清理&lt;/strong&gt;：每月清理一次系统垃圾和临时文件&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;监控资源&lt;/strong&gt;：使用系统监控工具了解资源占用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;及时备份&lt;/strong&gt;：重要数据定期备份，避免丢失&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;谨慎优化&lt;/strong&gt;：系统优化要适度，避免过度折腾&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全第一&lt;/strong&gt;：下载工具从官网获取，避免捆绑软件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id="-更新记录"&gt;📝 更新记录
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;2025-12-21&lt;/strong&gt;：初次发布，整理常用系统工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;相关阅读&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="../useful-tools-collection/" &gt;我的工具箱 · 通用工具篇（一）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../fpga-tools-collection/" &gt;我的工具箱 · FPGA开发篇（二）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../programming-tools-collection/" &gt;我的工具箱 · 编程开发篇（三）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../learning-tools-collection/" &gt;我的工具箱 · 学习效率篇（四）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;本文持续更新中，欢迎在评论区分享你的工具推荐！&lt;/em&gt;&lt;/p&gt;</description></item><item><title>我的工具箱(四) · 学习效率篇</title><link>https://deerstar.xyz/2025/learning-tools-collection/</link><pubDate>Sun, 21 Dec 2025 14:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/learning-tools-collection/</guid><description>&lt;p&gt;好的工具能让学习事半功倍。本文整理我在学习过程中使用的高效工具。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-笔记工具"&gt;📝 笔记工具
+&lt;/h2&gt;
+&lt;h3 id="1-notion"&gt;1. Notion
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.notion.so/" target="_blank" rel="noopener"
+&gt;https://www.notion.so/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;All-in-One 工作空间&lt;/li&gt;
+&lt;li&gt;支持笔记、数据库、看板、日历等多种视图&lt;/li&gt;
+&lt;li&gt;模板丰富，可定制性强&lt;/li&gt;
+&lt;li&gt;跨平台同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;适用场景&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;知识管理和项目规划&lt;/li&gt;
+&lt;li&gt;课程笔记整理&lt;/li&gt;
+&lt;li&gt;个人 Wiki 搭建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-obsidian"&gt;2. Obsidian
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://obsidian.md/" target="_blank" rel="noopener"
+&gt;https://obsidian.md/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;本地优先的 Markdown 笔记工具&lt;/li&gt;
+&lt;li&gt;强大的双向链接和知识图谱功能&lt;/li&gt;
+&lt;li&gt;适合构建个人知识库&lt;/li&gt;
+&lt;li&gt;丰富的插件生态&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;核心特性&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;双向链接&lt;/strong&gt;：建立笔记间的联系&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;知识图谱&lt;/strong&gt;：可视化笔记关系&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;标签系统&lt;/strong&gt;：多维度组织知识&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-typora"&gt;3. Typora
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://typora.io/" target="_blank" rel="noopener"
+&gt;https://typora.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;所见即所得的 Markdown 编辑器&lt;/li&gt;
+&lt;li&gt;界面简洁美观&lt;/li&gt;
+&lt;li&gt;支持数学公式和图表&lt;/li&gt;
+&lt;li&gt;专注写作体验&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="4-onenote"&gt;4. OneNote
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.onenote.com/" target="_blank" rel="noopener"
+&gt;https://www.onenote.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Microsoft 官方笔记工具&lt;/li&gt;
+&lt;li&gt;无限画布，自由布局&lt;/li&gt;
+&lt;li&gt;手写笔记支持（平板）&lt;/li&gt;
+&lt;li&gt;与 Office 深度集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-记忆与复习工具"&gt;🧠 记忆与复习工具
+&lt;/h2&gt;
+&lt;h3 id="1-anki"&gt;1. Anki
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://apps.ankiweb.net/" target="_blank" rel="noopener"
+&gt;https://apps.ankiweb.net/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;基于间隔重复算法的记忆工具&lt;/li&gt;
+&lt;li&gt;科学的复习时间安排&lt;/li&gt;
+&lt;li&gt;适合记忆英语单词、专业术语等&lt;/li&gt;
+&lt;li&gt;支持自定义卡片&lt;/li&gt;
+&lt;li&gt;跨平台同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;使用技巧&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;制作简洁的卡片（一问一答）&lt;/li&gt;
+&lt;li&gt;利用图片和音频辅助记忆&lt;/li&gt;
+&lt;li&gt;坚持每日复习&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-quizlet"&gt;2. Quizlet
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://quizlet.com/" target="_blank" rel="noopener"
+&gt;https://quizlet.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在线学习卡片平台&lt;/li&gt;
+&lt;li&gt;丰富的学习模式（闪卡、测试、游戏）&lt;/li&gt;
+&lt;li&gt;海量现成学习集&lt;/li&gt;
+&lt;li&gt;社区分享&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-remnote"&gt;3. RemNote
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.remnote.com/" target="_blank" rel="noopener"
+&gt;https://www.remnote.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;笔记与间隔重复结合&lt;/li&gt;
+&lt;li&gt;边记笔记边制作卡片&lt;/li&gt;
+&lt;li&gt;适合系统化学习&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-阅读与文献管理"&gt;📚 阅读与文献管理
+&lt;/h2&gt;
+&lt;h3 id="1-zotero"&gt;1. Zotero
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.zotero.org/" target="_blank" rel="noopener"
+&gt;https://www.zotero.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费的文献管理工具&lt;/li&gt;
+&lt;li&gt;浏览器插件一键收藏论文&lt;/li&gt;
+&lt;li&gt;自动生成引用格式&lt;/li&gt;
+&lt;li&gt;支持 PDF 标注&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;适用人群&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;研究生和科研工作者&lt;/li&gt;
+&lt;li&gt;需要管理大量论文的学习者&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-calibre"&gt;2. Calibre
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://calibre-ebook.com/" target="_blank" rel="noopener"
+&gt;https://calibre-ebook.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;电子书管理和转换工具&lt;/li&gt;
+&lt;li&gt;支持几乎所有电子书格式&lt;/li&gt;
+&lt;li&gt;内置阅读器&lt;/li&gt;
+&lt;li&gt;可推送到 Kindle&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-marginnote"&gt;3. MarginNote
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.marginnote.com/" target="_blank" rel="noopener"
+&gt;https://www.marginnote.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;iPad 上的深度阅读工具&lt;/li&gt;
+&lt;li&gt;PDF 标注 + 思维导图 + 学习卡片&lt;/li&gt;
+&lt;li&gt;适合系统学习教材和论文&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-时间管理与专注"&gt;🎯 时间管理与专注
+&lt;/h2&gt;
+&lt;h3 id="1-forest"&gt;1. Forest
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.forestapp.cc/" target="_blank" rel="noopener"
+&gt;https://www.forestapp.cc/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;番茄工作法 + 游戏化&lt;/li&gt;
+&lt;li&gt;专注时种树，分心树会枯萎&lt;/li&gt;
+&lt;li&gt;统计学习时长&lt;/li&gt;
+&lt;li&gt;真实种树公益活动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-toggl-track"&gt;2. Toggl Track
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://toggl.com/track/" target="_blank" rel="noopener"
+&gt;https://toggl.com/track/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;时间追踪工具&lt;/li&gt;
+&lt;li&gt;分析时间分配&lt;/li&gt;
+&lt;li&gt;多平台同步&lt;/li&gt;
+&lt;li&gt;生成时间报表&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-microsoft-to-do"&gt;3. Microsoft To Do
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://todo.microsoft.com/" target="_blank" rel="noopener"
+&gt;https://todo.microsoft.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;简洁的任务管理工具&lt;/li&gt;
+&lt;li&gt;智能建议每日计划&lt;/li&gt;
+&lt;li&gt;与 Outlook 集成&lt;/li&gt;
+&lt;li&gt;跨平台同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-思维导图与可视化"&gt;🎨 思维导图与可视化
+&lt;/h2&gt;
+&lt;h3 id="1-xmind"&gt;1. XMind
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://xmind.app/" target="_blank" rel="noopener"
+&gt;https://xmind.app/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;专业的思维导图软件&lt;/li&gt;
+&lt;li&gt;多种图形结构（树状、鱼骨、矩阵）&lt;/li&gt;
+&lt;li&gt;美观的主题样式&lt;/li&gt;
+&lt;li&gt;免费版功能足够使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-mindmaster"&gt;2. MindMaster
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.edrawsoft.cn/mindmaster/" target="_blank" rel="noopener"
+&gt;https://www.edrawsoft.cn/mindmaster/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;国产思维导图工具&lt;/li&gt;
+&lt;li&gt;云端同步&lt;/li&gt;
+&lt;li&gt;丰富的模板库&lt;/li&gt;
+&lt;li&gt;支持团队协作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-excalidraw"&gt;3. Excalidraw
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://excalidraw.com/" target="_blank" rel="noopener"
+&gt;https://excalidraw.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;手绘风格的在线白板&lt;/li&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;li&gt;支持协作&lt;/li&gt;
+&lt;li&gt;适合快速画图和构思&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-在线学习平台"&gt;🌐 在线学习平台
+&lt;/h2&gt;
+&lt;h3 id="1-coursera"&gt;1. Coursera
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.coursera.org/" target="_blank" rel="noopener"
+&gt;https://www.coursera.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;顶尖大学课程&lt;/li&gt;
+&lt;li&gt;系统的专业课程&lt;/li&gt;
+&lt;li&gt;证书认证&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-b站-哔哩哔哩"&gt;2. B站 (哔哩哔哩)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.bilibili.com/" target="_blank" rel="noopener"
+&gt;https://www.bilibili.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;大量优质教学视频&lt;/li&gt;
+&lt;li&gt;UP主讲解通俗易懂&lt;/li&gt;
+&lt;li&gt;弹幕互动学习氛围好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;推荐领域&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编程、数学、物理&lt;/li&gt;
+&lt;li&gt;软件教程&lt;/li&gt;
+&lt;li&gt;考研考证&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-github"&gt;3. GitHub
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://github.com/" target="_blank" rel="noopener"
+&gt;https://github.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习开源项目&lt;/li&gt;
+&lt;li&gt;阅读优秀代码&lt;/li&gt;
+&lt;li&gt;参与社区讨论&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-语言学习工具"&gt;📖 语言学习工具
+&lt;/h2&gt;
+&lt;h3 id="1-anki-再次推荐"&gt;1. Anki (再次推荐)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;适用于&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;单词记忆&lt;/li&gt;
+&lt;li&gt;语法规则&lt;/li&gt;
+&lt;li&gt;例句积累&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-欧路词典"&gt;2. 欧路词典
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.eudic.net/" target="_blank" rel="noopener"
+&gt;https://www.eudic.net/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;强大的离线词典&lt;/li&gt;
+&lt;li&gt;支持自定义词库&lt;/li&gt;
+&lt;li&gt;划词翻译&lt;/li&gt;
+&lt;li&gt;单词本和复习功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-grammarly"&gt;3. Grammarly
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.grammarly.com/" target="_blank" rel="noopener"
+&gt;https://www.grammarly.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;英语写作助手&lt;/li&gt;
+&lt;li&gt;语法和拼写检查&lt;/li&gt;
+&lt;li&gt;写作风格建议&lt;/li&gt;
+&lt;li&gt;浏览器插件实时检查&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-编程学习工具"&gt;💻 编程学习工具
+&lt;/h2&gt;
+&lt;h3 id="1-leetcode"&gt;1. LeetCode
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://leetcode.com/" target="_blank" rel="noopener"
+&gt;https://leetcode.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;算法刷题平台&lt;/li&gt;
+&lt;li&gt;面试准备必备&lt;/li&gt;
+&lt;li&gt;题解和讨论丰富&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-github-copilot"&gt;2. GitHub Copilot
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;AI 代码助手&lt;/li&gt;
+&lt;li&gt;加速学习编程&lt;/li&gt;
+&lt;li&gt;理解代码逻辑&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-stack-overflow"&gt;3. Stack Overflow
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://stackoverflow.com/" target="_blank" rel="noopener"
+&gt;https://stackoverflow.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;编程问答社区&lt;/li&gt;
+&lt;li&gt;几乎所有问题都能找到答案&lt;/li&gt;
+&lt;li&gt;学习他人的解决方案&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-数据管理工具"&gt;📊 数据管理工具
+&lt;/h2&gt;
+&lt;h3 id="1-excel--google-sheets"&gt;1. Excel / Google Sheets
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;数据整理和分析&lt;/li&gt;
+&lt;li&gt;制作学习计划表&lt;/li&gt;
+&lt;li&gt;成绩统计&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-notion-database"&gt;2. Notion Database
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;灵活的数据库功能&lt;/li&gt;
+&lt;li&gt;多视图切换（表格、看板、日历）&lt;/li&gt;
+&lt;li&gt;适合项目管理和学习跟踪&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-学习方法建议"&gt;💡 学习方法建议
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;建立知识体系&lt;/strong&gt;：使用思维导图和双向链接笔记&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;间隔重复复习&lt;/strong&gt;：利用 Anki 科学记忆&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;时间管理&lt;/strong&gt;：番茄工作法提高专注力&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;输出倒逼输入&lt;/strong&gt;：写博客、做笔记分享&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;善用工具但不依赖&lt;/strong&gt;：工具是手段，学习是目的&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id="-更新记录"&gt;📝 更新记录
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;2025-12-21&lt;/strong&gt;：初次发布，整理常用学习工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;相关阅读&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="../useful-tools-collection/" &gt;我的工具箱 · 通用工具篇（一）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../fpga-tools-collection/" &gt;我的工具箱 · FPGA开发篇（二）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../programming-tools-collection/" &gt;我的工具箱 · 编程开发篇（三）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../fpga-learning-resources/" &gt;FPGA 学习资源：优质网站与社区推荐&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;本文持续更新中，欢迎在评论区分享你的工具推荐！&lt;/em&gt;&lt;/p&gt;</description></item><item><title>我的工具箱(三) · 编程开发篇</title><link>https://deerstar.xyz/2025/programming-tools-collection/</link><pubDate>Sun, 21 Dec 2025 13:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/programming-tools-collection/</guid><description>&lt;p&gt;优秀的开发工具能让编程事半功倍。本文整理软件开发中提升效率的工具。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-集成开发环境-ide"&gt;💻 集成开发环境 (IDE)
+&lt;/h2&gt;
+&lt;h3 id="1-visual-studio-code"&gt;1. Visual Studio Code
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://code.visualstudio.com/" target="_blank" rel="noopener"
+&gt;https://code.visualstudio.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量级但功能强大&lt;/li&gt;
+&lt;li&gt;丰富的插件生态&lt;/li&gt;
+&lt;li&gt;支持几乎所有编程语言&lt;/li&gt;
+&lt;li&gt;内置 Git 集成&lt;/li&gt;
+&lt;li&gt;远程开发支持（SSH、WSL、容器）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;必备插件&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;GitHub Copilot&lt;/strong&gt; - AI 代码助手&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;GitLens&lt;/strong&gt; - Git 增强工具&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Prettier&lt;/strong&gt; - 代码格式化&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ESLint / Pylint&lt;/strong&gt; - 代码检查&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Live Server&lt;/strong&gt; - 本地开发服务器&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Remote - SSH&lt;/strong&gt; - 远程开发&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-jetbrains-系列"&gt;2. JetBrains 系列
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.jetbrains.com/" target="_blank" rel="noopener"
+&gt;https://www.jetbrains.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐产品&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;PyCharm&lt;/strong&gt; - Python 开发&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IntelliJ IDEA&lt;/strong&gt; - Java 开发&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;WebStorm&lt;/strong&gt; - 前端开发&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CLion&lt;/strong&gt; - C/C++ 开发&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;智能代码补全和重构&lt;/li&gt;
+&lt;li&gt;强大的调试功能&lt;/li&gt;
+&lt;li&gt;内置数据库工具&lt;/li&gt;
+&lt;li&gt;学生可免费使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-vim--neovim"&gt;3. Vim / Neovim
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://neovim.io/" target="_blank" rel="noopener"
+&gt;https://neovim.io/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;终端下的编辑利器&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;li&gt;键盘操作效率极高&lt;/li&gt;
+&lt;li&gt;服务器开发必备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;学习曲线&lt;/strong&gt;：陡峭但值得投资&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-版本控制工具"&gt;🔧 版本控制工具
+&lt;/h2&gt;
+&lt;h3 id="1-git"&gt;1. Git
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://git-scm.com/" target="_blank" rel="noopener"
+&gt;https://git-scm.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;分布式版本控制系统&lt;/li&gt;
+&lt;li&gt;开源项目标准&lt;/li&gt;
+&lt;li&gt;强大的分支管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;常用命令&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git clone &lt;span class="c1"&gt;# 克隆仓库&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git add &lt;span class="c1"&gt;# 添加文件&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git commit &lt;span class="c1"&gt;# 提交更改&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git push &lt;span class="c1"&gt;# 推送到远程&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git pull &lt;span class="c1"&gt;# 拉取更新&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;git branch &lt;span class="c1"&gt;# 分支管理&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;hr&gt;
+&lt;h3 id="2-github-desktop"&gt;2. GitHub Desktop
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://desktop.github.com/" target="_blank" rel="noopener"
+&gt;https://desktop.github.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Git 的可视化界面&lt;/li&gt;
+&lt;li&gt;降低 Git 使用门槛&lt;/li&gt;
+&lt;li&gt;与 GitHub 无缝集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-gitkraken"&gt;3. GitKraken
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.gitkraken.com/" target="_blank" rel="noopener"
+&gt;https://www.gitkraken.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;美观的图形化界面&lt;/li&gt;
+&lt;li&gt;强大的可视化工具&lt;/li&gt;
+&lt;li&gt;支持 Git Flow&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-调试工具"&gt;🐛 调试工具
+&lt;/h2&gt;
+&lt;h3 id="1-chrome-devtools"&gt;1. Chrome DevTools
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前端开发必备&lt;/li&gt;
+&lt;li&gt;实时调试 JavaScript&lt;/li&gt;
+&lt;li&gt;网络分析和性能优化&lt;/li&gt;
+&lt;li&gt;移动端设备模拟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-gdb-gnu-debugger"&gt;2. GDB (GNU Debugger)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;C/C++ 调试标准工具&lt;/li&gt;
+&lt;li&gt;支持断点、单步、变量查看&lt;/li&gt;
+&lt;li&gt;可与 IDE 集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-pdb-python-debugger"&gt;3. pdb (Python Debugger)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 内置调试器&lt;/li&gt;
+&lt;li&gt;无需额外安装&lt;/li&gt;
+&lt;li&gt;支持交互式调试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-api-测试工具"&gt;🌐 API 测试工具
+&lt;/h2&gt;
+&lt;h3 id="1-postman"&gt;1. Postman
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.postman.com/" target="_blank" rel="noopener"
+&gt;https://www.postman.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;API 开发和测试标准工具&lt;/li&gt;
+&lt;li&gt;支持各种 HTTP 请求&lt;/li&gt;
+&lt;li&gt;可保存和分享请求集合&lt;/li&gt;
+&lt;li&gt;自动化测试和文档生成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-insomnia"&gt;2. Insomnia
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://insomnia.rest/" target="_blank" rel="noopener"
+&gt;https://insomnia.rest/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量级 API 客户端&lt;/li&gt;
+&lt;li&gt;支持 REST、GraphQL&lt;/li&gt;
+&lt;li&gt;界面简洁美观&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-curl"&gt;3. cURL
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;命令行 HTTP 工具&lt;/li&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;li&gt;适合自动化脚本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-包管理器"&gt;📦 包管理器
+&lt;/h2&gt;
+&lt;h3 id="1-npm-nodejs"&gt;1. npm (Node.js)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.npmjs.com/" target="_blank" rel="noopener"
+&gt;https://www.npmjs.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JavaScript 生态标准包管理器&lt;/li&gt;
+&lt;li&gt;海量第三方库&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-pip-python"&gt;2. pip (Python)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://pypi.org/" target="_blank" rel="noopener"
+&gt;https://pypi.org/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 官方包管理器&lt;/li&gt;
+&lt;li&gt;简单易用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-homebrew-macoslinux"&gt;3. Homebrew (macOS/Linux)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://brew.sh/" target="_blank" rel="noopener"
+&gt;https://brew.sh/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 必备包管理器&lt;/li&gt;
+&lt;li&gt;轻松安装各种开发工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-代码质量工具"&gt;🔍 代码质量工具
+&lt;/h2&gt;
+&lt;h3 id="1-sonarqube"&gt;1. SonarQube
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.sonarsource.com/products/sonarqube/" target="_blank" rel="noopener"
+&gt;https://www.sonarsource.com/products/sonarqube/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;代码质量和安全分析&lt;/li&gt;
+&lt;li&gt;支持多种编程语言&lt;/li&gt;
+&lt;li&gt;持续集成友好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-eslint-javascript"&gt;2. ESLint (JavaScript)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;JavaScript 代码检查标准&lt;/li&gt;
+&lt;li&gt;可自定义规则&lt;/li&gt;
+&lt;li&gt;IDE 深度集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-black-python"&gt;3. Black (Python)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Python 代码格式化&lt;/li&gt;
+&lt;li&gt;无需配置，开箱即用&lt;/li&gt;
+&lt;li&gt;格式统一&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-容器与虚拟化"&gt;🐳 容器与虚拟化
+&lt;/h2&gt;
+&lt;h3 id="1-docker"&gt;1. Docker
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.docker.com/" target="_blank" rel="noopener"
+&gt;https://www.docker.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;容器化部署标准&lt;/li&gt;
+&lt;li&gt;环境一致性保证&lt;/li&gt;
+&lt;li&gt;微服务架构基础&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-docker-compose"&gt;2. Docker Compose
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;多容器应用管理&lt;/li&gt;
+&lt;li&gt;YAML 配置简单&lt;/li&gt;
+&lt;li&gt;本地开发环境搭建&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-性能分析工具"&gt;📊 性能分析工具
+&lt;/h2&gt;
+&lt;h3 id="1-valgrind-cc"&gt;1. Valgrind (C/C++)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存泄漏检测&lt;/li&gt;
+&lt;li&gt;性能分析&lt;/li&gt;
+&lt;li&gt;Linux 下的必备工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-chrome-lighthouse"&gt;2. Chrome Lighthouse
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;网页性能分析&lt;/li&gt;
+&lt;li&gt;SEO 和可访问性检查&lt;/li&gt;
+&lt;li&gt;自动生成优化建议&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-终端工具"&gt;🖥️ 终端工具
+&lt;/h2&gt;
+&lt;h3 id="1-windows-terminal"&gt;1. Windows Terminal
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Windows 下的现代终端&lt;/li&gt;
+&lt;li&gt;多标签支持&lt;/li&gt;
+&lt;li&gt;高度可定制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-iterm2-macos"&gt;2. iTerm2 (macOS)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;macOS 终端增强&lt;/li&gt;
+&lt;li&gt;分屏和快捷键丰富&lt;/li&gt;
+&lt;li&gt;主题美化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-tmux"&gt;3. Tmux
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;终端复用器&lt;/li&gt;
+&lt;li&gt;会话保持&lt;/li&gt;
+&lt;li&gt;服务器开发必备&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-开发心得"&gt;💡 开发心得
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;掌握快捷键&lt;/strong&gt;：熟练使用 IDE 快捷键能大幅提升效率&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;善用版本控制&lt;/strong&gt;：频繁提交，清晰的 commit message&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;代码审查&lt;/strong&gt;：使用 Code Review 工具提升代码质量&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动化测试&lt;/strong&gt;：单元测试和集成测试不可少&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;持续集成&lt;/strong&gt;：自动化构建和部署流程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id="-更新记录"&gt;📝 更新记录
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;2025-12-21&lt;/strong&gt;：初次发布，整理常用编程工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;相关阅读&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="../useful-tools-collection/" &gt;我的工具箱 · 通用工具篇（一）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../fpga-tools-collection/" &gt;我的工具箱 · FPGA开发篇（二）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;本文持续更新中，欢迎在评论区分享你的工具推荐！&lt;/em&gt;&lt;/p&gt;</description></item><item><title>我的工具箱(二) · FPGA开发篇</title><link>https://deerstar.xyz/2025/fpga-tools-collection/</link><pubDate>Sun, 21 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/fpga-tools-collection/</guid><description>&lt;p&gt;作为FPGA工程师，选对工具能让开发效率提升数倍。本文整理我在FPGA开发中常用的工具链。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id="-综合与实现工具"&gt;🔧 综合与实现工具
+&lt;/h2&gt;
+&lt;h3 id="1-xilinx-vivado"&gt;1. Xilinx Vivado
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.xilinx.com/products/design-tools/vivado.html" target="_blank" rel="noopener"
+&gt;https://www.xilinx.com/products/design-tools/vivado.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Xilinx 7系列及以上器件的官方开发工具&lt;/li&gt;
+&lt;li&gt;集成综合、实现、仿真、调试功能&lt;/li&gt;
+&lt;li&gt;IP核丰富，文档完善&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;使用技巧&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;善用 Tcl 脚本自动化工程管理&lt;/li&gt;
+&lt;li&gt;合理设置时序约束（XDC文件）&lt;/li&gt;
+&lt;li&gt;利用 Vivado HLS 进行高层次综合&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-intel-quartus-prime"&gt;2. Intel Quartus Prime
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://www.intel.com/content/www/us/en/products/details/fpga/development-tools/quartus-prime.html" target="_blank" rel="noopener"
+&gt;https://www.intel.com/content/www/us/en/products/details/fpga/development-tools/quartus-prime.html&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Intel/Altera FPGA 官方工具&lt;/li&gt;
+&lt;li&gt;支持 Cyclone、Arria、Stratix 系列&lt;/li&gt;
+&lt;li&gt;TimeQuest 时序分析器强大&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-仿真工具"&gt;🔍 仿真工具
+&lt;/h2&gt;
+&lt;h3 id="1-modelsimquesta"&gt;1. ModelSim/Questa
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://eda.sw.siemens.com/en-US/" target="_blank" rel="noopener"
+&gt;https://eda.sw.siemens.com/en-US/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;业界标准的HDL仿真器&lt;/li&gt;
+&lt;li&gt;支持 Verilog、VHDL、SystemVerilog&lt;/li&gt;
+&lt;li&gt;波形查看器功能强大&lt;/li&gt;
+&lt;li&gt;支持混合语言仿真&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;使用技巧&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;code&gt;do&lt;/code&gt; 文件自动化仿真流程&lt;/li&gt;
+&lt;li&gt;善用断点和信号追踪&lt;/li&gt;
+&lt;li&gt;结合 SystemVerilog assertions 进行验证&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-vivado-simulator-xsim"&gt;2. Vivado Simulator (XSIM)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Vivado 内置仿真器，无需额外安装&lt;/li&gt;
+&lt;li&gt;与 Vivado 工程无缝集成&lt;/li&gt;
+&lt;li&gt;免费使用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;适用场景&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;小规模设计快速验证&lt;/li&gt;
+&lt;li&gt;IP核功能验证&lt;/li&gt;
+&lt;li&gt;时序仿真&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-icarus-verilog-开源"&gt;3. Icarus Verilog (开源)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://steveicarus.github.io/iverilog/" target="_blank" rel="noopener"
+&gt;https://steveicarus.github.io/iverilog/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;完全开源免费&lt;/li&gt;
+&lt;li&gt;支持 Verilog-2005 标准&lt;/li&gt;
+&lt;li&gt;配合 GTKWave 查看波形&lt;/li&gt;
+&lt;li&gt;适合学习和轻量级验证&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-调试工具"&gt;🐛 调试工具
+&lt;/h2&gt;
+&lt;h3 id="1-vivado-ila-integrated-logic-analyzer"&gt;1. Vivado ILA (Integrated Logic Analyzer)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在线逻辑分析仪，实时抓取内部信号&lt;/li&gt;
+&lt;li&gt;支持触发条件设置&lt;/li&gt;
+&lt;li&gt;与设计深度集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;使用技巧&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;合理设置探针数量（避免资源浪费）&lt;/li&gt;
+&lt;li&gt;使用交叉触发调试复杂时序&lt;/li&gt;
+&lt;li&gt;导出波形到 VCD 格式分析&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-chipscope-vivado-前身"&gt;2. ChipScope (Vivado 前身)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;适用于&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ISE 环境下的 FPGA 调试&lt;/li&gt;
+&lt;li&gt;老项目维护&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-signaltap-intel-平台"&gt;3. SignalTap (Intel 平台)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Intel FPGA 的在线逻辑分析器&lt;/li&gt;
+&lt;li&gt;功能类似 Vivado ILA&lt;/li&gt;
+&lt;li&gt;与 Quartus 无缝集成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-波形查看器"&gt;📊 波形查看器
+&lt;/h2&gt;
+&lt;h3 id="1-gtkwave-开源"&gt;1. GTKWave (开源)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://gtkwave.sourceforge.net/" target="_blank" rel="noopener"
+&gt;https://gtkwave.sourceforge.net/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;开源免费，跨平台&lt;/li&gt;
+&lt;li&gt;支持 VCD、FST、LXT 等多种格式&lt;/li&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-vivado-waveform-viewer"&gt;2. Vivado Waveform Viewer
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Vivado 内置波形查看器&lt;/li&gt;
+&lt;li&gt;支持高级搜索和标注&lt;/li&gt;
+&lt;li&gt;可直接关联源代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-jtag-调试器"&gt;🖥️ JTAG 调试器
+&lt;/h2&gt;
+&lt;h3 id="1-xilinx-platform-cable-usb-ii"&gt;1. Xilinx Platform Cable USB II
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Xilinx 官方 JTAG 下载器&lt;/li&gt;
+&lt;li&gt;支持所有 Xilinx 器件&lt;/li&gt;
+&lt;li&gt;稳定可靠&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;驱动问题&lt;/strong&gt;：参考我的文章 &lt;a class="link" href="../xilinx-jtag-driver-issue/" &gt;Xilinx JTAG 驱动问题解决&lt;/a&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id="2-digilent-hs3"&gt;2. Digilent HS3
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;高速 JTAG 编程器&lt;/li&gt;
+&lt;li&gt;支持 Xilinx 和 Intel 器件&lt;/li&gt;
+&lt;li&gt;USB 3.0 接口，下载速度快&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-代码编辑器"&gt;📝 代码编辑器
+&lt;/h2&gt;
+&lt;h3 id="1-vs-code--hdl-插件"&gt;1. VS Code + HDL 插件
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐插件&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Verilog-HDL/SystemVerilog&lt;/strong&gt; - 语法高亮和代码补全&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TerosHDL&lt;/strong&gt; - HDL 开发套件（模块实例化、波形查看）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Verilog Format&lt;/strong&gt; - 代码格式化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-notepad--sublime-text"&gt;2. Notepad++ / Sublime Text
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;轻量快速&lt;/li&gt;
+&lt;li&gt;语法高亮&lt;/li&gt;
+&lt;li&gt;适合快速查看和修改代码&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-其他辅助工具"&gt;🔬 其他辅助工具
+&lt;/h2&gt;
+&lt;h3 id="1-matlabpython-数据处理"&gt;1. MATLAB/Python (数据处理)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;用途&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;算法原型验证&lt;/li&gt;
+&lt;li&gt;固定点仿真&lt;/li&gt;
+&lt;li&gt;测试向量生成&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="2-wavedrom-波形图绘制"&gt;2. WaveDrom (波形图绘制)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;官网&lt;/strong&gt;：&lt;a class="link" href="https://wavedrom.com/" target="_blank" rel="noopener"
+&gt;https://wavedrom.com/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;推荐理由&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用 JSON 描述波形图&lt;/li&gt;
+&lt;li&gt;适合文档和教学&lt;/li&gt;
+&lt;li&gt;在线编辑，所见即所得&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h3 id="3-graphviz-状态机图"&gt;3. Graphviz (状态机图)
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;用途&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;绘制状态机转移图&lt;/li&gt;
+&lt;li&gt;可视化设计结构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id="-工具使用心得"&gt;💡 工具使用心得
+&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;仿真第一&lt;/strong&gt;：代码写完先仿真，不要直接上板&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;约束要准&lt;/strong&gt;：时序约束要覆盖所有时钟域&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分层调试&lt;/strong&gt;：模块级仿真 → 顶层仿真 → 上板调试&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;保留调试端口&lt;/strong&gt;：为关键信号预留 ILA 探针&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;版本管理&lt;/strong&gt;：使用 Git 管理代码和约束文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2 id="-更新记录"&gt;📝 更新记录
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;2025-12-21&lt;/strong&gt;：初次发布，整理常用 FPGA 工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;相关阅读&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="../fpga-learning-resources/" &gt;FPGA 学习资源：优质网站与社区推荐&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../xilinx-jtag-driver-issue/" &gt;Xilinx JTAG 驱动问题解决&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="../useful-tools-collection/" &gt;我的工具箱 · 通用工具篇（一）&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;本文持续更新中，欢迎在评论区分享你的工具推荐！&lt;/em&gt;&lt;/p&gt;</description></item><item><title>我的工具箱(一) · 通用工具篇</title><link>https://deerstar.xyz/2025/useful-tools-collection/</link><pubDate>Sun, 21 Dec 2025 11:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/useful-tools-collection/</guid><description>&lt;p&gt;工欲善其事，必先利其器。本文记录我在学习和工作中发现的好用工具，持续更新。&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2 id="-开发工具"&gt;💻 开发工具
 &lt;/h2&gt;
