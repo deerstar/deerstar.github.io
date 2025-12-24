@@ -1,98 +1,1064 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PVE on DeerStar的博客</title><link>https://deerstar.xyz/tags/pve/</link><description>Recent content in PVE on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 24 Dec 2025 12:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/pve/index.xml" rel="self" type="application/rss+xml"/><item><title>老机改造实战：PVE虚拟化平台搭建与PCIE直通配置</title><link>https://deerstar.xyz/2025/pve-install/</link><pubDate>Wed, 24 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install/</guid><description>&lt;h1 id="老羊机上手pve虚拟化为fpga测试做准备"&gt;老羊机上手PVE虚拟化：为FPGA测试做准备
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>PVE on DeerStar的博客</title><link>https://deerstar.xyz/tags/pve/</link><description>Recent content in PVE on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 24 Dec 2025 16:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/pve/index.xml" rel="self" type="application/rss+xml"/><item><title>PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置</title><link>https://deerstar.xyz/2025/pve-install-win10/</link><pubDate>Wed, 24 Dec 2025 16:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install-win10/</guid><description>&lt;h1 id="pve安装win10虚拟机virtio驱动与远程桌面配置"&gt;PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置
+&lt;/h1&gt;
+&lt;h2 id="前情提要"&gt;前情提要
+&lt;/h2&gt;
+&lt;p&gt;PVE和飞牛NAS都搞定了,这篇记录Win10虚拟机安装过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心要点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Win10用&lt;strong&gt;SCSI接口&lt;/strong&gt;（性能好）&lt;/li&gt;
+&lt;li&gt;必须手动加载&lt;strong&gt;VirtIO驱动&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;用&lt;strong&gt;远程桌面(RDP)&lt;/strong&gt;,别用PVE控制台&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="硬件配置"&gt;硬件配置
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU: i5-8400&lt;/li&gt;
+&lt;li&gt;内存: 16GB DDR4&lt;/li&gt;
+&lt;li&gt;PVE版本: 9.1.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="资源分配策略"&gt;资源分配策略
+&lt;/h2&gt;
+&lt;h3 id="总原则"&gt;总原则
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CPU总分配 ≤ 物理核心数&lt;/strong&gt;（避免超分配导致卡顿）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;内存总分配 ≤ 物理内存 - 2GB&lt;/strong&gt;（宿主机预留）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="我的配置16gb内存6核cpu"&gt;我的配置（16GB内存,6核CPU）
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;虚拟机&lt;/th&gt;
+&lt;th&gt;CPU核心&lt;/th&gt;
+&lt;th&gt;内存&lt;/th&gt;
+&lt;th&gt;用途&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;飞牛NAS&lt;/td&gt;
+&lt;td&gt;4核&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;文件服务&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10&lt;/td&gt;
+&lt;td&gt;3核&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;日常测试&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;预留&lt;/td&gt;
+&lt;td&gt;-1核&lt;/td&gt;
+&lt;td&gt;0GB&lt;/td&gt;
+&lt;td&gt;系统缓冲&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;注意：飞牛和Win10不会同时满载,所以内存可以&amp;quot;超&amp;quot;一点（8+8=16GB）。但CPU绝不能超（4+3=7核 &amp;gt; 6核物理）。&lt;/p&gt;
+&lt;h2 id="一前期准备"&gt;一、前期准备
+&lt;/h2&gt;
+&lt;h3 id="1-下载文件"&gt;1. 下载文件
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Windows 10 ISO&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;官方下载：https://www.microsoft.com/zh-cn/software-download/windows10&lt;/li&gt;
+&lt;li&gt;选择专业版（支持远程桌面）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;VirtIO 驱动&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载地址：https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso&lt;/li&gt;
+&lt;li&gt;版本：0.1.285&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-上传到pve"&gt;2. 上传到PVE
+&lt;/h3&gt;
+&lt;p&gt;登录PVE Web界面 → &lt;code&gt;local(pve)&lt;/code&gt; → &lt;code&gt;ISO Images&lt;/code&gt; → &lt;code&gt;Upload&lt;/code&gt; 上传两个ISO。&lt;/p&gt;
+&lt;h2 id="二创建虚拟机"&gt;二、创建虚拟机
+&lt;/h2&gt;
+&lt;p&gt;点右上角 &lt;strong&gt;Create VM&lt;/strong&gt;：&lt;/p&gt;
+&lt;h3 id="general"&gt;General
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;VM ID: 101&lt;/li&gt;
+&lt;li&gt;Name: Win10&lt;/li&gt;
+&lt;li&gt;✅ Start at boot（开机自启）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="os"&gt;OS
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ISO image: 选Win10 ISO&lt;/li&gt;
+&lt;li&gt;Guest OS Type: Microsoft Windows&lt;/li&gt;
+&lt;li&gt;Version: 10/2016/2019&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="system重点"&gt;System（重点）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Machine: &lt;strong&gt;q35&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;BIOS: &lt;strong&gt;SeaBIOS&lt;/strong&gt;（推荐,兼容性好）&lt;/li&gt;
+&lt;li&gt;SCSI Controller: VirtIO SCSI single&lt;/li&gt;
+&lt;li&gt;✅ Qemu Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;为什么选SeaBIOS而不是UEFI&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SeaBIOS配置简单,不需要EFI磁盘&lt;/li&gt;
+&lt;li&gt;兼容性最好,不会出现启动失败&lt;/li&gt;
+&lt;li&gt;除非有特殊需求（如Secure Boot）,否则优先SeaBIOS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="disks关键配置"&gt;Disks（关键配置）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Bus/Device: &lt;strong&gt;SCSI&lt;/strong&gt;（Win10用SCSI性能好,和飞牛不同）&lt;/li&gt;
+&lt;li&gt;Storage: local-lvm&lt;/li&gt;
+&lt;li&gt;Disk size: 80 GiB&lt;/li&gt;
+&lt;li&gt;Cache: &lt;strong&gt;Write back&lt;/strong&gt;（性能最优）&lt;/li&gt;
+&lt;li&gt;✅ Discard（SSD TRIM支持）&lt;/li&gt;
+&lt;li&gt;✅ SSD emulation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="cpu"&gt;CPU
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Sockets: 1&lt;/li&gt;
+&lt;li&gt;Cores: 3&lt;/li&gt;
+&lt;li&gt;Type: &lt;strong&gt;host&lt;/strong&gt;（直通CPU特性,性能最好）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="memory"&gt;Memory
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Memory: 8192 MiB（8GB）&lt;/li&gt;
+&lt;li&gt;✅ Ballooning（动态内存管理）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="network"&gt;Network
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Bridge: vmbr0&lt;/li&gt;
+&lt;li&gt;Model: &lt;strong&gt;VirtIO (paravirtualized)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;完成后先不启动！&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="三添加virtio驱动光盘"&gt;三、添加VirtIO驱动光盘
+&lt;/h2&gt;
+&lt;p&gt;虚拟机创建完成后：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选中虚拟机 → &lt;strong&gt;Hardware&lt;/strong&gt; → &lt;strong&gt;Add&lt;/strong&gt; → &lt;strong&gt;CD/DVD Drive&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Bus/Device: IDE 0（或IDE 2）&lt;/li&gt;
+&lt;li&gt;ISO image: 选 &lt;code&gt;virtio-win.iso&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;Add&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="调整启动顺序"&gt;调整启动顺序
+&lt;/h3&gt;
+&lt;p&gt;虚拟机 → &lt;strong&gt;Options&lt;/strong&gt; → &lt;strong&gt;Boot Order&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ ide2 (Win10 ISO) - 第一位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ scsi0 (硬盘) - 第二位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ ide0 (VirtIO ISO) - 第三位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;❌ net0 (网卡) - 取消勾选
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="四安装系统"&gt;四、安装系统
+&lt;/h2&gt;
+&lt;h3 id="1-启动虚拟机"&gt;1. 启动虚拟机
+&lt;/h3&gt;
+&lt;p&gt;选中虚拟机 → 点&amp;quot;Start&amp;quot; → 双击&amp;quot;Console&amp;quot;。&lt;/p&gt;
+&lt;h3 id="2-进入安装界面"&gt;2. 进入安装界面
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;选择语言/时区 → 下一步&lt;/li&gt;
+&lt;li&gt;点&amp;quot;现在安装&amp;quot;&lt;/li&gt;
+&lt;li&gt;输入密钥（可跳过）&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;Windows 10 专业版&amp;quot;&lt;/li&gt;
+&lt;li&gt;接受许可条款&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;&lt;strong&gt;自定义：仅安装Windows（高级）&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="3-加载virtio硬盘驱动关键步骤"&gt;3. 加载VirtIO硬盘驱动（关键步骤）
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：界面显示&amp;quot;我们找不到任何驱动器&amp;quot;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：Windows不认识VirtIO SCSI控制器&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;点&amp;quot;&lt;strong&gt;加载驱动程序&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;&lt;strong&gt;浏览&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择VirtIO光驱盘符（D: 或E:）&lt;/li&gt;
+&lt;li&gt;进入目录：&lt;strong&gt;&lt;code&gt;vioscsi → w10 → amd64&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;确定&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;Red Hat VirtIO SCSI controller&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;下一步&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;结果&lt;/strong&gt;：现在能看到&amp;quot;驱动器0 未分配的空间 XX.X GB&amp;quot;&lt;/p&gt;
+&lt;h3 id="4-处理分区错误如遇到"&gt;4. 处理分区错误（如遇到）
+&lt;/h3&gt;
+&lt;p&gt;如果提示&amp;quot;Windows无法安装到这个磁盘&amp;hellip;&amp;quot;,按Shift + F10打开命令行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;diskpart
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;list disk
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;select&lt;/span&gt; disk &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;clean &lt;span class="c1"&gt;# 清空磁盘&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;create partition primary &lt;span class="c1"&gt;# 创建主分区&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;format &lt;span class="nv"&gt;fs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;ntfs quick &lt;span class="c1"&gt;# 快速格式化&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;assign &lt;span class="nv"&gt;letter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;c &lt;span class="c1"&gt;# 分配盘符&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;active &lt;span class="c1"&gt;# 标记为活动分区（SeaBIOS需要）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;刷新安装界面,重新选择硬盘。&lt;/p&gt;
+&lt;h3 id="5-开始安装"&gt;5. 开始安装
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;选中&amp;quot;驱动器0 未分配的空间&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;下一步&amp;quot;&lt;/li&gt;
+&lt;li&gt;等待安装（15-30分钟）&lt;/li&gt;
+&lt;li&gt;自动重启几次&lt;/li&gt;
+&lt;li&gt;完成初始设置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="五安装virtio驱动"&gt;五、安装VirtIO驱动
+&lt;/h2&gt;
+&lt;h3 id="为什么需要装驱动"&gt;为什么需要装驱动
+&lt;/h3&gt;
+&lt;p&gt;装完系统会发现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 没有网络（设备管理器显示&amp;quot;以太网控制器&amp;quot;黄色叹号）&lt;/li&gt;
+&lt;li&gt;❌ 某些硬件功能不可用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="一键安装推荐"&gt;一键安装（推荐）
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;进入Win10系统&lt;/li&gt;
+&lt;li&gt;打开&amp;quot;此电脑&amp;quot;&lt;/li&gt;
+&lt;li&gt;双击VirtIO驱动光盘（D: 或E:）&lt;/li&gt;
+&lt;li&gt;运行 &lt;strong&gt;&lt;code&gt;virtio-win-guest-tools.exe&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;一路Next安装&lt;/li&gt;
+&lt;li&gt;重启系统&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;会自动安装&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 网卡驱动（NetKVM）&lt;/li&gt;
+&lt;li&gt;✅ 硬盘驱动（vioscsi）&lt;/li&gt;
+&lt;li&gt;✅ 气球驱动（Balloon,动态内存）&lt;/li&gt;
+&lt;li&gt;✅ QEMU Guest Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;装完后网络恢复正常。&lt;/p&gt;
+&lt;h2 id="六网络架构选择"&gt;六、网络架构选择
+&lt;/h2&gt;
+&lt;h3 id="我的配置"&gt;我的配置
+&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;外网
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;路由器
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌────────────────────────┐
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ 物理主机 (i5-8400) │
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ ├─ 板载网口 → 飞牛直通│
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ └─ PCIe网卡 → vmbr0 ──┼─→ PVE管理
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ │ ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ │ Win10（虚拟网卡）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└────────────────────────┘
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="性能对比"&gt;性能对比
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;传输路径&lt;/th&gt;
+&lt;th&gt;虚拟网卡速度&lt;/th&gt;
+&lt;th&gt;直通网卡速度&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10 → 飞牛&lt;/td&gt;
+&lt;td&gt;300-500 MB/s&lt;/td&gt;
+&lt;td&gt;50-80 MB/s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10 → 外网&lt;/td&gt;
+&lt;td&gt;118 MB/s&lt;/td&gt;
+&lt;td&gt;118 MB/s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;虚拟机之间通信走PVE&lt;strong&gt;内存&lt;/strong&gt;,不经过物理网口,速度极快&lt;/li&gt;
+&lt;li&gt;只有访问外网时才走物理网口（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="两种方案对比"&gt;两种方案对比
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;方案A：飞牛直通物理网口（我的方案）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;适合：主要从外网下载到NAS&lt;/li&gt;
+&lt;li&gt;Win10 → 飞牛速度：50-80 MB/s（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;方案B：飞牛用虚拟网卡&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;适合：主要从Win10传输到NAS&lt;/li&gt;
+&lt;li&gt;Win10 → 飞牛速度：300-500 MB/s（内存直通）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你的使用场景是&amp;quot;Win10下载 → 保存到飞牛&amp;quot;,建议方案B。&lt;/p&gt;
+&lt;h2 id="七远程桌面配置"&gt;七、远程桌面配置
+&lt;/h2&gt;
+&lt;h3 id="为什么不用pve控制台"&gt;为什么不用PVE控制台
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;PVE控制台（noVNC）问题&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;延迟高（200ms+）&lt;/li&gt;
+&lt;li&gt;画质模糊&lt;/li&gt;
+&lt;li&gt;帧率低（10-20fps）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;设计目的&lt;/strong&gt;：只用于安装系统、紧急维护,不适合日常使用。&lt;/p&gt;
+&lt;h3 id="开启远程桌面"&gt;开启远程桌面
+&lt;/h3&gt;
+&lt;p&gt;Win10系统内：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;右键&amp;quot;此电脑&amp;quot; → 属性&lt;/li&gt;
+&lt;li&gt;点&amp;quot;远程设置&amp;quot;&lt;/li&gt;
+&lt;li&gt;✅ 勾选&amp;quot;允许远程连接到此计算机&amp;quot;&lt;/li&gt;
+&lt;li&gt;确定&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="获取ip地址"&gt;获取IP地址
+&lt;/h3&gt;
+&lt;p&gt;Win10中按 &lt;code&gt;Win + R&lt;/code&gt; → 输入 &lt;code&gt;cmd&lt;/code&gt; → 输入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ipconfig
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;记下IPv4地址（如192.168.1.101）&lt;/p&gt;
+&lt;h3 id="从其他设备连接"&gt;从其他设备连接
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Windows电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Win + R → 输入 mstsc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;输入Win10 IP → 连接
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Mac电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;App Store下载&amp;quot;Microsoft Remote Desktop&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Linux电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用Remmina、Vinagre等RDP客户端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="性能对比-1"&gt;性能对比
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;连接方式&lt;/th&gt;
+&lt;th&gt;延迟&lt;/th&gt;
+&lt;th&gt;画质&lt;/th&gt;
+&lt;th&gt;适用场景&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;PVE控制台&lt;/td&gt;
+&lt;td&gt;200ms+&lt;/td&gt;
+&lt;td&gt;模糊&lt;/td&gt;
+&lt;td&gt;安装/救急&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;远程桌面&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&amp;lt;10ms&lt;/td&gt;
+&lt;td&gt;完美&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;日常使用&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="常见问题"&gt;常见问题
+&lt;/h2&gt;
+&lt;h3 id="1-uefi启动失败"&gt;1. UEFI启动失败
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;错误信息&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;failed&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="nb"&gt;load&lt;/span&gt; &lt;span class="n"&gt;Boot0004&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;UEFI QEMU HARDDISK&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;Start&lt;/span&gt; &lt;span class="n"&gt;PXE&lt;/span&gt; &lt;span class="n"&gt;over&lt;/span&gt; &lt;span class="n"&gt;IPv4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：选了OVMF(UEFI)但未添加EFI磁盘&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;改用SeaBIOS,删除虚拟机重建&lt;/li&gt;
+&lt;li&gt;或手动添加EFI Disk（Hardware → Add → EFI Disk）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-安装时看不到硬盘"&gt;2. 安装时看不到硬盘
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：未加载VirtIO SCSI驱动&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：参考第四章第3节加载驱动&lt;/p&gt;
+&lt;h3 id="3-安装后没有网络"&gt;3. 安装后没有网络
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：未安装VirtIO网卡驱动&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：参考第五章安装驱动&lt;/p&gt;
+&lt;h3 id="4-cpu超分配导致卡顿"&gt;4. CPU超分配导致卡顿
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：多个虚拟机同时运行时卡顿&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：虚拟机CPU总核心数 &amp;gt; 物理CPU核心数&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：合理分配,总数不超过物理核心&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;示例（6核物理）：飞牛4核 + Win10 3核 = 7核 &amp;gt; 6核 ❌&lt;/li&gt;
+&lt;li&gt;正确分配：飞牛2核 + Win10 3核 = 5核 &amp;lt; 6核 ✅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="5-内存不足oom"&gt;5. 内存不足OOM
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：虚拟机被随机杀死,日志显示OOM Killer&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：虚拟机内存总分配 &amp;gt; 物理内存 - 宿主机预留&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：总分配 ≤ 物理内存 - 2GB&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;示例（16GB物理）：飞牛4GB + Win10 8GB + 预留2GB = 14GB ✅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="性能优化"&gt;性能优化
+&lt;/h2&gt;
+&lt;h3 id="1-硬盘缓存模式"&gt;1. 硬盘缓存模式
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模式&lt;/th&gt;
+&lt;th&gt;性能&lt;/th&gt;
+&lt;th&gt;安全性&lt;/th&gt;
+&lt;th&gt;适用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No cache&lt;/td&gt;
+&lt;td&gt;慢&lt;/td&gt;
+&lt;td&gt;最高&lt;/td&gt;
+&lt;td&gt;生产数据库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Write through&lt;/td&gt;
+&lt;td&gt;中&lt;/td&gt;
+&lt;td&gt;高&lt;/td&gt;
+&lt;td&gt;折中&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Write back&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;快&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;中&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;家用&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;建议&lt;/strong&gt;：家用场景选Write back,性能提升2-3倍。&lt;/p&gt;
+&lt;h3 id="2-cpu类型选择"&gt;2. CPU类型选择
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;host&lt;/strong&gt;（推荐）：直通宿主机CPU特性,性能最好&lt;/li&gt;
+&lt;li&gt;kvm64：通用兼容,性能稍差&lt;/li&gt;
+&lt;li&gt;特定型号：迁移需要相同架构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="3-网卡模型选择"&gt;3. 网卡模型选择
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模型&lt;/th&gt;
+&lt;th&gt;性能&lt;/th&gt;
+&lt;th&gt;兼容性&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;e1000&lt;/td&gt;
+&lt;td&gt;100 Mbps&lt;/td&gt;
+&lt;td&gt;好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;e1000e&lt;/td&gt;
+&lt;td&gt;1 Gbps&lt;/td&gt;
+&lt;td&gt;好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;VirtIO&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;10+ Gbps&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;需装驱动&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;建议&lt;/strong&gt;：统一使用VirtIO,安装对应驱动。&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;核心要点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Win10用&lt;strong&gt;SCSI接口&lt;/strong&gt;（性能好,和飞牛的SATA不同）&lt;/li&gt;
+&lt;li&gt;必须手动加载&lt;strong&gt;VirtIO驱动&lt;/strong&gt;（安装时和系统装完后）&lt;/li&gt;
+&lt;li&gt;日常使用&lt;strong&gt;远程桌面(RDP)&lt;/strong&gt;,不要用PVE控制台&lt;/li&gt;
+&lt;li&gt;合理分配资源：CPU不超分,内存留2GB缓冲&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;当前架构&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PVE系统：250G固态&lt;/li&gt;
+&lt;li&gt;飞牛NAS：板载网口直通 + 2T机械盘直通&lt;/li&gt;
+&lt;li&gt;Win10：虚拟网卡 + 80G虚拟磁盘&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;性能表现&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Win10 ↔ 飞牛：300-500 MB/s（内存直通）&lt;/li&gt;
+&lt;li&gt;Win10 ↔ 外网：118 MB/s（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;老机器性能完全够用,日常办公无压力,等以后加独显可以跑GPU计算。&lt;/p&gt;
+&lt;h2 id="相关阅读"&gt;相关阅读
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《老羊机上手PVE虚拟化：IOMMU直通配置完全指南》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装飞牛NAS：SATA直通与网卡配置实战》&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;记录时间：2024-12-24&lt;/em&gt;&lt;br&gt;
+&lt;em&gt;PVE版本：9.1.1 | Win10版本：专业版22H2&lt;/em&gt;&lt;/p&gt;</description></item><item><title>PVE安装飞牛NAS：SATA直通与网卡配置实战</title><link>https://deerstar.xyz/2025/pve-install-fnos/</link><pubDate>Wed, 24 Dec 2025 14:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install-fnos/</guid><description>&lt;h1 id="pve安装飞牛nassata直通与网卡配置实战"&gt;PVE安装飞牛NAS：SATA直通与网卡配置实战
+&lt;/h1&gt;
+&lt;h2 id="前情提要"&gt;前情提要
+&lt;/h2&gt;
+&lt;p&gt;上篇搞定了PVE安装和IOMMU配置,这篇记录飞牛OS虚拟机的创建过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心要点&lt;/strong&gt;：飞牛OS必须用SATA接口,这是个大坑。&lt;/p&gt;
+&lt;h2 id="硬件直通规划"&gt;硬件直通规划
+&lt;/h2&gt;
+&lt;p&gt;我的方案：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;板载Intel网口&lt;/strong&gt; → 直通给飞牛（千兆高性能）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;PCIE网卡&lt;/strong&gt; → PVE宿主机管理用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2T机械盘&lt;/strong&gt; → 直通给飞牛（数据盘）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;核显&lt;/strong&gt; → PVE宿主机显示&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;x16槽留给FPGA板卡。&lt;/p&gt;
+&lt;h2 id="一网卡切换准备"&gt;一、网卡切换准备
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：只有一个板载网口,直通给飞牛后PVE就没网了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：加一块PCIE千兆网卡（闲置硬件利用）。&lt;/p&gt;
+&lt;h3 id="1-安装pcie网卡"&gt;1. 安装PCIE网卡
+&lt;/h3&gt;
+&lt;p&gt;关机,把PCIE网卡插到x1槽（别插x16）,网线从板载网口拔出插到PCIE网卡,开机。&lt;/p&gt;
+&lt;h3 id="2-切换pve网络配置"&gt;2. 切换PVE网络配置
+&lt;/h3&gt;
+&lt;p&gt;接显示器+键盘登录PVE本地控制台：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 查看网卡名称&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ip a
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;能看到新网卡（我的是enp2s0）。&lt;/p&gt;
+&lt;p&gt;备份并修改网络配置：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cp /etc/network/interfaces /etc/network/interfaces.bak
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/network/interfaces
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;找到 &lt;code&gt;bridge-ports&lt;/code&gt; 那行,改成新网卡名：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;auto vmbr0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;iface vmbr0 inet static
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; address 192.168.1.100/24
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; gateway 192.168.1.1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; bridge-ports enp2s0 # 改这里
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; bridge-stp off
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; bridge-fd 0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;重启网络：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;systemctl restart networking
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 或直接重启&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;reboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;验证：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ping 192.168.1.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;能ping通后,浏览器访问 &lt;code&gt;https://192.168.1.100:8006&lt;/code&gt; 确认恢复。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;目的&lt;/strong&gt;：PVE用PCIE网卡,板载Intel网卡留给飞牛直通。&lt;/p&gt;
+&lt;h2 id="二上传飞牛os镜像"&gt;二、上传飞牛OS镜像
+&lt;/h2&gt;
+&lt;p&gt;PVE Web界面：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;点左侧 &lt;code&gt;local&lt;/code&gt; 存储&lt;/li&gt;
+&lt;li&gt;点 &lt;code&gt;ISO镜像&lt;/code&gt; → &lt;code&gt;上传&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;选择飞牛OS镜像（fnos-1.1.8-1419.iso）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="三创建虚拟机"&gt;三、创建虚拟机
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;重点&lt;/strong&gt;：飞牛OS需要SATA接口,不能用SCSI！&lt;/p&gt;
+&lt;h3 id="1-基础配置"&gt;1. 基础配置
+&lt;/h3&gt;
+&lt;p&gt;点右上角 &lt;strong&gt;Create VM&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;常规&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;VM ID: 100&lt;/li&gt;
+&lt;li&gt;名称: MFNAS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;操作系统&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ISO镜像：选飞牛OS镜像&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;系统&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;机器类型：q35&lt;/li&gt;
+&lt;li&gt;BIOS：SeaBIOS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;磁盘&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;删除默认磁盘&lt;/strong&gt;（点删除按钮）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;为什么删除？因为默认是SCSI接口,飞牛OS不认。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CPU&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;核心数：4&lt;/li&gt;
+&lt;li&gt;类型：host&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;内存&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;大小：8192 MB（8G）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;网络&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;默认配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;确认&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;不要勾选&lt;/strong&gt;&amp;ldquo;创建后启动&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;完成&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-手动添加sata系统盘"&gt;2. 手动添加SATA系统盘
+&lt;/h3&gt;
+&lt;p&gt;虚拟机创建完成后：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选中虚拟机100 → 硬件 → 添加 → 硬盘&lt;/li&gt;
+&lt;li&gt;配置：
+&lt;ul&gt;
+&lt;li&gt;总线/设备：&lt;strong&gt;SATA 0&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;磁盘大小：64 GiB&lt;/li&gt;
+&lt;li&gt;存储：local-lvm&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;点&amp;quot;添加&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="四配置硬件直通"&gt;四、配置硬件直通
+&lt;/h2&gt;
+&lt;h3 id="1-板载网卡直通"&gt;1. 板载网卡直通
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;方法一：命令行（推荐）&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;qm &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="m"&gt;100&lt;/span&gt; -hostpci0 0000:00:1f.6,rombar&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;方法二：Web界面&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;虚拟机100 → 硬件 → 添加 → PCI设备&lt;/li&gt;
+&lt;li&gt;设备：选择 &lt;code&gt;00:1f.6 (Intel I219-V)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;不要勾选&amp;quot;Primary GPU&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;添加&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：如果Web界面添加后地址不完整（缺少&lt;code&gt;.6&lt;/code&gt;）,需手动修改配置文件。&lt;/p&gt;
+&lt;h3 id="2-2t机械盘直通"&gt;2. 2T机械盘直通
+&lt;/h3&gt;
+&lt;p&gt;查看硬盘ID：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ls -l /dev/disk/by-id/ &lt;span class="p"&gt;|&lt;/span&gt; grep sda
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;直通硬盘（&lt;strong&gt;用SATA接口&lt;/strong&gt;）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;qm &lt;span class="nb"&gt;set&lt;/span&gt; &lt;span class="m"&gt;100&lt;/span&gt; -sata1 /dev/disk/by-id/ata-ST2000DM006-2DM164_Z4ZAHREX
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;重点&lt;/strong&gt;：用 &lt;code&gt;-sata1&lt;/code&gt; 而不是 &lt;code&gt;-scsi1&lt;/code&gt;,因为飞牛OS需要SATA接口。&lt;/p&gt;
+&lt;h3 id="3-验证配置"&gt;3. 验证配置
+&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cat /etc/pve/qemu-server/100.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;检查配置应包含：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;span class="lnt"&gt;9
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;bios: seabios
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;boot: order=sata0
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cores: 4
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;cpu: host
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;hostpci0: 0000:00:1f.6,rombar=0 # 板载网卡
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;machine: q35
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;memory: 8192
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sata0: local-lvm:vm-100-disk-0,size=64G # 系统盘
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;sata1: /dev/disk/by-id/ata-ST2000DM006-2DM164_Z4ZAHREX,size=1953514584K # 数据盘
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;关键确认&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 机器类型：q35&lt;/li&gt;
+&lt;li&gt;✅ BIOS：SeaBIOS&lt;/li&gt;
+&lt;li&gt;✅ 网卡地址完整：&lt;code&gt;0000:00:1f.6&lt;/code&gt;（包含&lt;code&gt;.6&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;✅ 磁盘都是SATA接口&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="五安装飞牛os系统"&gt;五、安装飞牛OS系统
+&lt;/h2&gt;
+&lt;h3 id="1-启动虚拟机"&gt;1. 启动虚拟机
+&lt;/h3&gt;
+&lt;p&gt;Web界面：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选中虚拟机100&lt;/li&gt;
+&lt;li&gt;点&amp;quot;启动&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;控制台&amp;quot;查看启动过程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="2-安装系统"&gt;2. 安装系统
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;进入安装界面,选&amp;quot;图形化安装&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择安装位置：选64G的SATA磁盘
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;不要选2T机械盘&lt;/strong&gt;（数据盘留待进系统后配置）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;分区大小：默认64G&lt;/li&gt;
+&lt;li&gt;等待安装完成&lt;/li&gt;
+&lt;li&gt;自动重启&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="3-初始化配置"&gt;3. 初始化配置
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;重启后控制台显示访问地址：&lt;code&gt;http://192.168.1.x:5666&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;浏览器访问该地址&lt;/li&gt;
+&lt;li&gt;设置管理员账号密码&lt;/li&gt;
+&lt;li&gt;同意协议,进入系统&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="六系统配置"&gt;六、系统配置
+&lt;/h2&gt;
+&lt;h3 id="1-网络配置可选"&gt;1. 网络配置（可选）
+&lt;/h3&gt;
+&lt;p&gt;系统默认DHCP获取IP,建议改成静态：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;系统设置 → 网络设置&lt;/li&gt;
+&lt;li&gt;能看到两个网口：
+&lt;ul&gt;
+&lt;li&gt;网口1：VirtIO虚拟网卡&lt;/li&gt;
+&lt;li&gt;网口2：板载Intel网卡（直通）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;建议禁用虚拟网卡,只用物理网卡&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;删除虚拟网卡方法&lt;/strong&gt;（可选）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 关闭虚拟机后&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/pve/qemu-server/100.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 删除这一行&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;net0: &lt;span class="nv"&gt;virtio&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;...,bridge&lt;span class="o"&gt;=&lt;/span&gt;vmbr0,firewall&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 修改启动顺序,去掉net0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;boot: &lt;span class="nv"&gt;order&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;sata0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="2-添加存储池"&gt;2. 添加存储池
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;进入&amp;quot;存储空间管理&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;立即创建&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择2T机械盘（直通的硬盘）&lt;/li&gt;
+&lt;li&gt;选择存储模式（单盘/RAID等）&lt;/li&gt;
+&lt;li&gt;确认创建&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="3-验证硬件直通"&gt;3. 验证硬件直通
+&lt;/h3&gt;
+&lt;p&gt;SSH连接飞牛OS：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;span class="lnt"&gt;6
+&lt;/span&gt;&lt;span class="lnt"&gt;7
+&lt;/span&gt;&lt;span class="lnt"&gt;8
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 查看网卡&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ip a
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 查看硬盘&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lsblk
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 查看直通硬盘SMART信息&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;smartctl -a /dev/sdb
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="常见问题"&gt;常见问题
+&lt;/h2&gt;
+&lt;h3 id="1-虚拟机启动卡在pxe网络启动"&gt;1. 虚拟机启动卡在PXE网络启动
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：磁盘接口类型错误或启动顺序问题&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确认用SATA接口而不是SCSI&lt;/li&gt;
+&lt;li&gt;检查启动顺序（光驱优先或SATA硬盘优先）&lt;/li&gt;
+&lt;li&gt;删除网卡直通后再尝试（先装系统,后加直通）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="2-安装时提示secure-boot错误"&gt;2. 安装时提示&amp;quot;Secure Boot&amp;quot;错误
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：使用了UEFI BIOS且启用了Secure Boot&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用SeaBIOS而不是OVMF（UEFI）&lt;/li&gt;
+&lt;li&gt;删除EFI磁盘,改BIOS类型为SeaBIOS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="3-网卡直通地址不完整"&gt;3. 网卡直通地址不完整
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：配置文件中 &lt;code&gt;hostpci0: 0000:00:1f&lt;/code&gt; 缺少 &lt;code&gt;.6&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/pve/qemu-server/100.conf
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="c1"&gt;# 手动补全为 0000:00:1f.6&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="4-pve宿主机切换网卡后无法访问"&gt;4. PVE宿主机切换网卡后无法访问
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：网络配置文件未更新&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;接显示器键盘本地登录&lt;/li&gt;
+&lt;li&gt;修改 &lt;code&gt;/etc/network/interfaces&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;将 &lt;code&gt;bridge-ports&lt;/code&gt; 改为新网卡名&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="网络架构对比"&gt;网络架构对比
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;方案A：飞牛直通板载网口（我的方案）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;优势：路由器↔飞牛传输速度稳定（千兆满速）&lt;/li&gt;
+&lt;li&gt;劣势：Win10↔飞牛传输受千兆限制（50-80 MB/s）&lt;/li&gt;
+&lt;li&gt;适用：主要从外网下载到NAS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;方案B：飞牛用虚拟网卡&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;优势：Win10↔飞牛传输极快（300-500 MB/s,内存直通）&lt;/li&gt;
+&lt;li&gt;劣势：需要时再切换&lt;/li&gt;
+&lt;li&gt;适用：主要从Win10传输到NAS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我选方案A是因为外网下载用得多。如果你主要是内网互传,建议方案B。&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;关键要点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;飞牛OS&lt;strong&gt;必须&lt;/strong&gt;用SATA接口,SCSI不兼容&lt;/li&gt;
+&lt;li&gt;机器类型用q35（支持PCIe直通）+ SeaBIOS（兼容性最好）&lt;/li&gt;
+&lt;li&gt;网卡地址必须完整：&lt;code&gt;0000:00:1f.6&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;好网卡给高需求的虚拟机,凑合网卡给宿主机&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;当前架构&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PVE宿主机：PCIE网卡 → 路由器&lt;/li&gt;
+&lt;li&gt;飞牛NAS：板载网卡直通 + 2T机械盘直通&lt;/li&gt;
+&lt;li&gt;x16槽：预留给FPGA板卡&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="相关阅读"&gt;相关阅读
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《老羊机上手PVE虚拟化：IOMMU直通配置完全指南》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置》&lt;/a&gt;（待发布）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;记录时间：2024-12-24&lt;/em&gt;&lt;br&gt;
+&lt;em&gt;PVE版本：9.1 | 飞牛OS版本：1.1.8-1419&lt;/em&gt;&lt;/p&gt;</description></item><item><title>老机改造：PVE虚拟化平台搭建与PCIE直通配置</title><link>https://deerstar.xyz/2025/pve-install/</link><pubDate>Wed, 24 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install/</guid><description>&lt;h1 id="老羊机上手pve虚拟化为fpga测试做准备"&gt;老羊机上手PVE虚拟化：为FPGA测试做准备
 &lt;/h1&gt;
 &lt;h2 id="写在前面"&gt;写在前面
 &lt;/h2&gt;
-&lt;p&gt;最近工作上可能需要测试FPGA板卡的金手指连接，想着能不能在家里搭个测试环境。正好手里有台2017年配的i5-8400老羊机吃灰，索性拿来装个PVE（Proxmox VE）虚拟化平台，既能跑飞牛NAS，又能跑Win10测试环境，还能预留PCIE槽给FPGA板卡直通。&lt;/p&gt;
+&lt;p&gt;我有台2017年配的i5-8400旧主机，一直闲置，最近想利用起来，装一个飞牛OS，因为偶尔需要测试FPGA板卡的PCIE金手指连接，所以还需要win10，双系统不方便，那就装个PVE（Proxmox VE）虚拟化平台，既能跑飞牛NAS，又能跑Win10测试环境，还能预留PCIE槽给FPGA板卡直通。&lt;/p&gt;
 &lt;p&gt;这篇文章记录一下整个安装配置过程，主要是PCIE直通这块儿踩了点坑，做个备忘。&lt;/p&gt;
 &lt;h2 id="硬件配置"&gt;硬件配置
 &lt;/h2&gt;
-&lt;p&gt;先晒一下老羊机的配置：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;CPU&lt;/strong&gt;: Intel i5-8400（6核心，带UHD 630核显）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CPU&lt;/strong&gt;: i5-8400（6核,带UHD 630核显）&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;主板&lt;/strong&gt;: 微星B360M迫击炮&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;内存&lt;/strong&gt;: 16G DDR4&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;存储&lt;/strong&gt;:
 &lt;ul&gt;
-&lt;li&gt;三星960 EVO 250G NVMe固态（装PVE系统）&lt;/li&gt;
-&lt;li&gt;西数2TB机械盘（给飞牛OS用）&lt;/li&gt;
+&lt;li&gt;三星960 EVO 250G NVMe（装PVE系统）&lt;/li&gt;
+&lt;li&gt;西数2TB机械盘（留给NAS）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;电源&lt;/strong&gt;: 500W&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;硬件不算新，但虚拟化够用了。关键是主板支持VT-d，能做PCIE直通。&lt;/p&gt;
-&lt;h2 id="需求分析"&gt;需求分析
+&lt;p&gt;关键是主板支持VT-d,能做PCIE直通。&lt;/p&gt;
+&lt;h2 id="一bios设置"&gt;一、BIOS设置
 &lt;/h2&gt;
-&lt;p&gt;我的规划是这样的：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;核显给PVE宿主机用&lt;/strong&gt; - 这样PVE随时能看到画面&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;x16 PCIE槽保留直通功能&lt;/strong&gt; - 将来插FPGA板卡或者独显，可以直通给虚拟机&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;跑飞牛OS做NAS&lt;/strong&gt; - 管理家里的文件和照片&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;跑Win10虚拟机&lt;/strong&gt; - 万一需要Windows环境测试&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;重点是提前配置好PCIE直通，避免将来插FPGA板卡时再折腾。&lt;/p&gt;
-&lt;h2 id="安装过程"&gt;安装过程
+&lt;p&gt;开机按Del进BIOS,微星这块板子设置位置有点特别：&lt;/p&gt;
+&lt;h3 id="1-开启虚拟化"&gt;1. 开启虚拟化
+&lt;/h3&gt;
+&lt;p&gt;进入高级模式（F7）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;OC → CPU特性 → Intel虚拟化技术&lt;/strong&gt; → 启用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OC → CPU特性 → Intel VT-D技术&lt;/strong&gt; → 启用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意微星主板VT-D藏在OC菜单里,别找错地方。&lt;/p&gt;
+&lt;h3 id="2-核显设置"&gt;2. 核显设置
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings → 高级 → 集成显卡配置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;集成显卡多显示器 → 启用&lt;/li&gt;
+&lt;li&gt;第一显卡 → 选择&lt;strong&gt;IGD&lt;/strong&gt;（核显优先）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样核显给PVE宿主机用,x16槽留给将来的FPGA板卡或独显。&lt;/p&gt;
+&lt;h3 id="3-pcie设置可选"&gt;3. PCIE设置（可选）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings → 高级 → PCI子系统设置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Above 4G Decoding → 启用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;保存退出。&lt;/p&gt;
+&lt;h2 id="二安装pve系统"&gt;二、安装PVE系统
 &lt;/h2&gt;
-&lt;h3 id="一bios设置"&gt;一、BIOS设置
+&lt;h3 id="1-制作启动盘"&gt;1. 制作启动盘
 &lt;/h3&gt;
-&lt;p&gt;开机狂按Del进BIOS，微星这块板子设置位置比较特别：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;开启虚拟化&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;进入高级模式（F7键）&lt;/li&gt;
-&lt;li&gt;OC → CPU特性 → Intel虚拟化技术 → &lt;strong&gt;启用&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;OC → CPU特性 → Intel VT-D技术 → &lt;strong&gt;启用&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;从Proxmox官网下载最新ISO（我装的是9.1）&lt;/li&gt;
+&lt;li&gt;用Ventoy做启动盘&lt;/li&gt;
+&lt;li&gt;插U盘重启,选UEFI启动&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;核显设置&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Settings → 高级 → 集成显卡配置&lt;/li&gt;
-&lt;li&gt;集成显卡多显示器 → &lt;strong&gt;启用&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;第一显卡 → 选择 &lt;strong&gt;IGD&lt;/strong&gt;（核显优先）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;注意微星主板VT-D选项藏在OC菜单里，别找错地方。&lt;/p&gt;
-&lt;ol start="3"&gt;
-&lt;li&gt;&lt;strong&gt;PCIE设置（可选）&lt;/strong&gt;
-&lt;ul&gt;
-&lt;li&gt;Settings → 高级 → PCI子系统设置&lt;/li&gt;
-&lt;li&gt;Above 4G Decoding → &lt;strong&gt;启用&lt;/strong&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;保存退出，准备装系统。&lt;/p&gt;
-&lt;h3 id="二制作启动盘"&gt;二、制作启动盘
-&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;从Proxmox官网下载最新ISO（我装的是PVE 9.1）&lt;/li&gt;
-&lt;li&gt;用Ventoy做启动盘（比Rufus方便，一个U盘能放多个ISO）&lt;/li&gt;
-&lt;li&gt;插U盘重启，选UEFI启动方式&lt;/li&gt;
-&lt;/ol&gt;
 &lt;p&gt;进Ventoy后选Normal Mode启动PVE的ISO。&lt;/p&gt;
-&lt;h3 id="三安装pve系统"&gt;三、安装PVE系统
+&lt;h3 id="2-安装过程"&gt;2. 安装过程
 &lt;/h3&gt;
-&lt;p&gt;安装界面比较友好，按提示走就行：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;选择磁盘&lt;/strong&gt; - 选250G三星固态，文件系统默认ext4&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;地区时区&lt;/strong&gt; - Country选China，时区Asia/Shanghai&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;设置密码&lt;/strong&gt; - 记住root密码，这个很重要&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;网络配置&lt;/strong&gt; -
+&lt;p&gt;按提示走：&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;IP地址：192.168.1.100（改成你路由器网段的）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;磁盘&lt;/strong&gt;：选250G固态,文件系统默认ext4&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;地区时区&lt;/strong&gt;：Country选China,时区Asia/Shanghai&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;密码&lt;/strong&gt;：设置root密码（务必记住）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;IP：192.168.1.100（改成你的网段）&lt;/li&gt;
 &lt;li&gt;网关：192.168.1.1&lt;/li&gt;
 &lt;li&gt;DNS：192.168.1.1&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;大概5-10分钟装完，拔U盘重启。&lt;/p&gt;
-&lt;h3 id="四配置iommu直通"&gt;四、配置IOMMU直通
+&lt;/ul&gt;
+&lt;p&gt;5-10分钟装完,拔U盘重启。&lt;/p&gt;
+&lt;h2 id="三配置iommu直通"&gt;三、配置IOMMU直通
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;这部分是核心&lt;/strong&gt;,也是踩坑最多的地方。&lt;/p&gt;
+&lt;h3 id="1-开启iommu"&gt;1. 开启IOMMU
 &lt;/h3&gt;
-&lt;p&gt;这部分是重点，也是踩坑最多的地方。&lt;/p&gt;
-&lt;h4 id="1-开启iommu"&gt;1. 开启IOMMU
-&lt;/h4&gt;
-&lt;p&gt;重启后用root登录命令行，编辑GRUB配置：&lt;/p&gt;
+&lt;p&gt;root登录命令行：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -119,7 +1085,7 @@
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;#34;quiet intel_iommu=on iommu=pt&amp;#34;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;保存后更新GRUB：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;保存后更新：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -130,9 +1096,9 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id="2-加载vfio模块"&gt;2. 加载VFIO模块
-&lt;/h4&gt;
-&lt;p&gt;重启登录后，创建模块配置文件。&lt;strong&gt;这里有个坑&lt;/strong&gt;：PVE 9.1已经不用 &lt;code&gt;/etc/modules&lt;/code&gt; 了，改用 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 目录。&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="2-加载vfio模块"&gt;2. 加载VFIO模块
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：PVE 9.1不用 &lt;code&gt;/etc/modules&lt;/code&gt; 了,改用 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 目录。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -141,7 +1107,7 @@
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/modules-load.d/vfio.conf
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;添加这三行（注意PVE 8以后不需要vfio_virqfd了）：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;添加这三行（PVE 8以后不需要vfio_virqfd）：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -154,7 +1120,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_pci
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;保存后更新initramfs：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;保存后更新：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -165,9 +1131,10 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;reboot
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;h4 id="3-验证配置"&gt;3. 验证配置
-&lt;/h4&gt;
-&lt;p&gt;重启后检查IOMMU是否开启：&lt;/p&gt;
+&lt;/div&gt;&lt;h3 id="3-验证配置"&gt;3. 验证配置
+&lt;/h3&gt;
+&lt;p&gt;重启后检查：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IOMMU是否开启：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -176,8 +1143,8 @@
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dmesg &lt;span class="p"&gt;|&lt;/span&gt; grep -e DMAR -e IOMMU
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;看到类似 &lt;code&gt;DMAR: IOMMU enabled&lt;/code&gt; 就说明成功了。&lt;/p&gt;
-&lt;p&gt;检查VFIO模块是否加载：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;看到 &lt;code&gt;DMAR: IOMMU enabled&lt;/code&gt; 就成功了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;VFIO模块是否加载：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -199,7 +1166,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;检查设备识别：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;设备识别：&lt;/strong&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -208,10 +1175,10 @@
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lspci &lt;span class="p"&gt;|&lt;/span&gt; grep -i vga
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;能看到核显 UHD 630 就OK。&lt;/p&gt;
-&lt;h4 id="4-查看iommu分组"&gt;4. 查看IOMMU分组
-&lt;/h4&gt;
-&lt;p&gt;这步很关键，要确认x16槽是否在独立的IOMMU组：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;能看到核显UHD 630就OK。&lt;/p&gt;
+&lt;h3 id="4-查看iommu分组"&gt;4. 查看IOMMU分组
+&lt;/h3&gt;
+&lt;p&gt;这步很关键,确认设备能否独立直通：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -228,10 +1195,16 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;done&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
-&lt;/div&gt;&lt;p&gt;理想情况是x16槽（一般是01:00.0）单独在一个组。如果和其他设备绑在一起，将来可能需要用ACS补丁。&lt;/p&gt;
-&lt;h3 id="五访问web管理界面"&gt;五、访问Web管理界面
-&lt;/h3&gt;
-&lt;p&gt;配置完成后，可以通过浏览器访问PVE了：&lt;/p&gt;
+&lt;/div&gt;&lt;p&gt;我的分组情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Group 0&lt;/strong&gt;: 核显 UHD 630（00:02.0）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Group 8&lt;/strong&gt;: 板载网口 Intel I219-V（00:1f.6）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Group 9&lt;/strong&gt;: NVMe固态（01:00.0）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;重点&lt;/strong&gt;：x16槽现在是空的,等插FPGA板卡时会单独出现在新的IOMMU组,到时直接配置直通就行。&lt;/p&gt;
+&lt;h2 id="四访问web管理界面"&gt;四、访问Web管理界面
+&lt;/h2&gt;
+&lt;p&gt;配置完成后,浏览器访问：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
 &lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
 &lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
@@ -241,35 +1214,38 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 &lt;/div&gt;
 &lt;/div&gt;&lt;p&gt;用户名：&lt;code&gt;root&lt;/code&gt;&lt;br&gt;
-密码：安装时设置的那个&lt;/p&gt;
-&lt;h2 id="遇到的问题"&gt;遇到的问题
+密码：安装时设的那个&lt;/p&gt;
+&lt;h2 id="踩过的坑"&gt;踩过的坑
 &lt;/h2&gt;
-&lt;h3 id="1-modules配置文件路径"&gt;1. modules配置文件路径
+&lt;h3 id="1-modules配置文件路径错误"&gt;1. modules配置文件路径错误
 &lt;/h3&gt;
-&lt;p&gt;一开始我按网上教程改 &lt;code&gt;/etc/modules&lt;/code&gt;，结果系统提示这个文件已经被 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 替代了。PVE 9.1用的是systemd的模块加载机制，要在 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 目录下创建.conf文件。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;教训&lt;/strong&gt;：不要盲目套用老教程，先看系统提示。&lt;/p&gt;
+&lt;p&gt;一开始按老教程改 &lt;code&gt;/etc/modules&lt;/code&gt;,结果系统提示这文件已被 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 替代。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;教训&lt;/strong&gt;：PVE 9.1用的是systemd模块加载机制,要在 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 创建.conf文件。&lt;/p&gt;
 &lt;h3 id="2-pvesh命令报错"&gt;2. pvesh命令报错
 &lt;/h3&gt;
-&lt;p&gt;执行 &lt;code&gt;pvesh get /nodes/pve/hardware/pci&lt;/code&gt; 时报 &amp;ldquo;no get handler define&amp;rdquo; 错误。后来发现用 &lt;code&gt;lspci&lt;/code&gt; 命令更直接，也不容易出错。&lt;/p&gt;
-&lt;h3 id="3-bios设置位置"&gt;3. BIOS设置位置
+&lt;p&gt;执行 &lt;code&gt;pvesh get /nodes/pve/hardware/pci&lt;/code&gt; 时报错。后来发现直接用 &lt;code&gt;lspci&lt;/code&gt; 更简单可靠。&lt;/p&gt;
+&lt;h3 id="3-bios设置位置不同"&gt;3. BIOS设置位置不同
 &lt;/h3&gt;
-&lt;p&gt;微星B360M迫击炮的VT-D选项在&amp;quot;OC&amp;quot;菜单里，不在&amp;quot;Advanced&amp;quot;里。不同主板厂商的BIOS布局差异挺大的，得自己翻一遍。&lt;/p&gt;
+&lt;p&gt;微星B360M迫击炮的VT-D在&amp;quot;OC&amp;quot;菜单,不在&amp;quot;Advanced&amp;quot;里。不同主板厂商布局差异大,得自己翻。&lt;/p&gt;
+&lt;h2 id="当前状态"&gt;当前状态
+&lt;/h2&gt;
+&lt;p&gt;PVE系统装好了,IOMMU配置完成,接下来可以：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建飞牛NAS虚拟机（板载网口+2T机械盘直通）&lt;/li&gt;
+&lt;li&gt;创建Win10虚拟机（用虚拟硬件,性能够用）&lt;/li&gt;
+&lt;li&gt;x16槽预留给FPGA板卡或独显&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;核显稳定输出PVE画面,CPU和内存占用都不高,老机器又能再战几年。&lt;/p&gt;
 &lt;h2 id="下一步"&gt;下一步
 &lt;/h2&gt;
-&lt;p&gt;现在PVE系统装好了，IOMMU直通也配置完成，接下来准备：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;创建飞牛OS虚拟机，直通网口和机械硬盘&lt;/li&gt;
-&lt;li&gt;创建Win10虚拟机，先用虚拟显卡跑起来&lt;/li&gt;
-&lt;li&gt;等FPGA板卡到手后，插x16槽测试PCIE直通&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;整个过程花了大半天时间，主要是踩坑和查资料。不过折腾完还是挺有成就感的，老机器焕发第二春了😄&lt;/p&gt;
-&lt;h2 id="参考资料"&gt;参考资料
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装飞牛NAS：SATA直通与网卡配置实战》&lt;/a&gt;（待发布）&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置》&lt;/a&gt;（待发布）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="参考"&gt;参考
 &lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a class="link" href="https://pve.proxmox.com/wiki/PCI%28e%29_Passthrough" target="_blank" rel="noopener"
 &gt;Proxmox官方文档 - PCI Passthrough&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="link" href="https://forum.proxmox.com/threads/pci-gpu-passthrough-on-proxmox-ve-8-installation-and-configuration.130218/" target="_blank" rel="noopener"
-&gt;Proxmox论坛 - GPU Passthrough教程&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;em&gt;本文记录于2025年12月，硬件配置和软件版本仅供参考。&lt;/em&gt;&lt;/p&gt;</description></item></channel></rss>
+&lt;hr&gt;</description></item></channel></rss>
