@@ -554,7 +554,7 @@
 &lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装飞牛NAS：SATA直通与网卡配置实战》&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;em&gt;记录时间：2024-12-24&lt;/em&gt;&lt;br&gt;
+&lt;p&gt;&lt;em&gt;记录时间：2025-12-24&lt;/em&gt;&lt;br&gt;
 &lt;em&gt;PVE版本：9.1.1 | Win10版本：专业版22H2&lt;/em&gt;&lt;/p&gt;</description></item><item><title>PVE安装飞牛NAS：SATA直通与网卡配置实战</title><link>https://deerstar.xyz/2025/pve-install-fnos/</link><pubDate>Wed, 24 Dec 2025 14:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install-fnos/</guid><description>&lt;h1 id="pve安装飞牛nassata直通与网卡配置实战"&gt;PVE安装飞牛NAS：SATA直通与网卡配置实战
 &lt;/h1&gt;
 &lt;h2 id="前情提要"&gt;前情提要
@@ -979,7 +979,7 @@
 &lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置》&lt;/a&gt;（待发布）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;em&gt;记录时间：2024-12-24&lt;/em&gt;&lt;br&gt;
+&lt;p&gt;&lt;em&gt;记录时间：2025-12-24&lt;/em&gt;&lt;br&gt;
 &lt;em&gt;PVE版本：9.1 | 飞牛OS版本：1.1.8-1419&lt;/em&gt;&lt;/p&gt;</description></item><item><title>老机改造：PVE虚拟化平台搭建与PCIE直通配置</title><link>https://deerstar.xyz/2025/pve-install/</link><pubDate>Wed, 24 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install/</guid><description>&lt;h1 id="老羊机上手pve虚拟化为fpga测试做准备"&gt;老羊机上手PVE虚拟化：为FPGA测试做准备
 &lt;/h1&gt;
 &lt;h2 id="写在前面"&gt;写在前面
