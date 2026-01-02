@@ -240,13 +240,11 @@
 &lt;h4 id="3-验证连接"&gt;3. 验证连接
 &lt;/h4&gt;
 &lt;p&gt;成功后应能在Hardware窗口看到JTAG链路和FPGA芯片。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;【配图10：连接成功界面】&lt;/strong&gt; 显示识别到的JTAG设备
 &lt;figure&gt;&lt;img src="https://deerstar.xyz/2026/linux-fpga-remote-jtag-hw-server/%E9%85%8D%E5%9B%BE10%EF%BC%9A%E8%BF%9E%E6%8E%A5%E6%88%90%E5%8A%9F%E7%95%8C%E9%9D%A2.png"
-alt="配图10：连接成功界面"&gt;&lt;figcaption&gt;
-&lt;p&gt;配图10：连接成功界面&lt;/p&gt;
+alt="连接成功界面"&gt;&lt;figcaption&gt;
+&lt;p&gt;连接成功界面&lt;/p&gt;
 &lt;/figcaption&gt;
 &lt;/figure&gt;
-&lt;/p&gt;
 &lt;h2 id="常见问题排查"&gt;常见问题排查
 &lt;/h2&gt;
 &lt;h3 id="1-hw_server提示socket-bind-error-地址已在使用"&gt;1. hw_server提示&amp;quot;Socket bind error. 地址已在使用&amp;quot;
