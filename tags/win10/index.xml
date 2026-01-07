@@ -1,4 +1,1118 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Win10 on DeerStar的博客</title><link>https://deerstar.xyz/tags/win10/</link><description>Recent content in Win10 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 24 Dec 2025 16:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/win10/index.xml" rel="self" type="application/rss+xml"/><item><title>PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置</title><link>https://deerstar.xyz/2025/pve-install-win10/</link><pubDate>Wed, 24 Dec 2025 16:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install-win10/</guid><description>&lt;h1 id="pve安装win10虚拟机virtio驱动与远程桌面配置"&gt;PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Win10 on DeerStar的博客</title><link>https://deerstar.xyz/tags/win10/</link><description>Recent content in Win10 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 24 Dec 2025 16:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/win10/index.xml" rel="self" type="application/rss+xml"/><item><title>PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置</title><link>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/_flatten_backup_20260105_151155/2025/pve-install-win10/</link><pubDate>Wed, 24 Dec 2025 16:00:00 +0800</pubDate><guid>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/_flatten_backup_20260105_151155/2025/pve-install-win10/</guid><description>&lt;h1 id="pve安装win10虚拟机virtio驱动与远程桌面配置"&gt;PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置
+&lt;/h1&gt;
+&lt;h2 id="前情提要"&gt;前情提要
+&lt;/h2&gt;
+&lt;p&gt;PVE和飞牛NAS都搞定了,这篇记录Win10虚拟机安装过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心要点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Win10用&lt;strong&gt;SCSI接口&lt;/strong&gt;（性能好）&lt;/li&gt;
+&lt;li&gt;必须手动加载&lt;strong&gt;VirtIO驱动&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;用&lt;strong&gt;远程桌面(RDP)&lt;/strong&gt;,别用PVE控制台&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="硬件配置"&gt;硬件配置
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU: i5-8400&lt;/li&gt;
+&lt;li&gt;内存: 16GB DDR4&lt;/li&gt;
+&lt;li&gt;PVE版本: 9.1.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="资源分配策略"&gt;资源分配策略
+&lt;/h2&gt;
+&lt;h3 id="总原则"&gt;总原则
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CPU总分配 ≤ 物理核心数&lt;/strong&gt;（避免超分配导致卡顿）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;内存总分配 ≤ 物理内存 - 2GB&lt;/strong&gt;（宿主机预留）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="我的配置16gb内存6核cpu"&gt;我的配置（16GB内存,6核CPU）
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;虚拟机&lt;/th&gt;
+&lt;th&gt;CPU核心&lt;/th&gt;
+&lt;th&gt;内存&lt;/th&gt;
+&lt;th&gt;用途&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;飞牛NAS&lt;/td&gt;
+&lt;td&gt;4核&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;文件服务&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10&lt;/td&gt;
+&lt;td&gt;3核&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;日常测试&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;预留&lt;/td&gt;
+&lt;td&gt;-1核&lt;/td&gt;
+&lt;td&gt;0GB&lt;/td&gt;
+&lt;td&gt;系统缓冲&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;注意：飞牛和Win10不会同时满载,所以内存可以&amp;quot;超&amp;quot;一点（8+8=16GB）。但CPU绝不能超（4+3=7核 &amp;gt; 6核物理）。&lt;/p&gt;
+&lt;h2 id="一前期准备"&gt;一、前期准备
+&lt;/h2&gt;
+&lt;h3 id="1-下载文件"&gt;1. 下载文件
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Windows 10 ISO&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;官方下载：https://www.microsoft.com/zh-cn/software-download/windows10&lt;/li&gt;
+&lt;li&gt;选择专业版（支持远程桌面）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;VirtIO 驱动&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载地址：https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso&lt;/li&gt;
+&lt;li&gt;版本：0.1.285&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-上传到pve"&gt;2. 上传到PVE
+&lt;/h3&gt;
+&lt;p&gt;登录PVE Web界面 → &lt;code&gt;local(pve)&lt;/code&gt; → &lt;code&gt;ISO Images&lt;/code&gt; → &lt;code&gt;Upload&lt;/code&gt; 上传两个ISO。&lt;/p&gt;
+&lt;h2 id="二创建虚拟机"&gt;二、创建虚拟机
+&lt;/h2&gt;
+&lt;p&gt;点右上角 &lt;strong&gt;Create VM&lt;/strong&gt;：&lt;/p&gt;
+&lt;h3 id="general"&gt;General
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;VM ID: 101&lt;/li&gt;
+&lt;li&gt;Name: Win10&lt;/li&gt;
+&lt;li&gt;✅ Start at boot（开机自启）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="os"&gt;OS
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ISO image: 选Win10 ISO&lt;/li&gt;
+&lt;li&gt;Guest OS Type: Microsoft Windows&lt;/li&gt;
+&lt;li&gt;Version: 10/2016/2019&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="system重点"&gt;System（重点）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Machine: &lt;strong&gt;q35&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;BIOS: &lt;strong&gt;SeaBIOS&lt;/strong&gt;（推荐,兼容性好）&lt;/li&gt;
+&lt;li&gt;SCSI Controller: VirtIO SCSI single&lt;/li&gt;
+&lt;li&gt;✅ Qemu Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;为什么选SeaBIOS而不是UEFI&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SeaBIOS配置简单,不需要EFI磁盘&lt;/li&gt;
+&lt;li&gt;兼容性最好,不会出现启动失败&lt;/li&gt;
+&lt;li&gt;除非有特殊需求（如Secure Boot）,否则优先SeaBIOS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="disks关键配置"&gt;Disks（关键配置）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Bus/Device: &lt;strong&gt;SCSI&lt;/strong&gt;（Win10用SCSI性能好,和飞牛不同）&lt;/li&gt;
+&lt;li&gt;Storage: local-lvm&lt;/li&gt;
+&lt;li&gt;Disk size: 80 GiB&lt;/li&gt;
+&lt;li&gt;Cache: &lt;strong&gt;Write back&lt;/strong&gt;（性能最优）&lt;/li&gt;
+&lt;li&gt;✅ Discard（SSD TRIM支持）&lt;/li&gt;
+&lt;li&gt;✅ SSD emulation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="cpu"&gt;CPU
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Sockets: 1&lt;/li&gt;
+&lt;li&gt;Cores: 3&lt;/li&gt;
+&lt;li&gt;Type: &lt;strong&gt;host&lt;/strong&gt;（直通CPU特性,性能最好）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="memory"&gt;Memory
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Memory: 8192 MiB（8GB）&lt;/li&gt;
+&lt;li&gt;✅ Ballooning（动态内存管理）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="network"&gt;Network
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Bridge: vmbr0&lt;/li&gt;
+&lt;li&gt;Model: &lt;strong&gt;VirtIO (paravirtualized)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;完成后先不启动！&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="三添加virtio驱动光盘"&gt;三、添加VirtIO驱动光盘
+&lt;/h2&gt;
+&lt;p&gt;虚拟机创建完成后：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选中虚拟机 → &lt;strong&gt;Hardware&lt;/strong&gt; → &lt;strong&gt;Add&lt;/strong&gt; → &lt;strong&gt;CD/DVD Drive&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Bus/Device: IDE 0（或IDE 2）&lt;/li&gt;
+&lt;li&gt;ISO image: 选 &lt;code&gt;virtio-win.iso&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;Add&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="调整启动顺序"&gt;调整启动顺序
+&lt;/h3&gt;
+&lt;p&gt;虚拟机 → &lt;strong&gt;Options&lt;/strong&gt; → &lt;strong&gt;Boot Order&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ ide2 (Win10 ISO) - 第一位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ scsi0 (硬盘) - 第二位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ ide0 (VirtIO ISO) - 第三位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;❌ net0 (网卡) - 取消勾选
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="四安装系统"&gt;四、安装系统
+&lt;/h2&gt;
+&lt;h3 id="1-启动虚拟机"&gt;1. 启动虚拟机
+&lt;/h3&gt;
+&lt;p&gt;选中虚拟机 → 点&amp;quot;Start&amp;quot; → 双击&amp;quot;Console&amp;quot;。&lt;/p&gt;
+&lt;h3 id="2-进入安装界面"&gt;2. 进入安装界面
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;选择语言/时区 → 下一步&lt;/li&gt;
+&lt;li&gt;点&amp;quot;现在安装&amp;quot;&lt;/li&gt;
+&lt;li&gt;输入密钥（可跳过）&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;Windows 10 专业版&amp;quot;&lt;/li&gt;
+&lt;li&gt;接受许可条款&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;&lt;strong&gt;自定义：仅安装Windows（高级）&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="3-加载virtio硬盘驱动关键步骤"&gt;3. 加载VirtIO硬盘驱动（关键步骤）
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：界面显示&amp;quot;我们找不到任何驱动器&amp;quot;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：Windows不认识VirtIO SCSI控制器&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;点&amp;quot;&lt;strong&gt;加载驱动程序&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;&lt;strong&gt;浏览&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择VirtIO光驱盘符（D: 或E:）&lt;/li&gt;
+&lt;li&gt;进入目录：&lt;strong&gt;&lt;code&gt;vioscsi → w10 → amd64&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;确定&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;Red Hat VirtIO SCSI controller&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;下一步&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;结果&lt;/strong&gt;：现在能看到&amp;quot;驱动器0 未分配的空间 XX.X GB&amp;quot;&lt;/p&gt;
+&lt;h3 id="4-处理分区错误如遇到"&gt;4. 处理分区错误（如遇到）
+&lt;/h3&gt;
+&lt;p&gt;如果提示&amp;quot;Windows无法安装到这个磁盘&amp;hellip;&amp;quot;,按Shift + F10打开命令行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;diskpart
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;list disk
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;select&lt;/span&gt; disk &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;clean &lt;span class="c1"&gt;# 清空磁盘&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;create partition primary &lt;span class="c1"&gt;# 创建主分区&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;format &lt;span class="nv"&gt;fs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;ntfs quick &lt;span class="c1"&gt;# 快速格式化&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;assign &lt;span class="nv"&gt;letter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;c &lt;span class="c1"&gt;# 分配盘符&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;active &lt;span class="c1"&gt;# 标记为活动分区（SeaBIOS需要）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;刷新安装界面,重新选择硬盘。&lt;/p&gt;
+&lt;h3 id="5-开始安装"&gt;5. 开始安装
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;选中&amp;quot;驱动器0 未分配的空间&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;下一步&amp;quot;&lt;/li&gt;
+&lt;li&gt;等待安装（15-30分钟）&lt;/li&gt;
+&lt;li&gt;自动重启几次&lt;/li&gt;
+&lt;li&gt;完成初始设置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="五安装virtio驱动"&gt;五、安装VirtIO驱动
+&lt;/h2&gt;
+&lt;h3 id="为什么需要装驱动"&gt;为什么需要装驱动
+&lt;/h3&gt;
+&lt;p&gt;装完系统会发现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 没有网络（设备管理器显示&amp;quot;以太网控制器&amp;quot;黄色叹号）&lt;/li&gt;
+&lt;li&gt;❌ 某些硬件功能不可用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="一键安装推荐"&gt;一键安装（推荐）
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;进入Win10系统&lt;/li&gt;
+&lt;li&gt;打开&amp;quot;此电脑&amp;quot;&lt;/li&gt;
+&lt;li&gt;双击VirtIO驱动光盘（D: 或E:）&lt;/li&gt;
+&lt;li&gt;运行 &lt;strong&gt;&lt;code&gt;virtio-win-guest-tools.exe&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;一路Next安装&lt;/li&gt;
+&lt;li&gt;重启系统&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;会自动安装&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 网卡驱动（NetKVM）&lt;/li&gt;
+&lt;li&gt;✅ 硬盘驱动（vioscsi）&lt;/li&gt;
+&lt;li&gt;✅ 气球驱动（Balloon,动态内存）&lt;/li&gt;
+&lt;li&gt;✅ QEMU Guest Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;装完后网络恢复正常。&lt;/p&gt;
+&lt;h2 id="六网络架构选择"&gt;六、网络架构选择
+&lt;/h2&gt;
+&lt;h3 id="我的配置"&gt;我的配置
+&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;外网
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;路由器
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌────────────────────────┐
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ 物理主机 (i5-8400) │
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ ├─ 板载网口 → 飞牛直通│
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ └─ PCIe网卡 → vmbr0 ──┼─→ PVE管理
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ │ ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ │ Win10（虚拟网卡）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└────────────────────────┘
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="性能对比"&gt;性能对比
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;传输路径&lt;/th&gt;
+&lt;th&gt;虚拟网卡速度&lt;/th&gt;
+&lt;th&gt;直通网卡速度&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10 → 飞牛&lt;/td&gt;
+&lt;td&gt;300-500 MB/s&lt;/td&gt;
+&lt;td&gt;50-80 MB/s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10 → 外网&lt;/td&gt;
+&lt;td&gt;118 MB/s&lt;/td&gt;
+&lt;td&gt;118 MB/s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;虚拟机之间通信走PVE&lt;strong&gt;内存&lt;/strong&gt;,不经过物理网口,速度极快&lt;/li&gt;
+&lt;li&gt;只有访问外网时才走物理网口（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="两种方案对比"&gt;两种方案对比
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;方案A：飞牛直通物理网口（我的方案）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;适合：主要从外网下载到NAS&lt;/li&gt;
+&lt;li&gt;Win10 → 飞牛速度：50-80 MB/s（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;方案B：飞牛用虚拟网卡&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;适合：主要从Win10传输到NAS&lt;/li&gt;
+&lt;li&gt;Win10 → 飞牛速度：300-500 MB/s（内存直通）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你的使用场景是&amp;quot;Win10下载 → 保存到飞牛&amp;quot;,建议方案B。&lt;/p&gt;
+&lt;h2 id="七远程桌面配置"&gt;七、远程桌面配置
+&lt;/h2&gt;
+&lt;h3 id="为什么不用pve控制台"&gt;为什么不用PVE控制台
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;PVE控制台（noVNC）问题&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;延迟高（200ms+）&lt;/li&gt;
+&lt;li&gt;画质模糊&lt;/li&gt;
+&lt;li&gt;帧率低（10-20fps）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;设计目的&lt;/strong&gt;：只用于安装系统、紧急维护,不适合日常使用。&lt;/p&gt;
+&lt;h3 id="开启远程桌面"&gt;开启远程桌面
+&lt;/h3&gt;
+&lt;p&gt;Win10系统内：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;右键&amp;quot;此电脑&amp;quot; → 属性&lt;/li&gt;
+&lt;li&gt;点&amp;quot;远程设置&amp;quot;&lt;/li&gt;
+&lt;li&gt;✅ 勾选&amp;quot;允许远程连接到此计算机&amp;quot;&lt;/li&gt;
+&lt;li&gt;确定&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="获取ip地址"&gt;获取IP地址
+&lt;/h3&gt;
+&lt;p&gt;Win10中按 &lt;code&gt;Win + R&lt;/code&gt; → 输入 &lt;code&gt;cmd&lt;/code&gt; → 输入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ipconfig
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;记下IPv4地址（如192.168.1.101）&lt;/p&gt;
+&lt;h3 id="从其他设备连接"&gt;从其他设备连接
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Windows电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Win + R → 输入 mstsc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;输入Win10 IP → 连接
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Mac电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;App Store下载&amp;quot;Microsoft Remote Desktop&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Linux电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用Remmina、Vinagre等RDP客户端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="性能对比-1"&gt;性能对比
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;连接方式&lt;/th&gt;
+&lt;th&gt;延迟&lt;/th&gt;
+&lt;th&gt;画质&lt;/th&gt;
+&lt;th&gt;适用场景&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;PVE控制台&lt;/td&gt;
+&lt;td&gt;200ms+&lt;/td&gt;
+&lt;td&gt;模糊&lt;/td&gt;
+&lt;td&gt;安装/救急&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;远程桌面&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&amp;lt;10ms&lt;/td&gt;
+&lt;td&gt;完美&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;日常使用&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="常见问题"&gt;常见问题
+&lt;/h2&gt;
+&lt;h3 id="1-uefi启动失败"&gt;1. UEFI启动失败
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;错误信息&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;failed&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="nb"&gt;load&lt;/span&gt; &lt;span class="n"&gt;Boot0004&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;UEFI QEMU HARDDISK&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;Start&lt;/span&gt; &lt;span class="n"&gt;PXE&lt;/span&gt; &lt;span class="n"&gt;over&lt;/span&gt; &lt;span class="n"&gt;IPv4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：选了OVMF(UEFI)但未添加EFI磁盘&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;改用SeaBIOS,删除虚拟机重建&lt;/li&gt;
+&lt;li&gt;或手动添加EFI Disk（Hardware → Add → EFI Disk）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-安装时看不到硬盘"&gt;2. 安装时看不到硬盘
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：未加载VirtIO SCSI驱动&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：参考第四章第3节加载驱动&lt;/p&gt;
+&lt;h3 id="3-安装后没有网络"&gt;3. 安装后没有网络
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：未安装VirtIO网卡驱动&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：参考第五章安装驱动&lt;/p&gt;
+&lt;h3 id="4-cpu超分配导致卡顿"&gt;4. CPU超分配导致卡顿
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：多个虚拟机同时运行时卡顿&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：虚拟机CPU总核心数 &amp;gt; 物理CPU核心数&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：合理分配,总数不超过物理核心&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;示例（6核物理）：飞牛4核 + Win10 3核 = 7核 &amp;gt; 6核 ❌&lt;/li&gt;
+&lt;li&gt;正确分配：飞牛2核 + Win10 3核 = 5核 &amp;lt; 6核 ✅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="5-内存不足oom"&gt;5. 内存不足OOM
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：虚拟机被随机杀死,日志显示OOM Killer&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：虚拟机内存总分配 &amp;gt; 物理内存 - 宿主机预留&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：总分配 ≤ 物理内存 - 2GB&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;示例（16GB物理）：飞牛4GB + Win10 8GB + 预留2GB = 14GB ✅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="性能优化"&gt;性能优化
+&lt;/h2&gt;
+&lt;h3 id="1-硬盘缓存模式"&gt;1. 硬盘缓存模式
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模式&lt;/th&gt;
+&lt;th&gt;性能&lt;/th&gt;
+&lt;th&gt;安全性&lt;/th&gt;
+&lt;th&gt;适用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No cache&lt;/td&gt;
+&lt;td&gt;慢&lt;/td&gt;
+&lt;td&gt;最高&lt;/td&gt;
+&lt;td&gt;生产数据库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Write through&lt;/td&gt;
+&lt;td&gt;中&lt;/td&gt;
+&lt;td&gt;高&lt;/td&gt;
+&lt;td&gt;折中&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Write back&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;快&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;中&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;家用&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;建议&lt;/strong&gt;：家用场景选Write back,性能提升2-3倍。&lt;/p&gt;
+&lt;h3 id="2-cpu类型选择"&gt;2. CPU类型选择
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;host&lt;/strong&gt;（推荐）：直通宿主机CPU特性,性能最好&lt;/li&gt;
+&lt;li&gt;kvm64：通用兼容,性能稍差&lt;/li&gt;
+&lt;li&gt;特定型号：迁移需要相同架构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="3-网卡模型选择"&gt;3. 网卡模型选择
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模型&lt;/th&gt;
+&lt;th&gt;性能&lt;/th&gt;
+&lt;th&gt;兼容性&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;e1000&lt;/td&gt;
+&lt;td&gt;100 Mbps&lt;/td&gt;
+&lt;td&gt;好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;e1000e&lt;/td&gt;
+&lt;td&gt;1 Gbps&lt;/td&gt;
+&lt;td&gt;好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;VirtIO&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;10+ Gbps&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;需装驱动&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;建议&lt;/strong&gt;：统一使用VirtIO,安装对应驱动。&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;核心要点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Win10用&lt;strong&gt;SCSI接口&lt;/strong&gt;（性能好,和飞牛的SATA不同）&lt;/li&gt;
+&lt;li&gt;必须手动加载&lt;strong&gt;VirtIO驱动&lt;/strong&gt;（安装时和系统装完后）&lt;/li&gt;
+&lt;li&gt;日常使用&lt;strong&gt;远程桌面(RDP)&lt;/strong&gt;,不要用PVE控制台&lt;/li&gt;
+&lt;li&gt;合理分配资源：CPU不超分,内存留2GB缓冲&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;当前架构&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PVE系统：250G固态&lt;/li&gt;
+&lt;li&gt;飞牛NAS：板载网口直通 + 2T机械盘直通&lt;/li&gt;
+&lt;li&gt;Win10：虚拟网卡 + 80G虚拟磁盘&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;性能表现&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Win10 ↔ 飞牛：300-500 MB/s（内存直通）&lt;/li&gt;
+&lt;li&gt;Win10 ↔ 外网：118 MB/s（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;老机器性能完全够用,日常办公无压力,等以后加独显可以跑GPU计算。&lt;/p&gt;
+&lt;h2 id="相关阅读"&gt;相关阅读
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《老羊机上手PVE虚拟化：IOMMU直通配置完全指南》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装飞牛NAS：SATA直通与网卡配置实战》&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;记录时间：2025-12-24&lt;/em&gt;&lt;br&gt;
+&lt;em&gt;PVE版本：9.1.1 | Win10版本：专业版22H2&lt;/em&gt;&lt;/p&gt;</description></item><item><title>PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置</title><link>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/pve-install-win10/</link><pubDate>Wed, 24 Dec 2025 16:00:00 +0800</pubDate><guid>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/pve-install-win10/</guid><description>&lt;img src="https://deerstar.xyz/img/slug:%20pve-install-win10" alt="Featured image of post PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置" /&gt;&lt;h1 id="pve安装win10虚拟机virtio驱动与远程桌面配置"&gt;PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置
+&lt;/h1&gt;
+&lt;h2 id="前情提要"&gt;前情提要
+&lt;/h2&gt;
+&lt;p&gt;PVE和飞牛NAS都搞定了,这篇记录Win10虚拟机安装过程。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;核心要点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Win10用&lt;strong&gt;SCSI接口&lt;/strong&gt;（性能好）&lt;/li&gt;
+&lt;li&gt;必须手动加载&lt;strong&gt;VirtIO驱动&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;用&lt;strong&gt;远程桌面(RDP)&lt;/strong&gt;,别用PVE控制台&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="硬件配置"&gt;硬件配置
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;CPU: i5-8400&lt;/li&gt;
+&lt;li&gt;内存: 16GB DDR4&lt;/li&gt;
+&lt;li&gt;PVE版本: 9.1.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="资源分配策略"&gt;资源分配策略
+&lt;/h2&gt;
+&lt;h3 id="总原则"&gt;总原则
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CPU总分配 ≤ 物理核心数&lt;/strong&gt;（避免超分配导致卡顿）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;内存总分配 ≤ 物理内存 - 2GB&lt;/strong&gt;（宿主机预留）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="我的配置16gb内存6核cpu"&gt;我的配置（16GB内存,6核CPU）
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;虚拟机&lt;/th&gt;
+&lt;th&gt;CPU核心&lt;/th&gt;
+&lt;th&gt;内存&lt;/th&gt;
+&lt;th&gt;用途&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;飞牛NAS&lt;/td&gt;
+&lt;td&gt;4核&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;文件服务&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10&lt;/td&gt;
+&lt;td&gt;3核&lt;/td&gt;
+&lt;td&gt;8GB&lt;/td&gt;
+&lt;td&gt;日常测试&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;预留&lt;/td&gt;
+&lt;td&gt;-1核&lt;/td&gt;
+&lt;td&gt;0GB&lt;/td&gt;
+&lt;td&gt;系统缓冲&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;注意：飞牛和Win10不会同时满载,所以内存可以&amp;quot;超&amp;quot;一点（8+8=16GB）。但CPU绝不能超（4+3=7核 &amp;gt; 6核物理）。&lt;/p&gt;
+&lt;h2 id="一前期准备"&gt;一、前期准备
+&lt;/h2&gt;
+&lt;h3 id="1-下载文件"&gt;1. 下载文件
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Windows 10 ISO&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;官方下载：https://www.microsoft.com/zh-cn/software-download/windows10&lt;/li&gt;
+&lt;li&gt;选择专业版（支持远程桌面）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;VirtIO 驱动&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;下载地址：https://fedorapeople.org/groups/virt/virtio-win/direct-downloads/stable-virtio/virtio-win.iso&lt;/li&gt;
+&lt;li&gt;版本：0.1.285&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-上传到pve"&gt;2. 上传到PVE
+&lt;/h3&gt;
+&lt;p&gt;登录PVE Web界面 → &lt;code&gt;local(pve)&lt;/code&gt; → &lt;code&gt;ISO Images&lt;/code&gt; → &lt;code&gt;Upload&lt;/code&gt; 上传两个ISO。&lt;/p&gt;
+&lt;h2 id="二创建虚拟机"&gt;二、创建虚拟机
+&lt;/h2&gt;
+&lt;p&gt;点右上角 &lt;strong&gt;Create VM&lt;/strong&gt;：&lt;/p&gt;
+&lt;h3 id="general"&gt;General
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;VM ID: 101&lt;/li&gt;
+&lt;li&gt;Name: Win10&lt;/li&gt;
+&lt;li&gt;✅ Start at boot（开机自启）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="os"&gt;OS
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;ISO image: 选Win10 ISO&lt;/li&gt;
+&lt;li&gt;Guest OS Type: Microsoft Windows&lt;/li&gt;
+&lt;li&gt;Version: 10/2016/2019&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="system重点"&gt;System（重点）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Machine: &lt;strong&gt;q35&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;BIOS: &lt;strong&gt;SeaBIOS&lt;/strong&gt;（推荐,兼容性好）&lt;/li&gt;
+&lt;li&gt;SCSI Controller: VirtIO SCSI single&lt;/li&gt;
+&lt;li&gt;✅ Qemu Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;为什么选SeaBIOS而不是UEFI&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SeaBIOS配置简单,不需要EFI磁盘&lt;/li&gt;
+&lt;li&gt;兼容性最好,不会出现启动失败&lt;/li&gt;
+&lt;li&gt;除非有特殊需求（如Secure Boot）,否则优先SeaBIOS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="disks关键配置"&gt;Disks（关键配置）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Bus/Device: &lt;strong&gt;SCSI&lt;/strong&gt;（Win10用SCSI性能好,和飞牛不同）&lt;/li&gt;
+&lt;li&gt;Storage: local-lvm&lt;/li&gt;
+&lt;li&gt;Disk size: 80 GiB&lt;/li&gt;
+&lt;li&gt;Cache: &lt;strong&gt;Write back&lt;/strong&gt;（性能最优）&lt;/li&gt;
+&lt;li&gt;✅ Discard（SSD TRIM支持）&lt;/li&gt;
+&lt;li&gt;✅ SSD emulation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="cpu"&gt;CPU
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Sockets: 1&lt;/li&gt;
+&lt;li&gt;Cores: 3&lt;/li&gt;
+&lt;li&gt;Type: &lt;strong&gt;host&lt;/strong&gt;（直通CPU特性,性能最好）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="memory"&gt;Memory
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Memory: 8192 MiB（8GB）&lt;/li&gt;
+&lt;li&gt;✅ Ballooning（动态内存管理）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="network"&gt;Network
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Bridge: vmbr0&lt;/li&gt;
+&lt;li&gt;Model: &lt;strong&gt;VirtIO (paravirtualized)&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;完成后先不启动！&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id="三添加virtio驱动光盘"&gt;三、添加VirtIO驱动光盘
+&lt;/h2&gt;
+&lt;p&gt;虚拟机创建完成后：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;选中虚拟机 → &lt;strong&gt;Hardware&lt;/strong&gt; → &lt;strong&gt;Add&lt;/strong&gt; → &lt;strong&gt;CD/DVD Drive&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Bus/Device: IDE 0（或IDE 2）&lt;/li&gt;
+&lt;li&gt;ISO image: 选 &lt;code&gt;virtio-win.iso&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;Add&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="调整启动顺序"&gt;调整启动顺序
+&lt;/h3&gt;
+&lt;p&gt;虚拟机 → &lt;strong&gt;Options&lt;/strong&gt; → &lt;strong&gt;Boot Order&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ ide2 (Win10 ISO) - 第一位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ scsi0 (硬盘) - 第二位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;✅ ide0 (VirtIO ISO) - 第三位
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;❌ net0 (网卡) - 取消勾选
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h2 id="四安装系统"&gt;四、安装系统
+&lt;/h2&gt;
+&lt;h3 id="1-启动虚拟机"&gt;1. 启动虚拟机
+&lt;/h3&gt;
+&lt;p&gt;选中虚拟机 → 点&amp;quot;Start&amp;quot; → 双击&amp;quot;Console&amp;quot;。&lt;/p&gt;
+&lt;h3 id="2-进入安装界面"&gt;2. 进入安装界面
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;选择语言/时区 → 下一步&lt;/li&gt;
+&lt;li&gt;点&amp;quot;现在安装&amp;quot;&lt;/li&gt;
+&lt;li&gt;输入密钥（可跳过）&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;Windows 10 专业版&amp;quot;&lt;/li&gt;
+&lt;li&gt;接受许可条款&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;&lt;strong&gt;自定义：仅安装Windows（高级）&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="3-加载virtio硬盘驱动关键步骤"&gt;3. 加载VirtIO硬盘驱动（关键步骤）
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;问题&lt;/strong&gt;：界面显示&amp;quot;我们找不到任何驱动器&amp;quot;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：Windows不认识VirtIO SCSI控制器&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;点&amp;quot;&lt;strong&gt;加载驱动程序&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;&lt;strong&gt;浏览&lt;/strong&gt;&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择VirtIO光驱盘符（D: 或E:）&lt;/li&gt;
+&lt;li&gt;进入目录：&lt;strong&gt;&lt;code&gt;vioscsi → w10 → amd64&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;确定&amp;quot;&lt;/li&gt;
+&lt;li&gt;选择&amp;quot;Red Hat VirtIO SCSI controller&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;下一步&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;结果&lt;/strong&gt;：现在能看到&amp;quot;驱动器0 未分配的空间 XX.X GB&amp;quot;&lt;/p&gt;
+&lt;h3 id="4-处理分区错误如遇到"&gt;4. 处理分区错误（如遇到）
+&lt;/h3&gt;
+&lt;p&gt;如果提示&amp;quot;Windows无法安装到这个磁盘&amp;hellip;&amp;quot;,按Shift + F10打开命令行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;diskpart
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;list disk
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;select&lt;/span&gt; disk &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;clean &lt;span class="c1"&gt;# 清空磁盘&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;create partition primary &lt;span class="c1"&gt;# 创建主分区&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;format &lt;span class="nv"&gt;fs&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;ntfs quick &lt;span class="c1"&gt;# 快速格式化&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;assign &lt;span class="nv"&gt;letter&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;c &lt;span class="c1"&gt;# 分配盘符&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;active &lt;span class="c1"&gt;# 标记为活动分区（SeaBIOS需要）&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;刷新安装界面,重新选择硬盘。&lt;/p&gt;
+&lt;h3 id="5-开始安装"&gt;5. 开始安装
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;选中&amp;quot;驱动器0 未分配的空间&amp;quot;&lt;/li&gt;
+&lt;li&gt;点&amp;quot;下一步&amp;quot;&lt;/li&gt;
+&lt;li&gt;等待安装（15-30分钟）&lt;/li&gt;
+&lt;li&gt;自动重启几次&lt;/li&gt;
+&lt;li&gt;完成初始设置&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="五安装virtio驱动"&gt;五、安装VirtIO驱动
+&lt;/h2&gt;
+&lt;h3 id="为什么需要装驱动"&gt;为什么需要装驱动
+&lt;/h3&gt;
+&lt;p&gt;装完系统会发现：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;❌ 没有网络（设备管理器显示&amp;quot;以太网控制器&amp;quot;黄色叹号）&lt;/li&gt;
+&lt;li&gt;❌ 某些硬件功能不可用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="一键安装推荐"&gt;一键安装（推荐）
+&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;进入Win10系统&lt;/li&gt;
+&lt;li&gt;打开&amp;quot;此电脑&amp;quot;&lt;/li&gt;
+&lt;li&gt;双击VirtIO驱动光盘（D: 或E:）&lt;/li&gt;
+&lt;li&gt;运行 &lt;strong&gt;&lt;code&gt;virtio-win-guest-tools.exe&lt;/code&gt;&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;一路Next安装&lt;/li&gt;
+&lt;li&gt;重启系统&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;会自动安装&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;✅ 网卡驱动（NetKVM）&lt;/li&gt;
+&lt;li&gt;✅ 硬盘驱动（vioscsi）&lt;/li&gt;
+&lt;li&gt;✅ 气球驱动（Balloon,动态内存）&lt;/li&gt;
+&lt;li&gt;✅ QEMU Guest Agent&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;装完后网络恢复正常。&lt;/p&gt;
+&lt;h2 id="六网络架构选择"&gt;六、网络架构选择
+&lt;/h2&gt;
+&lt;h3 id="我的配置"&gt;我的配置
+&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt; 1
+&lt;/span&gt;&lt;span class="lnt"&gt; 2
+&lt;/span&gt;&lt;span class="lnt"&gt; 3
+&lt;/span&gt;&lt;span class="lnt"&gt; 4
+&lt;/span&gt;&lt;span class="lnt"&gt; 5
+&lt;/span&gt;&lt;span class="lnt"&gt; 6
+&lt;/span&gt;&lt;span class="lnt"&gt; 7
+&lt;/span&gt;&lt;span class="lnt"&gt; 8
+&lt;/span&gt;&lt;span class="lnt"&gt; 9
+&lt;/span&gt;&lt;span class="lnt"&gt;10
+&lt;/span&gt;&lt;span class="lnt"&gt;11
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;外网
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;路由器
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;┌────────────────────────┐
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ 物理主机 (i5-8400) │
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ ├─ 板载网口 → 飞牛直通│
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ └─ PCIe网卡 → vmbr0 ──┼─→ PVE管理
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ │ ↓
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;│ │ Win10（虚拟网卡）
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;└────────────────────────┘
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="性能对比"&gt;性能对比
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;传输路径&lt;/th&gt;
+&lt;th&gt;虚拟网卡速度&lt;/th&gt;
+&lt;th&gt;直通网卡速度&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10 → 飞牛&lt;/td&gt;
+&lt;td&gt;300-500 MB/s&lt;/td&gt;
+&lt;td&gt;50-80 MB/s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Win10 → 外网&lt;/td&gt;
+&lt;td&gt;118 MB/s&lt;/td&gt;
+&lt;td&gt;118 MB/s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;结论&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;虚拟机之间通信走PVE&lt;strong&gt;内存&lt;/strong&gt;,不经过物理网口,速度极快&lt;/li&gt;
+&lt;li&gt;只有访问外网时才走物理网口（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="两种方案对比"&gt;两种方案对比
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;方案A：飞牛直通物理网口（我的方案）&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;适合：主要从外网下载到NAS&lt;/li&gt;
+&lt;li&gt;Win10 → 飞牛速度：50-80 MB/s（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;方案B：飞牛用虚拟网卡&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;适合：主要从Win10传输到NAS&lt;/li&gt;
+&lt;li&gt;Win10 → 飞牛速度：300-500 MB/s（内存直通）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你的使用场景是&amp;quot;Win10下载 → 保存到飞牛&amp;quot;,建议方案B。&lt;/p&gt;
+&lt;h2 id="七远程桌面配置"&gt;七、远程桌面配置
+&lt;/h2&gt;
+&lt;h3 id="为什么不用pve控制台"&gt;为什么不用PVE控制台
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;PVE控制台（noVNC）问题&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;延迟高（200ms+）&lt;/li&gt;
+&lt;li&gt;画质模糊&lt;/li&gt;
+&lt;li&gt;帧率低（10-20fps）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;设计目的&lt;/strong&gt;：只用于安装系统、紧急维护,不适合日常使用。&lt;/p&gt;
+&lt;h3 id="开启远程桌面"&gt;开启远程桌面
+&lt;/h3&gt;
+&lt;p&gt;Win10系统内：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;右键&amp;quot;此电脑&amp;quot; → 属性&lt;/li&gt;
+&lt;li&gt;点&amp;quot;远程设置&amp;quot;&lt;/li&gt;
+&lt;li&gt;✅ 勾选&amp;quot;允许远程连接到此计算机&amp;quot;&lt;/li&gt;
+&lt;li&gt;确定&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id="获取ip地址"&gt;获取IP地址
+&lt;/h3&gt;
+&lt;p&gt;Win10中按 &lt;code&gt;Win + R&lt;/code&gt; → 输入 &lt;code&gt;cmd&lt;/code&gt; → 输入：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;ipconfig
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;记下IPv4地址（如192.168.1.101）&lt;/p&gt;
+&lt;h3 id="从其他设备连接"&gt;从其他设备连接
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Windows电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;Win + R → 输入 mstsc
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;输入Win10 IP → 连接
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Mac电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;App Store下载&amp;quot;Microsoft Remote Desktop&amp;quot;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Linux电脑&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用Remmina、Vinagre等RDP客户端&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="性能对比-1"&gt;性能对比
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;连接方式&lt;/th&gt;
+&lt;th&gt;延迟&lt;/th&gt;
+&lt;th&gt;画质&lt;/th&gt;
+&lt;th&gt;适用场景&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;PVE控制台&lt;/td&gt;
+&lt;td&gt;200ms+&lt;/td&gt;
+&lt;td&gt;模糊&lt;/td&gt;
+&lt;td&gt;安装/救急&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;远程桌面&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&amp;lt;10ms&lt;/td&gt;
+&lt;td&gt;完美&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;日常使用&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id="常见问题"&gt;常见问题
+&lt;/h2&gt;
+&lt;h3 id="1-uefi启动失败"&gt;1. UEFI启动失败
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;错误信息&lt;/strong&gt;：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-gdscript3" data-lang="gdscript3"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;failed&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="nb"&gt;load&lt;/span&gt; &lt;span class="n"&gt;Boot0004&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;UEFI QEMU HARDDISK&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="n"&gt;Start&lt;/span&gt; &lt;span class="n"&gt;PXE&lt;/span&gt; &lt;span class="n"&gt;over&lt;/span&gt; &lt;span class="n"&gt;IPv4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：选了OVMF(UEFI)但未添加EFI磁盘&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;改用SeaBIOS,删除虚拟机重建&lt;/li&gt;
+&lt;li&gt;或手动添加EFI Disk（Hardware → Add → EFI Disk）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="2-安装时看不到硬盘"&gt;2. 安装时看不到硬盘
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：未加载VirtIO SCSI驱动&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：参考第四章第3节加载驱动&lt;/p&gt;
+&lt;h3 id="3-安装后没有网络"&gt;3. 安装后没有网络
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：未安装VirtIO网卡驱动&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：参考第五章安装驱动&lt;/p&gt;
+&lt;h3 id="4-cpu超分配导致卡顿"&gt;4. CPU超分配导致卡顿
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：多个虚拟机同时运行时卡顿&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：虚拟机CPU总核心数 &amp;gt; 物理CPU核心数&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：合理分配,总数不超过物理核心&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;示例（6核物理）：飞牛4核 + Win10 3核 = 7核 &amp;gt; 6核 ❌&lt;/li&gt;
+&lt;li&gt;正确分配：飞牛2核 + Win10 3核 = 5核 &amp;lt; 6核 ✅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="5-内存不足oom"&gt;5. 内存不足OOM
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt;：虚拟机被随机杀死,日志显示OOM Killer&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;原因&lt;/strong&gt;：虚拟机内存总分配 &amp;gt; 物理内存 - 宿主机预留&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;解决&lt;/strong&gt;：总分配 ≤ 物理内存 - 2GB&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;示例（16GB物理）：飞牛4GB + Win10 8GB + 预留2GB = 14GB ✅&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="性能优化"&gt;性能优化
+&lt;/h2&gt;
+&lt;h3 id="1-硬盘缓存模式"&gt;1. 硬盘缓存模式
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模式&lt;/th&gt;
+&lt;th&gt;性能&lt;/th&gt;
+&lt;th&gt;安全性&lt;/th&gt;
+&lt;th&gt;适用&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;No cache&lt;/td&gt;
+&lt;td&gt;慢&lt;/td&gt;
+&lt;td&gt;最高&lt;/td&gt;
+&lt;td&gt;生产数据库&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Write through&lt;/td&gt;
+&lt;td&gt;中&lt;/td&gt;
+&lt;td&gt;高&lt;/td&gt;
+&lt;td&gt;折中&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Write back&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;快&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;中&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;家用&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;建议&lt;/strong&gt;：家用场景选Write back,性能提升2-3倍。&lt;/p&gt;
+&lt;h3 id="2-cpu类型选择"&gt;2. CPU类型选择
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;host&lt;/strong&gt;（推荐）：直通宿主机CPU特性,性能最好&lt;/li&gt;
+&lt;li&gt;kvm64：通用兼容,性能稍差&lt;/li&gt;
+&lt;li&gt;特定型号：迁移需要相同架构&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id="3-网卡模型选择"&gt;3. 网卡模型选择
+&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;模型&lt;/th&gt;
+&lt;th&gt;性能&lt;/th&gt;
+&lt;th&gt;兼容性&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;e1000&lt;/td&gt;
+&lt;td&gt;100 Mbps&lt;/td&gt;
+&lt;td&gt;好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;e1000e&lt;/td&gt;
+&lt;td&gt;1 Gbps&lt;/td&gt;
+&lt;td&gt;好&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;VirtIO&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;10+ Gbps&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;需装驱动&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;建议&lt;/strong&gt;：统一使用VirtIO,安装对应驱动。&lt;/p&gt;
+&lt;h2 id="总结"&gt;总结
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;核心要点&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Win10用&lt;strong&gt;SCSI接口&lt;/strong&gt;（性能好,和飞牛的SATA不同）&lt;/li&gt;
+&lt;li&gt;必须手动加载&lt;strong&gt;VirtIO驱动&lt;/strong&gt;（安装时和系统装完后）&lt;/li&gt;
+&lt;li&gt;日常使用&lt;strong&gt;远程桌面(RDP)&lt;/strong&gt;,不要用PVE控制台&lt;/li&gt;
+&lt;li&gt;合理分配资源：CPU不超分,内存留2GB缓冲&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;当前架构&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PVE系统：250G固态&lt;/li&gt;
+&lt;li&gt;飞牛NAS：板载网口直通 + 2T机械盘直通&lt;/li&gt;
+&lt;li&gt;Win10：虚拟网卡 + 80G虚拟磁盘&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;性能表现&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Win10 ↔ 飞牛：300-500 MB/s（内存直通）&lt;/li&gt;
+&lt;li&gt;Win10 ↔ 外网：118 MB/s（千兆限制）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;老机器性能完全够用,日常办公无压力,等以后加独显可以跑GPU计算。&lt;/p&gt;
+&lt;h2 id="相关阅读"&gt;相关阅读
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《老羊机上手PVE虚拟化：IOMMU直通配置完全指南》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装飞牛NAS：SATA直通与网卡配置实战》&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;记录时间：2025-12-24&lt;/em&gt;&lt;br&gt;
+&lt;em&gt;PVE版本：9.1.1 | Win10版本：专业版22H2&lt;/em&gt;&lt;/p&gt;</description></item><item><title>PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置</title><link>https://deerstar.xyz/2025/pve-install-win10/</link><pubDate>Wed, 24 Dec 2025 16:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install-win10/</guid><description>&lt;h1 id="pve安装win10虚拟机virtio驱动与远程桌面配置"&gt;PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置
 &lt;/h1&gt;
 &lt;h2 id="前情提要"&gt;前情提要
 &lt;/h2&gt;

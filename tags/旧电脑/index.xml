@@ -1,4 +1,540 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>旧电脑 on DeerStar的博客</title><link>https://deerstar.xyz/tags/%E6%97%A7%E7%94%B5%E8%84%91/</link><description>Recent content in 旧电脑 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 24 Dec 2025 12:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/%E6%97%A7%E7%94%B5%E8%84%91/index.xml" rel="self" type="application/rss+xml"/><item><title>老机改造：PVE虚拟化平台搭建与PCIE直通配置</title><link>https://deerstar.xyz/2025/pve-install/</link><pubDate>Wed, 24 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install/</guid><description>&lt;h1 id="老羊机上手pve虚拟化为fpga测试做准备"&gt;老羊机上手PVE虚拟化：为FPGA测试做准备
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>旧电脑 on DeerStar的博客</title><link>https://deerstar.xyz/tags/%E6%97%A7%E7%94%B5%E8%84%91/</link><description>Recent content in 旧电脑 on DeerStar的博客</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 24 Dec 2025 12:00:00 +0800</lastBuildDate><atom:link href="https://deerstar.xyz/tags/%E6%97%A7%E7%94%B5%E8%84%91/index.xml" rel="self" type="application/rss+xml"/><item><title>老机改造：PVE虚拟化平台搭建与PCIE直通配置</title><link>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/_flatten_backup_20260105_151155/2025/pve-install/</link><pubDate>Wed, 24 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/_flatten_backup_20260105_151155/2025/pve-install/</guid><description>&lt;h1 id="老羊机上手pve虚拟化为fpga测试做准备"&gt;老羊机上手PVE虚拟化：为FPGA测试做准备
+&lt;/h1&gt;
+&lt;h2 id="写在前面"&gt;写在前面
+&lt;/h2&gt;
+&lt;p&gt;我有台2017年配的i5-8400旧主机，一直闲置，最近想利用起来，装一个飞牛OS，因为偶尔需要测试FPGA板卡的PCIE金手指连接，所以还需要win10，双系统不方便，那就装个PVE（Proxmox VE）虚拟化平台，既能跑飞牛NAS，又能跑Win10测试环境，还能预留PCIE槽给FPGA板卡直通。&lt;/p&gt;
+&lt;p&gt;这篇文章记录一下整个安装配置过程，主要是PCIE直通这块儿踩了点坑，做个备忘。&lt;/p&gt;
+&lt;h2 id="硬件配置"&gt;硬件配置
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CPU&lt;/strong&gt;: i5-8400（6核,带UHD 630核显）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;主板&lt;/strong&gt;: 微星B360M迫击炮&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;内存&lt;/strong&gt;: 16G DDR4&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;存储&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;三星960 EVO 250G NVMe（装PVE系统）&lt;/li&gt;
+&lt;li&gt;西数2TB机械盘（留给NAS）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;电源&lt;/strong&gt;: 500W&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关键是主板支持VT-d,能做PCIE直通。&lt;/p&gt;
+&lt;h2 id="一bios设置"&gt;一、BIOS设置
+&lt;/h2&gt;
+&lt;p&gt;开机按Del进BIOS,微星这块板子设置位置有点特别：&lt;/p&gt;
+&lt;h3 id="1-开启虚拟化"&gt;1. 开启虚拟化
+&lt;/h3&gt;
+&lt;p&gt;进入高级模式（F7）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;OC → CPU特性 → Intel虚拟化技术&lt;/strong&gt; → 启用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OC → CPU特性 → Intel VT-D技术&lt;/strong&gt; → 启用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意微星主板VT-D藏在OC菜单里,别找错地方。&lt;/p&gt;
+&lt;h3 id="2-核显设置"&gt;2. 核显设置
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings → 高级 → 集成显卡配置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;集成显卡多显示器 → 启用&lt;/li&gt;
+&lt;li&gt;第一显卡 → 选择&lt;strong&gt;IGD&lt;/strong&gt;（核显优先）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样核显给PVE宿主机用,x16槽留给将来的FPGA板卡或独显。&lt;/p&gt;
+&lt;h3 id="3-pcie设置可选"&gt;3. PCIE设置（可选）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings → 高级 → PCI子系统设置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Above 4G Decoding → 启用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;保存退出。&lt;/p&gt;
+&lt;h2 id="二安装pve系统"&gt;二、安装PVE系统
+&lt;/h2&gt;
+&lt;h3 id="1-制作启动盘"&gt;1. 制作启动盘
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;从Proxmox官网下载最新ISO（我装的是9.1）&lt;/li&gt;
+&lt;li&gt;用Ventoy做启动盘&lt;/li&gt;
+&lt;li&gt;插U盘重启,选UEFI启动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;进Ventoy后选Normal Mode启动PVE的ISO。&lt;/p&gt;
+&lt;h3 id="2-安装过程"&gt;2. 安装过程
+&lt;/h3&gt;
+&lt;p&gt;按提示走：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;磁盘&lt;/strong&gt;：选250G固态,文件系统默认ext4&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;地区时区&lt;/strong&gt;：Country选China,时区Asia/Shanghai&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;密码&lt;/strong&gt;：设置root密码（务必记住）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;IP：192.168.1.100（改成你的网段）&lt;/li&gt;
+&lt;li&gt;网关：192.168.1.1&lt;/li&gt;
+&lt;li&gt;DNS：192.168.1.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;5-10分钟装完,拔U盘重启。&lt;/p&gt;
+&lt;h2 id="三配置iommu直通"&gt;三、配置IOMMU直通
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;这部分是核心&lt;/strong&gt;,也是踩坑最多的地方。&lt;/p&gt;
+&lt;h3 id="1-开启iommu"&gt;1. 开启IOMMU
+&lt;/h3&gt;
+&lt;p&gt;root登录命令行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/default/grub
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;找到这一行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;#34;quiet&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;改成：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;#34;quiet intel_iommu=on iommu=pt&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;保存后更新：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;update-grub
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;reboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="2-加载vfio模块"&gt;2. 加载VFIO模块
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：PVE 9.1不用 &lt;code&gt;/etc/modules&lt;/code&gt; 了,改用 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 目录。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/modules-load.d/vfio.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;添加这三行（PVE 8以后不需要vfio_virqfd）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_iommu_type1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_pci
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;保存后更新：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;update-initramfs -u -k all
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;reboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="3-验证配置"&gt;3. 验证配置
+&lt;/h3&gt;
+&lt;p&gt;重启后检查：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IOMMU是否开启：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dmesg &lt;span class="p"&gt;|&lt;/span&gt; grep -e DMAR -e IOMMU
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;看到 &lt;code&gt;DMAR: IOMMU enabled&lt;/code&gt; 就成功了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;VFIO模块是否加载：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lsmod &lt;span class="p"&gt;|&lt;/span&gt; grep vfio
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;应该能看到：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_pci
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_iommu_type1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;设备识别：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lspci &lt;span class="p"&gt;|&lt;/span&gt; grep -i vga
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;能看到核显UHD 630就OK。&lt;/p&gt;
+&lt;h3 id="4-查看iommu分组"&gt;4. 查看IOMMU分组
+&lt;/h3&gt;
+&lt;p&gt;这步很关键,确认设备能否独立直通：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;for&lt;/span&gt; d in /sys/kernel/iommu_groups/*/devices/*&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;#*/iommu_groups/*&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;%%/*&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;printf&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;IOMMU Group %s &amp;#39;&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; lspci -nns &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我的分组情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Group 0&lt;/strong&gt;: 核显 UHD 630（00:02.0）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Group 8&lt;/strong&gt;: 板载网口 Intel I219-V（00:1f.6）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Group 9&lt;/strong&gt;: NVMe固态（01:00.0）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;重点&lt;/strong&gt;：x16槽现在是空的,等插FPGA板卡时会单独出现在新的IOMMU组,到时直接配置直通就行。&lt;/p&gt;
+&lt;h2 id="四访问web管理界面"&gt;四、访问Web管理界面
+&lt;/h2&gt;
+&lt;p&gt;配置完成后,浏览器访问：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;https://192.168.1.100:8006
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;用户名：&lt;code&gt;root&lt;/code&gt;&lt;br&gt;
+密码：安装时设的那个&lt;/p&gt;
+&lt;h2 id="踩过的坑"&gt;踩过的坑
+&lt;/h2&gt;
+&lt;h3 id="1-modules配置文件路径错误"&gt;1. modules配置文件路径错误
+&lt;/h3&gt;
+&lt;p&gt;一开始按老教程改 &lt;code&gt;/etc/modules&lt;/code&gt;,结果系统提示这文件已被 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 替代。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;教训&lt;/strong&gt;：PVE 9.1用的是systemd模块加载机制,要在 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 创建.conf文件。&lt;/p&gt;
+&lt;h3 id="2-pvesh命令报错"&gt;2. pvesh命令报错
+&lt;/h3&gt;
+&lt;p&gt;执行 &lt;code&gt;pvesh get /nodes/pve/hardware/pci&lt;/code&gt; 时报错。后来发现直接用 &lt;code&gt;lspci&lt;/code&gt; 更简单可靠。&lt;/p&gt;
+&lt;h3 id="3-bios设置位置不同"&gt;3. BIOS设置位置不同
+&lt;/h3&gt;
+&lt;p&gt;微星B360M迫击炮的VT-D在&amp;quot;OC&amp;quot;菜单,不在&amp;quot;Advanced&amp;quot;里。不同主板厂商布局差异大,得自己翻。&lt;/p&gt;
+&lt;h2 id="当前状态"&gt;当前状态
+&lt;/h2&gt;
+&lt;p&gt;PVE系统装好了,IOMMU配置完成,接下来可以：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建飞牛NAS虚拟机（板载网口+2T机械盘直通）&lt;/li&gt;
+&lt;li&gt;创建Win10虚拟机（用虚拟硬件,性能够用）&lt;/li&gt;
+&lt;li&gt;x16槽预留给FPGA板卡或独显&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;核显稳定输出PVE画面,CPU和内存占用都不高,老机器又能再战几年。&lt;/p&gt;
+&lt;h2 id="下一步"&gt;下一步
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装飞牛NAS：SATA直通与网卡配置实战》&lt;/a&gt;（待发布）&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置》&lt;/a&gt;（待发布）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://pve.proxmox.com/wiki/PCI%28e%29_Passthrough" target="_blank" rel="noopener"
+&gt;Proxmox官方文档 - PCI Passthrough&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;</description></item><item><title>老机改造：PVE虚拟化平台搭建与PCIE直通配置</title><link>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/pve-install/</link><pubDate>Wed, 24 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/post---%E5%89%AF%E6%9C%AC-2/pve-install/</guid><description>&lt;img src="https://deerstar.xyz/img/slug:%20pve-install" alt="Featured image of post 老机改造：PVE虚拟化平台搭建与PCIE直通配置" /&gt;&lt;h1 id="老羊机上手pve虚拟化为fpga测试做准备"&gt;老羊机上手PVE虚拟化：为FPGA测试做准备
+&lt;/h1&gt;
+&lt;h2 id="写在前面"&gt;写在前面
+&lt;/h2&gt;
+&lt;p&gt;我有台2017年配的i5-8400旧主机，一直闲置，最近想利用起来，装一个飞牛OS，因为偶尔需要测试FPGA板卡的PCIE金手指连接，所以还需要win10，双系统不方便，那就装个PVE（Proxmox VE）虚拟化平台，既能跑飞牛NAS，又能跑Win10测试环境，还能预留PCIE槽给FPGA板卡直通。&lt;/p&gt;
+&lt;p&gt;这篇文章记录一下整个安装配置过程，主要是PCIE直通这块儿踩了点坑，做个备忘。&lt;/p&gt;
+&lt;h2 id="硬件配置"&gt;硬件配置
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CPU&lt;/strong&gt;: i5-8400（6核,带UHD 630核显）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;主板&lt;/strong&gt;: 微星B360M迫击炮&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;内存&lt;/strong&gt;: 16G DDR4&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;存储&lt;/strong&gt;:
+&lt;ul&gt;
+&lt;li&gt;三星960 EVO 250G NVMe（装PVE系统）&lt;/li&gt;
+&lt;li&gt;西数2TB机械盘（留给NAS）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;电源&lt;/strong&gt;: 500W&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关键是主板支持VT-d,能做PCIE直通。&lt;/p&gt;
+&lt;h2 id="一bios设置"&gt;一、BIOS设置
+&lt;/h2&gt;
+&lt;p&gt;开机按Del进BIOS,微星这块板子设置位置有点特别：&lt;/p&gt;
+&lt;h3 id="1-开启虚拟化"&gt;1. 开启虚拟化
+&lt;/h3&gt;
+&lt;p&gt;进入高级模式（F7）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;OC → CPU特性 → Intel虚拟化技术&lt;/strong&gt; → 启用&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OC → CPU特性 → Intel VT-D技术&lt;/strong&gt; → 启用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意微星主板VT-D藏在OC菜单里,别找错地方。&lt;/p&gt;
+&lt;h3 id="2-核显设置"&gt;2. 核显设置
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings → 高级 → 集成显卡配置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;集成显卡多显示器 → 启用&lt;/li&gt;
+&lt;li&gt;第一显卡 → 选择&lt;strong&gt;IGD&lt;/strong&gt;（核显优先）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样核显给PVE宿主机用,x16槽留给将来的FPGA板卡或独显。&lt;/p&gt;
+&lt;h3 id="3-pcie设置可选"&gt;3. PCIE设置（可选）
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Settings → 高级 → PCI子系统设置&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Above 4G Decoding → 启用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;保存退出。&lt;/p&gt;
+&lt;h2 id="二安装pve系统"&gt;二、安装PVE系统
+&lt;/h2&gt;
+&lt;h3 id="1-制作启动盘"&gt;1. 制作启动盘
+&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;从Proxmox官网下载最新ISO（我装的是9.1）&lt;/li&gt;
+&lt;li&gt;用Ventoy做启动盘&lt;/li&gt;
+&lt;li&gt;插U盘重启,选UEFI启动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;进Ventoy后选Normal Mode启动PVE的ISO。&lt;/p&gt;
+&lt;h3 id="2-安装过程"&gt;2. 安装过程
+&lt;/h3&gt;
+&lt;p&gt;按提示走：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;磁盘&lt;/strong&gt;：选250G固态,文件系统默认ext4&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;地区时区&lt;/strong&gt;：Country选China,时区Asia/Shanghai&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;密码&lt;/strong&gt;：设置root密码（务必记住）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;IP：192.168.1.100（改成你的网段）&lt;/li&gt;
+&lt;li&gt;网关：192.168.1.1&lt;/li&gt;
+&lt;li&gt;DNS：192.168.1.1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;5-10分钟装完,拔U盘重启。&lt;/p&gt;
+&lt;h2 id="三配置iommu直通"&gt;三、配置IOMMU直通
+&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;这部分是核心&lt;/strong&gt;,也是踩坑最多的地方。&lt;/p&gt;
+&lt;h3 id="1-开启iommu"&gt;1. 开启IOMMU
+&lt;/h3&gt;
+&lt;p&gt;root登录命令行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/default/grub
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;找到这一行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;#34;quiet&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;改成：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;#34;quiet intel_iommu=on iommu=pt&amp;#34;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;保存后更新：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;update-grub
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;reboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="2-加载vfio模块"&gt;2. 加载VFIO模块
+&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：PVE 9.1不用 &lt;code&gt;/etc/modules&lt;/code&gt; 了,改用 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 目录。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;nano /etc/modules-load.d/vfio.conf
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;添加这三行（PVE 8以后不需要vfio_virqfd）：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_iommu_type1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_pci
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;保存后更新：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;update-initramfs -u -k all
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;reboot
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;h3 id="3-验证配置"&gt;3. 验证配置
+&lt;/h3&gt;
+&lt;p&gt;重启后检查：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IOMMU是否开启：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;dmesg &lt;span class="p"&gt;|&lt;/span&gt; grep -e DMAR -e IOMMU
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;看到 &lt;code&gt;DMAR: IOMMU enabled&lt;/code&gt; 就成功了。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;VFIO模块是否加载：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lsmod &lt;span class="p"&gt;|&lt;/span&gt; grep vfio
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;应该能看到：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_pci
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio_iommu_type1
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;vfio
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;&lt;strong&gt;设备识别：&lt;/strong&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;lspci &lt;span class="p"&gt;|&lt;/span&gt; grep -i vga
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;能看到核显UHD 630就OK。&lt;/p&gt;
+&lt;h3 id="4-查看iommu分组"&gt;4. 查看IOMMU分组
+&lt;/h3&gt;
+&lt;p&gt;这步很关键,确认设备能否独立直通：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;span class="lnt"&gt;2
+&lt;/span&gt;&lt;span class="lnt"&gt;3
+&lt;/span&gt;&lt;span class="lnt"&gt;4
+&lt;/span&gt;&lt;span class="lnt"&gt;5
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-bash" data-lang="bash"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;for&lt;/span&gt; d in /sys/kernel/iommu_groups/*/devices/*&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;#*/iommu_groups/*&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;n&lt;/span&gt;&lt;span class="p"&gt;%%/*&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; &lt;span class="nb"&gt;printf&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;IOMMU Group %s &amp;#39;&lt;/span&gt; &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="nv"&gt;$n&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt; lspci -nns &lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;d&lt;/span&gt;&lt;span class="p"&gt;##*/&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;&lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;我的分组情况：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Group 0&lt;/strong&gt;: 核显 UHD 630（00:02.0）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Group 8&lt;/strong&gt;: 板载网口 Intel I219-V（00:1f.6）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Group 9&lt;/strong&gt;: NVMe固态（01:00.0）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;重点&lt;/strong&gt;：x16槽现在是空的,等插FPGA板卡时会单独出现在新的IOMMU组,到时直接配置直通就行。&lt;/p&gt;
+&lt;h2 id="四访问web管理界面"&gt;四、访问Web管理界面
+&lt;/h2&gt;
+&lt;p&gt;配置完成后,浏览器访问：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;div class="chroma"&gt;
+&lt;table class="lntable"&gt;&lt;tr&gt;&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code&gt;&lt;span class="lnt"&gt;1
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class="lntd"&gt;
+&lt;pre tabindex="0" class="chroma"&gt;&lt;code class="language-fallback" data-lang="fallback"&gt;&lt;span class="line"&gt;&lt;span class="cl"&gt;https://192.168.1.100:8006
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;用户名：&lt;code&gt;root&lt;/code&gt;&lt;br&gt;
+密码：安装时设的那个&lt;/p&gt;
+&lt;h2 id="踩过的坑"&gt;踩过的坑
+&lt;/h2&gt;
+&lt;h3 id="1-modules配置文件路径错误"&gt;1. modules配置文件路径错误
+&lt;/h3&gt;
+&lt;p&gt;一开始按老教程改 &lt;code&gt;/etc/modules&lt;/code&gt;,结果系统提示这文件已被 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 替代。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;教训&lt;/strong&gt;：PVE 9.1用的是systemd模块加载机制,要在 &lt;code&gt;/etc/modules-load.d/&lt;/code&gt; 创建.conf文件。&lt;/p&gt;
+&lt;h3 id="2-pvesh命令报错"&gt;2. pvesh命令报错
+&lt;/h3&gt;
+&lt;p&gt;执行 &lt;code&gt;pvesh get /nodes/pve/hardware/pci&lt;/code&gt; 时报错。后来发现直接用 &lt;code&gt;lspci&lt;/code&gt; 更简单可靠。&lt;/p&gt;
+&lt;h3 id="3-bios设置位置不同"&gt;3. BIOS设置位置不同
+&lt;/h3&gt;
+&lt;p&gt;微星B360M迫击炮的VT-D在&amp;quot;OC&amp;quot;菜单,不在&amp;quot;Advanced&amp;quot;里。不同主板厂商布局差异大,得自己翻。&lt;/p&gt;
+&lt;h2 id="当前状态"&gt;当前状态
+&lt;/h2&gt;
+&lt;p&gt;PVE系统装好了,IOMMU配置完成,接下来可以：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建飞牛NAS虚拟机（板载网口+2T机械盘直通）&lt;/li&gt;
+&lt;li&gt;创建Win10虚拟机（用虚拟硬件,性能够用）&lt;/li&gt;
+&lt;li&gt;x16槽预留给FPGA板卡或独显&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;核显稳定输出PVE画面,CPU和内存占用都不高,老机器又能再战几年。&lt;/p&gt;
+&lt;h2 id="下一步"&gt;下一步
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装飞牛NAS：SATA直通与网卡配置实战》&lt;/a&gt;（待发布）&lt;/li&gt;
+&lt;li&gt;&lt;a class="link" href="#" &gt;《PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置》&lt;/a&gt;（待发布）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="参考"&gt;参考
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a class="link" href="https://pve.proxmox.com/wiki/PCI%28e%29_Passthrough" target="_blank" rel="noopener"
+&gt;Proxmox官方文档 - PCI Passthrough&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;</description></item><item><title>老机改造：PVE虚拟化平台搭建与PCIE直通配置</title><link>https://deerstar.xyz/2025/pve-install/</link><pubDate>Wed, 24 Dec 2025 12:00:00 +0800</pubDate><guid>https://deerstar.xyz/2025/pve-install/</guid><description>&lt;h1 id="老羊机上手pve虚拟化为fpga测试做准备"&gt;老羊机上手PVE虚拟化：为FPGA测试做准备
 &lt;/h1&gt;
 &lt;h2 id="写在前面"&gt;写在前面
 &lt;/h2&gt;
