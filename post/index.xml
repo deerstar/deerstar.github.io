@@ -424,7 +424,9 @@ T4+2ns - Checker检测到D1 Checker pop D1, 比较OK
 &lt;li&gt;Verification Academy: Scoreboard Architecture&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;em&gt;记录于 2026-01-06&lt;/em&gt;&lt;/p&gt;</description></item><item><title>Linux环境下FPGA远程JTAG调试配置指南</title><link>https://deerstar.xyz/2026/linux-fpga-remote-jtag-hw-server/</link><pubDate>Fri, 02 Jan 2026 16:00:00 +0800</pubDate><guid>https://deerstar.xyz/2026/linux-fpga-remote-jtag-hw-server/</guid><description>&lt;h1 id="linux环境下fpga远程jtag调试配置指南"&gt;Linux环境下FPGA远程JTAG调试配置指南
+&lt;p&gt;&lt;em&gt;记录于 2026-01-06&lt;/em&gt;&lt;/p&gt;</description></item><item><title>vivado 综合,布线报错集合</title><link>https://deerstar.xyz/2026/axi-stream-testbench/</link><pubDate>Tue, 06 Jan 2026 15:00:00 +0800</pubDate><guid>https://deerstar.xyz/2026/axi-stream-testbench/</guid><description>&lt;h1 id="1-下载-bit-时遇到报错labtools-27-2302"&gt;1 下载 bit 时遇到报错[Labtools 27-2302]
+&lt;/h1&gt;
+&lt;p&gt;最后发现是板上时钟引脚约束错, 故导致 ila 或者 vio 没有时钟.&lt;/p&gt;</description></item><item><title>Linux环境下FPGA远程JTAG调试配置指南</title><link>https://deerstar.xyz/2026/linux-fpga-remote-jtag-hw-server/</link><pubDate>Fri, 02 Jan 2026 16:00:00 +0800</pubDate><guid>https://deerstar.xyz/2026/linux-fpga-remote-jtag-hw-server/</guid><description>&lt;h1 id="linux环境下fpga远程jtag调试配置指南"&gt;Linux环境下FPGA远程JTAG调试配置指南
 &lt;/h1&gt;
 &lt;h2 id="环境说明"&gt;环境说明
 &lt;/h2&gt;
