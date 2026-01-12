@@ -1,0 +1,394 @@
+<!doctype html><html lang=zh-cn dir=ltr><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><meta name=description content="问题。"><title>07_UDP-TCP校验和增量计算详解</title><link rel=canonical href=https://deerstar.xyz/2026/udptcp-checksum-update/><link rel=stylesheet href=/scss/style.min.8997c4986534da245f19cfb5f36b27dd31a0939bb06437d563a1aab5d3aab812.css><meta property='og:title' content="07_UDP-TCP校验和增量计算详解"><meta property='og:description' content="问题。"><meta property='og:url' content='https://deerstar.xyz/2026/udptcp-checksum-update/'><meta property='og:site_name' content='DeerStar的博客'><meta property='og:type' content='article'><meta property='article:section' content='Post'><meta property='article:tag' content='UDP'><meta property='article:tag' content='网络'><meta property='article:tag' content='TCP'><meta property='article:tag' content='校验和'><meta property='article:published_time' content='2026-01-12T10:40:36+08:00'><meta property='article:modified_time' content='2026-01-12T10:40:36+08:00'><meta name=twitter:title content="07_UDP-TCP校验和增量计算详解"><meta name=twitter:description content="问题。"><link rel=preconnect href=https://cdn.jsdelivr.net crossorigin><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lxgwwenkai-webfont@1.7.0/lxgwwenkaimono.css media=print onload='this.media="all",this.onload=null'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/lxgwwenkai-webfont@1.7.0/lxgwwenkaimono.css></noscript><script async src=//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js></script></head><body class=article-page><script>(function(){const e="StackColorScheme";localStorage.getItem(e)||localStorage.setItem(e,"auto")})()</script><script>(function(){const t="StackColorScheme",e=localStorage.getItem(t),n=window.matchMedia("(prefers-color-scheme: dark)").matches===!0;e=="dark"||e==="auto"&&n?document.documentElement.dataset.scheme="dark":document.documentElement.dataset.scheme="light"})()</script><div class="container main-container flex on-phone--column extended"><div id=article-toolbar><a href=https://deerstar.xyz/ class=back-home><svg class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="15 6 9 12 15 18"/></svg>
+<span>返回</span></a></div><aside class="sidebar left-sidebar sticky"><button class="hamburger hamburger--spin" type=button id=toggle-menu aria-label=切换菜单>
+<span class=hamburger-box><span class=hamburger-inner></span></span></button><header class=site-info><figure class=site-avatar><a href=/><img src=/img/deer_hu_a2d146bda766d92f.jpg width=300 height=300 class=site-logo loading=lazy alt=Avatar>
+</a><span class=emoji>🍥</span></figure><h1 class=site-name><a href=/>DeerStar的博客</a></h1><h2 class=site-description>技术 | 学习 | 分享 | 进步</h2><ol class=social-menu><li><a href=https://space.bilibili.com/242685866 target=_blank title=Bilibili rel=me><!doctype html><svg t="1766290597147" class="icon" viewBox="0 0 1132 1024" p-id="8760" width="17.6875" height="16" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M236.395568 7.491764a82.052654 82.052654.0 0168.496129.0 178.375335 178.375335.0 0141.739828 30.680558L507.882828 178.375335h114.873716L784.007847 37.45882a178.375335 178.375335.0 0141.739828-29.967056A80.982402 80.982402.0 01928.848619 56.366606a96.679432 96.679432.0 013.924257 18.194284 79.555399 79.555399.0 01-17.480783 53.869351 432.381812 432.381812.0 01-35.675067 32.107561A221.542166 221.542166.0 01857.498485 178.375335h100.603689a171.597072 171.597072.0 01118.441222 53.15585 172.310574 172.310574.0 0153.869352 118.441223v463.775871a307.162327 307.162327.0 01-3.924258 71.350134 178.375335 178.375335.0 01-80.625651 112.733212 173.024075 173.024075.0 01-92.398424 25.686048H215.347278a327.853866 327.853866.0 01-71.350134-3.924257A178.375335 178.375335.0 0130.19368 937.540762 173.024075 173.024075.0 011.296876 845.142338V387.074477a420.965791 420.965791.0 010-65.998874 178.375335 178.375335.0 01162.678306-142.700268h107.025201c-16.767282-11.772772-31.394059-26.39955-46.377587-39.242574A79.91215 79.91215.0 01196.796244 71.350134a81.695903 81.695903.0 0139.599324-63.85837M217.844533 321.075603a80.268901 80.268901.0 00-63.501619 57.080108 107.025201 107.025201.0 000 30.323806v381.009716a80.982402 80.982402.0 0055.296354 80.625652 115.230467 115.230467.0 0035.675067 5.708011h653.923978a80.982402 80.982402.0 0076.344644-47.80459 117.370971 117.370971.0 008.205265-53.15585V420.60904a139.489512 139.489512.0 000-38.529072 82.409405 82.409405.0 00-52.442348-54.939603 140.203013 140.203013.0 00-49.945094-7.135014H255.660104A334.275378 334.275378.0 00217.844533 321.075603zm131.997748 125.576236a79.198649 79.198649.0 0183.836408 78.128397v80.625652a78.485147 78.485147.0 01-129.500494 63.501619 71.350134 71.350134.0 01-17.480783-22.832043 102.744193 102.744193.0 01-10.70252-54.582853V510.86696a80.625651 80.625651.0 0171.350134-67.425877zm416.328032.0a80.268901 80.268901.0 0185.976912 74.56089v81.695904a95.252429 95.252429.0 01-12.129523 53.15585 80.625651 80.625651.0 01-112.01971 21.048289 84.193158 84.193158.0 01-21.04829-21.048289 96.322681 96.322681.0 01-12.843024-57.080108V517.288472a80.268901 80.268901.0 0171.350134-71.350134z" fill="#2c2c2c" p-id="8761"/></svg></a></li><li><a href=mailto:deerstar000@qq.com target=_blank title=Email rel=me><svg class="icon icon-tabler icon-tabler-mail" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a></li><li><a href=https://github.com/deerstar target=_blank title=GitHub rel=me><svg class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6.0 00-1.3-3.2 4.2 4.2.0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3.0 00-6.2.0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2.0 00-.1 3.2A4.6 4.6.0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></svg></a></li></ol></header><ol class=menu id=main-menu><li><a href=/><svg class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><polyline points="5 12 3 12 12 3 21 12 19 12"/><path d="M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/><path d="M9 21v-6a2 2 0 012-2h2a2 2 0 012 2v6"/></svg>
+<span>Home</span></a></li><li><a href=/archives/><svg class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><rect x="3" y="4" width="18" height="4" rx="2"/><path d="M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
+<span>归档</span></a></li><li><a href=/search/><svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg>
+<span>搜索</span></a></li><li><a href=/about/><svg class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+<span>关于</span></a></li><li id=dark-mode-toggle><svg class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<svg class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
+<span>暗色模式</span></li></ol></aside><aside class="sidebar right-sidebar sticky"><form action=/search/ class="search-form widget"><p><label>搜索</label>
+<input name=keyword required placeholder=输入关键词...>
+<button title=搜索>
+<svg class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="10" cy="10" r="7"/><line x1="21" y1="21" x2="15" y2="15"/></svg></button></p></form><section class="widget archives"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#1-背景>1. 背景</a></li><li><a href=#2-反码加法原理>2. 反码加法原理</a><ol><li><a href=#21-计算规则>2.1 计算规则</a></li><li><a href=#22-计算示例>2.2 计算示例</a></li><li><a href=#23-关键性质>2.3 关键性质</a></li></ol></li><li><a href=#3-增量计算公式>3. 增量计算公式</a><ol><li><a href=#31-正向增量加密端--nat-出向>3.1 正向增量（加密端 / NAT 出向）</a></li><li><a href=#32-反向增量解密端--nat-入向>3.2 反向增量（解密端 / NAT 入向）</a></li></ol></li><li><a href=#4-完整计算示例>4. 完整计算示例</a><ol><li><a href=#41-正向增量示例>4.1 正向增量示例</a></li><li><a href=#42-反向增量示例>4.2 反向增量示例</a></li></ol></li><li><a href=#5-fpga-verilog-实现>5. FPGA Verilog 实现</a><ol><li><a href=#51-增量更新模块>5.1 增量更新模块</a></li><li><a href=#52-同时更新-src-ip-和-dst-ip>5.2 同时更新 Src IP 和 Dst IP</a></li></ol></li><li><a href=#6-应用场景>6. 应用场景</a><ol><li><a href=#61-nat-网关>6.1 NAT 网关</a></li><li><a href=#62-vpn-隧道加密设备>6.2 VPN 隧道加密设备</a></li><li><a href=#63-处理顺序>6.3 处理顺序</a></li></ol></li><li><a href=#7-特殊情况处理>7. 特殊情况处理</a><ol><li><a href=#71-udp-校验和为-0>7.1 UDP 校验和为 0</a></li><li><a href=#72-ip-分片>7.2 IP 分片</a></li></ol></li><li><a href=#8-性能对比>8. 性能对比</a></li><li><a href=#9-总结>9. 总结</a></li></ol></nav></div></section><section class="widget heatmap-widget"><div class=heatmap-container><div class=heatmap-controls><button class=heatmap-btn id=prev-month title=上一月>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+</button>
+<span class=heatmap-month id=current-month></span>
+<button class=heatmap-btn id=next-month title=下一月>
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></button></div><div id=heatmap-grid></div><div class=heatmap-tooltip id=heatmap-tooltip></div></div><script id=heatmap-data type=application/json>{"2025-12-17":["\"听说\""],"2025-12-20":["\"FPGA 学习资源：优质网站与社区推荐\"","\"Xilinx JTAG 驱动问题排查与解决\""],"2025-12-21":["\"我的工具箱(五) · 系统工具篇\"","\"我的工具箱(四) · 学习效率篇\"","\"我的工具箱(三) · 编程开发篇\"","\"我的工具箱(二) · FPGA开发篇\"","\"我的工具箱(一) · 通用工具篇\""],"2025-12-24":["\"PVE安装Win10虚拟机：VirtIO驱动与远程桌面配置\"","\"PVE安装飞牛NAS：SATA直通与网卡配置实战\"","\"老机改造：PVE虚拟化平台搭建与PCIE直通配置\""],"2026-01-02":["\"Linux环境下FPGA远程JTAG调试配置指南\""],"2026-01-06":["\"AXI-Stream Testbench 设计经验：从踩坑到正确架构\""],"2026-01-12":["\"07_UDP-TCP校验和增量计算详解\""]}</script><script>(function(){const a=JSON.parse(document.getElementById("heatmap-data").textContent),n=document.getElementById("heatmap-grid"),e=document.getElementById("heatmap-tooltip"),r=document.getElementById("current-month"),c=document.getElementById("prev-month"),i=document.getElementById("next-month");let t=new Date;const s=new Date;function o(e){const c=e.getFullYear(),l=e.getMonth(),m=new Date(c,l,1),f=new Date(c,l+1,0);r.textContent=`${c} 年 ${l+1} 月`;const p=["日","一","二","三","四","五","六"];let o='<div class="heatmap-header">';p.forEach(e=>{o+=`<div class="heatmap-weekday">${e}</div>`}),o+="</div>",o+='<div class="heatmap-weeks">';const u=m.getDay(),h=f.getDate(),g=u+h,v=Math.ceil(g/7);let d=1;for(let e=0;e<v;e++){o+='<div class="heatmap-week">';for(let t=0;t<7;t++)if(e===0&&t<u)o+='<div class="heatmap-day empty"></div>';else if(d>h)o+='<div class="heatmap-day empty"></div>';else{const i=new Date(c,l,d),t=`${c}-${String(l+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`,n=a[t]||[],e=n.length,r=e===0?0:Math.min(Math.ceil(e/1),4),u=i<=s;o+=`<div class="heatmap-day level-${r}${u?"":" future"}" 
+                                      data-date="${t}" 
+                                      data-count="${e}"
+                                      data-titles="${encodeURIComponent(JSON.stringify(n))}"
+                                      title="${t}: ${e} 篇">
+                                      <span class="day-number">${d}</span>
+                                  </div>`,d++}o+="</div>"}o+="</div>",n.innerHTML=o,i.disabled=t>=s}c.addEventListener("click",function(){t.setMonth(t.getMonth()-1),o(t)}),i.addEventListener("click",function(){t.setMonth(t.getMonth()+1),t>s&&(t=new Date(s)),o(t)}),o(t),n.addEventListener("mouseover",function(t){if(t.target.classList.contains("heatmap-day")){const r=t.target.dataset.date,c=parseInt(t.target.dataset.count),l=t.target.dataset.titles;let i=[];try{i=JSON.parse(decodeURIComponent(l))}catch(e){console.error("Parse error:",e)}let s=`<div class="tooltip-date">${r}</div>`;c>0&&i.length>0?(s+='<div class="tooltip-articles">',i.forEach(e=>{s+=`<div class="tooltip-article">· ${e}</div>`}),s+="</div>"):s+='<div class="tooltip-empty">无发布</div>',e.innerHTML=s,e.style.display="block";const a=t.target.getBoundingClientRect(),o=n.getBoundingClientRect(),d=a.left-o.left+a.width/2;e.style.left=d+"px",e.style.top=a.top-o.top-10+"px",e.style.transform="translate(-50%, -100%)",setTimeout(()=>{const t=e.getBoundingClientRect(),n=o.left,s=o.right;t.left<n+10?(e.style.left="10px",e.style.transform="translateY(-100%)"):t.right>s-10&&(e.style.left="auto",e.style.right="10px",e.style.transform="translateY(-100%)")},0)}}),n.addEventListener("mouseout",function(t){t.target.classList.contains("heatmap-day")&&(e.style.display="none")})})()</script></section><section class="widget categories"><h2 class="widget-title section-title">分类</h2><div class=widget-categories--list><div class=widget><div class=widget-body><div class=category-list><div class=category-list-item><a href=https://deerstar.xyz/categories/fpga/ class=category-list-link>fpga<span class=category-list-count>14</a></span></div><div class=category-list-item><a href=https://deerstar.xyz/categories/%E5%B7%A5%E5%85%B7/ class=category-list-link>工具<span class=category-list-count>24</a></span></div><div class=category-list-item><a href=https://deerstar.xyz/categories/%E9%9A%8F%E7%AC%94/ class=category-list-link>随笔<span class=category-list-count>3</a></span></div></div></div></div></div></section><section class="widget archives"><h2 class="widget-title section-title">归档</h2><div class=widget-archive--list><div class=archives-year><a href=/archives/#2026><span class=year>2026</span>
+<span class=count>3</span></a></div><div class=archives-year><a href=/archives/#2025><span class=year>2025</span>
+<span class=count>11</span></a></div></div></section><section class="widget tagCloud"><div class=widget-icon><svg class="icon icon-tabler icon-tabler-tag" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11 3l9 9a1.5 1.5.0 010 2l-6 6a1.5 1.5.0 01-2 0L3 11V7a4 4 0 014-4h4"/><circle cx="9" cy="9" r="2"/></svg></div><h2 class="widget-title section-title">标签云</h2><div class=tagCloud-tags><a href=/tags/%E5%B7%A5%E5%85%B7/ class=font_size_15>工具
+</a><a href=/tags/fpga/ class=font_size_13>FPGA
+</a><a href=/tags/%E6%95%88%E7%8E%87/ class=font_size_12>效率
+</a><a href=/tags/pve/ class=font_size_9>PVE
+</a><a href=/tags/xilinx/ class=font_size_9>Xilinx
+</a><a href=/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/ class=font_size_9>虚拟化
+</a><a href=/tags/jtag/ class=font_size_6>JTAG
+</a><a href=/tags/vivado/ class=font_size_6>Vivado
+</a><a href=/tags/%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7/ class=font_size_6>调试工具
+</a><a href=/tags/hw_server/ class=font_size_3>Hw_server</a></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category><a href=/categories/fpga/ style=background-color:#54a8e0;color:#fff>FPGA</a></header><div class=article-title-wrapper><h2 class=article-title><a href=/2026/udptcp-checksum-update/>07_UDP-TCP校验和增量计算详解</a></h2><h3 class=article-subtitle>问题。</h3></div><footer class=article-time><div><svg class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<time class=article-time--published>Jan 12, 2026</time></div><div><svg class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
+<time class=article-words>2318 字</time></div></footer></div></header><section class=article-content><h1 id=网络校验和增量计算详解>网络校验和增量计算详解</h1><blockquote><p>适用于 NAT、隧道加密、FPGA 网络加速等场景</p></blockquote><h2 id=1-背景>1. 背景</h2><p>在网络设备（如 NAT 网关、VPN 隧道、FPGA 加速卡）中，经常需要修改 IP 地址。修改后，相关的校验和必须更新：</p><div class=table-wrapper><table><thead><tr><th>校验和类型</th><th>覆盖范围</th><th>改 IP 后需要更新吗</th></tr></thead><tbody><tr><td>IP Header Checksum</td><td>仅 IP 头（20 字节）</td><td>✅ 必须</td></tr><tr><td>UDP Checksum</td><td>伪头部 + UDP 头 + 载荷</td><td>✅ 必须</td></tr><tr><td>TCP Checksum</td><td>伪头部 + TCP 头 + 载荷</td><td>✅ 必须</td></tr></tbody></table></div><p><strong>问题</strong>：如果重新遍历整个包来计算校验和，对于大包分片场景效率很低。</p><p><strong>解决方案</strong>：<strong>增量计算</strong>——只根据改变的字段更新校验和，无需遍历全包。</p><hr><h2 id=2-反码加法原理>2. 反码加法原理</h2><p>IP/TCP/UDP 校验和使用 <strong>16-bit 反码加法（One&rsquo;s Complement Arithmetic）</strong>：</p><h3 id=21-计算规则>2.1 计算规则</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>1. 把数据分成 16-bit 块
+</span></span><span class=line><span class=cl>2. 逐块相加（32-bit 累加）
+</span></span><span class=line><span class=cl>3. 进位回卷：高 16-bit 加回低 16-bit
+</span></span><span class=line><span class=cl>4. 最后取反（~）得到校验和
+</span></span></code></pre></td></tr></table></div></div><h3 id=22-计算示例>2.2 计算示例</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>计算 0x1234 + 0xFEDC 的反码和：
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  0x1234
+</span></span><span class=line><span class=cl>+ 0xFEDC
+</span></span><span class=line><span class=cl>─────────
+</span></span><span class=line><span class=cl> 0x11110  ← 产生进位（超过 16-bit）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>进位回卷：
+</span></span><span class=line><span class=cl>  0x1110 + 0x0001 = 0x1111
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>取反得校验和：
+</span></span><span class=line><span class=cl>  ~0x1111 = 0xEEEE
+</span></span></code></pre></td></tr></table></div></div><h3 id=23-关键性质>2.3 关键性质</h3><p>反码加法有一个重要性质：<strong>可逆且结合</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>如果：Checksum = ~(A + B + C + D)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>那么：~Checksum = A + B + C + D（中间和）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>改变 A → A&#39; 后：
+</span></span><span class=line><span class=cl>  新的中间和 = A&#39; + B + C + D
+</span></span><span class=line><span class=cl>             = (A + B + C + D) - A + A&#39;
+</span></span><span class=line><span class=cl>             = ~Checksum - A + A&#39;
+</span></span><span class=line><span class=cl>             = ~Checksum + ~A + A&#39;  （反码中 -X = ~X + 进位调整）
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=3-增量计算公式>3. 增量计算公式</h2><h3 id=31-正向增量加密端--nat-出向>3.1 正向增量（加密端 / NAT 出向）</h3><p><strong>场景</strong>：将 IP 地址从 <code>OLD_IP</code> 改为 <code>NEW_IP</code></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>公式：
+</span></span><span class=line><span class=cl>  S = ~C_old                          // Step 1: 取反旧校验和
+</span></span><span class=line><span class=cl>  S = S + ~OLD_IP[31:16] + ~OLD_IP[15:0]  // Step 2: 减去旧值
+</span></span><span class=line><span class=cl>  S = S + NEW_IP[31:16] + NEW_IP[15:0]    // Step 3: 加上新值
+</span></span><span class=line><span class=cl>  S = fold(S)                         // Step 4: 进位回卷
+</span></span><span class=line><span class=cl>  C_new = ~S                          // Step 5: 取反得新校验和
+</span></span></code></pre></td></tr></table></div></div><p><strong>进位回卷函数</strong>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>fold(S) = (S[15:0] + S[31:16])，重复直到 S ≤ 0xFFFF
+</span></span></code></pre></td></tr></table></div></div><h3 id=32-反向增量解密端--nat-入向>3.2 反向增量（解密端 / NAT 入向）</h3><p><strong>场景</strong>：将 IP 地址从 <code>NEW_IP</code> 改回 <code>OLD_IP</code>（与正向完全对称）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>公式：
+</span></span><span class=line><span class=cl>  S = ~C_encrypted                    // Step 1: 取反加密端的校验和
+</span></span><span class=line><span class=cl>  S = S + ~NEW_IP[31:16] + ~NEW_IP[15:0]  // Step 2: 减去新值
+</span></span><span class=line><span class=cl>  S = S + OLD_IP[31:16] + OLD_IP[15:0]    // Step 3: 加上旧值
+</span></span><span class=line><span class=cl>  S = fold(S)                         // Step 4: 进位回卷
+</span></span><span class=line><span class=cl>  C_original = ~S                     // Step 5: 取反得原始校验和
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意</strong>：反向增量和正向增量是<strong>完全对称</strong>的操作，执行后可恢复原始校验和。</p><hr><h2 id=4-完整计算示例>4. 完整计算示例</h2><h3 id=41-正向增量示例>4.1 正向增量示例</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>原始数据：
+</span></span><span class=line><span class=cl>  Src IP = 192.168.1.100 = 0xC0A8_0164
+</span></span><span class=line><span class=cl>  UDP Checksum = 0x1234
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>修改后：
+</span></span><span class=line><span class=cl>  Src IP = 172.16.0.50 = 0xAC10_0032
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>计算过程：
+</span></span><span class=line><span class=cl>  Step 1: S = ~0x1234 = 0xEDCB
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  Step 2: 减去旧 IP（加反码）
+</span></span><span class=line><span class=cl>          S = 0xEDCB + ~0xC0A8 + ~0x0164
+</span></span><span class=line><span class=cl>            = 0xEDCB + 0x3F57 + 0xFE9B
+</span></span><span class=line><span class=cl>            = 0x2CBBD
+</span></span><span class=line><span class=cl>          回卷: 0xCBBD + 0x0002 = 0xCBBF
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  Step 3: 加上新 IP
+</span></span><span class=line><span class=cl>          S = 0xCBBF + 0xAC10 + 0x0032
+</span></span><span class=line><span class=cl>            = 0x17801
+</span></span><span class=line><span class=cl>          回卷: 0x7801 + 0x0001 = 0x7802
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  Step 4: 新校验和
+</span></span><span class=line><span class=cl>          C_new = ~0x7802 = 0x87FD
+</span></span></code></pre></td></tr></table></div></div><h3 id=42-反向增量示例>4.2 反向增量示例</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>加密端数据：
+</span></span><span class=line><span class=cl>  Src IP = 172.16.0.50 = 0xAC10_0032
+</span></span><span class=line><span class=cl>  UDP Checksum = 0x87FD（加密端计算的结果）
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>还原后：
+</span></span><span class=line><span class=cl>  Src IP = 192.168.1.100 = 0xC0A8_0164
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>计算过程：
+</span></span><span class=line><span class=cl>  Step 1: S = ~0x87FD = 0x7802
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  Step 2: 减去新 IP
+</span></span><span class=line><span class=cl>          S = 0x7802 + ~0xAC10 + ~0x0032
+</span></span><span class=line><span class=cl>            = 0x7802 + 0x53EF + 0xFFCD
+</span></span><span class=line><span class=cl>            = 0x1C9BE
+</span></span><span class=line><span class=cl>          回卷: 0xC9BE + 0x0001 = 0xC9BF
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  Step 3: 加上旧 IP
+</span></span><span class=line><span class=cl>          S = 0xC9BF + 0xC0A8 + 0x0164
+</span></span><span class=line><span class=cl>            = 0x18BCB
+</span></span><span class=line><span class=cl>          回卷: 0x8BCB + 0x0001 = 0x8BCC
+</span></span><span class=line><span class=cl>          (继续检查，不需要再回卷)
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  Step 4: 原始校验和
+</span></span><span class=line><span class=cl>          C_original = ~0xEDCB = 0x1234 ✓
+</span></span></code></pre></td></tr></table></div></div><p>结果与原始校验和一致！</p><hr><h2 id=5-fpga-verilog-实现>5. FPGA Verilog 实现</h2><h3 id=51-增量更新模块>5.1 增量更新模块</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-verilog data-lang=verilog><span class=line><span class=cl><span class=k>module</span> <span class=n>checksum_incremental_update</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>15</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_old_checksum</span>                      <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_old_ip</span>                            <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_new_ip</span>                            <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>output</span> <span class=kt>wire</span> <span class=p>[</span><span class=mh>15</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>o_new_checksum</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 中间累加和
+</span></span></span><span class=line><span class=cl>    <span class=kt>wire</span>    <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>                 <span class=n>w_sum</span>                               <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=c1>// 进位折叠
+</span></span></span><span class=line><span class=cl>    <span class=kt>wire</span>    <span class=p>[</span><span class=mh>16</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>                 <span class=n>w_fold_1</span>                            <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>wire</span>    <span class=p>[</span><span class=mh>16</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>                 <span class=n>w_fold_2</span>                            <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Step 1-3: 取反 + 减旧 + 加新
+</span></span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>w_sum</span> <span class=o>=</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_checksum</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_ip</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_ip</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span>  <span class=n>i_new_ip</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span>  <span class=n>i_new_ip</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Step 4: 进位回卷（两次确保完全折叠）
+</span></span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>w_fold_1</span> <span class=o>=</span> <span class=p>{</span><span class=mh>1</span><span class=mb>&#39;b0</span><span class=p>,</span> <span class=n>w_sum</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span> <span class=o>+</span> <span class=p>{</span><span class=mh>1</span><span class=mb>&#39;b0</span><span class=p>,</span> <span class=n>w_sum</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>w_fold_2</span> <span class=o>=</span> <span class=p>{</span><span class=mh>1</span><span class=mb>&#39;b0</span><span class=p>,</span> <span class=n>w_fold_1</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span> <span class=o>+</span> <span class=p>{</span><span class=mh>15&#39;h0</span><span class=p>,</span> <span class=n>w_fold_1</span><span class=p>[</span><span class=mh>16</span><span class=p>]}</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// Step 5: 取反得校验和
+</span></span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>o_new_checksum</span> <span class=o>=</span> <span class=o>~</span><span class=n>w_fold_2</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>endmodule</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=52-同时更新-src-ip-和-dst-ip>5.2 同时更新 Src IP 和 Dst IP</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-verilog data-lang=verilog><span class=line><span class=cl><span class=k>module</span> <span class=n>checksum_update_dual_ip</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>15</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_old_checksum</span>                      <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_old_src_ip</span>                        <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_old_dst_ip</span>                        <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_new_src_ip</span>                        <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>input</span>  <span class=kt>wire</span> <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>i_new_dst_ip</span>                        <span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=k>output</span> <span class=kt>wire</span> <span class=p>[</span><span class=mh>15</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>             <span class=n>o_new_checksum</span>
+</span></span><span class=line><span class=cl><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>wire</span>    <span class=p>[</span><span class=mh>31</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>                 <span class=n>w_sum</span>                               <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>wire</span>    <span class=p>[</span><span class=mh>16</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>                 <span class=n>w_fold_1</span>                            <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>wire</span>    <span class=p>[</span><span class=mh>16</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>                 <span class=n>w_fold_2</span>                            <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=kt>wire</span>    <span class=p>[</span><span class=mh>16</span> <span class=o>:</span><span class=mh>0</span><span class=p>]</span>                 <span class=n>w_fold_3</span>                            <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>w_sum</span> <span class=o>=</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_checksum</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>                 <span class=c1>// 减旧 Src IP
+</span></span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_src_ip</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_src_ip</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=c1>// 减旧 Dst IP
+</span></span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_dst_ip</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span> <span class=o>~</span><span class=n>i_old_dst_ip</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=c1>// 加新 Src IP
+</span></span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span>  <span class=n>i_new_src_ip</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span>  <span class=n>i_new_src_ip</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=c1>// 加新 Dst IP
+</span></span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span>  <span class=n>i_new_dst_ip</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span>
+</span></span><span class=line><span class=cl>                 <span class=o>+</span> <span class=p>{</span><span class=mh>16&#39;h0</span><span class=p>,</span>  <span class=n>i_new_dst_ip</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1>// 多次折叠确保溢出处理
+</span></span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>w_fold_1</span> <span class=o>=</span> <span class=p>{</span><span class=mh>1</span><span class=mb>&#39;b0</span><span class=p>,</span> <span class=n>w_sum</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span> <span class=o>+</span> <span class=p>{</span><span class=mh>1</span><span class=mb>&#39;b0</span><span class=p>,</span> <span class=n>w_sum</span><span class=p>[</span><span class=mh>31</span><span class=o>:</span><span class=mh>16</span><span class=p>]}</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>w_fold_2</span> <span class=o>=</span> <span class=p>{</span><span class=mh>1</span><span class=mb>&#39;b0</span><span class=p>,</span> <span class=n>w_fold_1</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span> <span class=o>+</span> <span class=p>{</span><span class=mh>15&#39;h0</span><span class=p>,</span> <span class=n>w_fold_1</span><span class=p>[</span><span class=mh>16</span><span class=p>]}</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>w_fold_3</span> <span class=o>=</span> <span class=p>{</span><span class=mh>1</span><span class=mb>&#39;b0</span><span class=p>,</span> <span class=n>w_fold_2</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]}</span> <span class=o>+</span> <span class=p>{</span><span class=mh>15&#39;h0</span><span class=p>,</span> <span class=n>w_fold_2</span><span class=p>[</span><span class=mh>16</span><span class=p>]}</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>assign</span> <span class=n>o_new_checksum</span> <span class=o>=</span> <span class=o>~</span><span class=n>w_fold_3</span><span class=p>[</span><span class=mh>15</span><span class=o>:</span><span class=mh>0</span><span class=p>]</span> <span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>endmodule</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=6-应用场景>6. 应用场景</h2><h3 id=61-nat-网关>6.1 NAT 网关</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>出向（LAN → WAN）：
+</span></span><span class=line><span class=cl>  改 Src IP: 192.168.1.x → 公网 IP
+</span></span><span class=line><span class=cl>  改 Src Port（可选）
+</span></span><span class=line><span class=cl>  正向增量更新 UDP/TCP Checksum
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>入向（WAN → LAN）：
+</span></span><span class=line><span class=cl>  改 Dst IP: 公网 IP → 192.168.1.x
+</span></span><span class=line><span class=cl>  改 Dst Port（可选）
+</span></span><span class=line><span class=cl>  正向增量更新（或理解为&#34;反向还原&#34;）
+</span></span></code></pre></td></tr></table></div></div><h3 id=62-vpn-隧道加密设备>6.2 VPN 隧道加密设备</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>加密端：
+</span></span><span class=line><span class=cl>  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+</span></span><span class=line><span class=cl>  │ 收到原始包  │ ──► │ 改 IP 地址  │ ──► │ 更新校验和  │ ──► 加密
+</span></span><span class=line><span class=cl>  └─────────────┘     └─────────────┘     └─────────────┘
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>解密端：
+</span></span><span class=line><span class=cl>  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+</span></span><span class=line><span class=cl>  │  解密密文   │ ──► │ 还原 IP 地址│ ──► │ 反向更新校验│ ──► 原始包
+</span></span><span class=line><span class=cl>  └─────────────┘     └─────────────┘     └─────────────┘
+</span></span></code></pre></td></tr></table></div></div><h3 id=63-处理顺序>6.3 处理顺序</h3><p><strong>加密端</strong>：</p><ol><li>修改 IP 地址</li><li>增量更新 IP Header Checksum（仅覆盖 IP 头）</li><li>增量更新 UDP/TCP Checksum（伪头部含 IP）</li><li>加密 IP 载荷</li></ol><p><strong>解密端</strong>：</p><ol><li>解密 IP 载荷</li><li>还原 IP 地址</li><li>反向更新 IP Header Checksum</li><li>反向更新 UDP/TCP Checksum</li></ol><hr><h2 id=7-特殊情况处理>7. 特殊情况处理</h2><h3 id=71-udp-校验和为-0>7.1 UDP 校验和为 0</h3><p>在 IPv4 中，UDP Checksum = 0 表示"不校验"。但通过计算可能得到 0xFFFF（取反后为 0x0000），需要特殊处理：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-verilog data-lang=verilog><span class=line><span class=cl><span class=c1>// 计算结果为 0 时，用 0xFFFF 表示
+</span></span></span><span class=line><span class=cl><span class=k>assign</span> <span class=n>o_udp_checksum</span> <span class=o>=</span> <span class=p>(</span><span class=n>w_result</span> <span class=o>==</span> <span class=mh>16&#39;h0000</span><span class=p>)</span> <span class=o>?</span> <span class=mh>16&#39;hFFFF</span> <span class=o>:</span> <span class=n>w_result</span> <span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=72-ip-分片>7.2 IP 分片</h3><ul><li><strong>第一个分片</strong>：有 UDP/TCP 头，需要更新对应校验和</li><li><strong>后续分片</strong>：无 UDP/TCP 头，只更新 IP Header Checksum</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=err>分片</span> <span class=mi>1</span><span class=p>:</span> <span class=p>[</span><span class=ne>IP</span> <span class=n>Hdr</span><span class=p>][</span><span class=n>UDP</span> <span class=n>Hdr</span><span class=p>][</span><span class=n>Payload</span><span class=o>...</span><span class=p>]</span>  <span class=err>←</span> <span class=err>更新</span> <span class=ne>IP</span> <span class=n>Cksum</span> <span class=o>+</span> <span class=n>UDP</span> <span class=n>Cksum</span>
+</span></span><span class=line><span class=cl><span class=err>分片</span> <span class=mi>2</span><span class=p>:</span> <span class=p>[</span><span class=ne>IP</span> <span class=n>Hdr</span><span class=p>][</span><span class=n>Payload</span><span class=o>...</span><span class=p>]</span>          <span class=err>←</span> <span class=err>只更新</span> <span class=ne>IP</span> <span class=n>Cksum</span>
+</span></span><span class=line><span class=cl><span class=err>分片</span> <span class=mi>3</span><span class=p>:</span> <span class=p>[</span><span class=ne>IP</span> <span class=n>Hdr</span><span class=p>][</span><span class=n>Payload</span><span class=o>...</span><span class=p>]</span>          <span class=err>←</span> <span class=err>只更新</span> <span class=ne>IP</span> <span class=n>Cksum</span>
+</span></span></code></pre></td></tr></table></div></div><hr><h2 id=8-性能对比>8. 性能对比</h2><div class=table-wrapper><table><thead><tr><th>方法</th><th>时间复杂度</th><th>FPGA 资源</th><th>延迟</th></tr></thead><tbody><tr><td>完整计算</td><td>O(N)，N=包长</td><td>需缓存全包</td><td>高</td></tr><tr><td>增量计算</td><td>O(1)</td><td>几个加法器</td><td>极低（1-2 拍）</td></tr></tbody></table></div><p><strong>结论</strong>：增量计算是 FPGA 网络处理的标准做法，性能远优于完整计算。</p><hr><h2 id=9-总结>9. 总结</h2><div class=table-wrapper><table><thead><tr><th>项目</th><th>正向增量</th><th>反向增量</th></tr></thead><tbody><tr><td>场景</td><td>修改字段后更新校验和</td><td>还原字段后恢复校验和</td></tr><tr><td>公式</td><td><code>~(~C + ~OLD + NEW)</code></td><td><code>~(~C + ~NEW + OLD)</code></td></tr><tr><td>对称性</td><td>正向和反向完全对称</td><td>执行后恢复原值</td></tr><tr><td>实现</td><td>纯组合逻辑</td><td>纯组合逻辑</td></tr></tbody></table></div><p>掌握增量计算，是 FPGA 网络处理的基本功！</p></section><footer class=article-footer><section class=article-tags><a href=/tags/udp/>UDP</a>
+<a href=/tags/%E7%BD%91%E7%BB%9C/>网络</a>
+<a href=/tags/tcp/>TCP</a>
+<a href=/tags/%E6%A0%A1%E9%AA%8C%E5%92%8C/>校验和</a></section><section class=article-copyleft><svg class="icon icon-tabler icon-tabler-copyleft" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1, 1)"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+<span>Licensed under CC BY-NC-SA 4.0</span></section><section class=article-views><svg class="icon icon-tabler icon-tabler-messages" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M21 14l-3-3h-7a1 1 0 01-1-1V4a1 1 0 011-1h9a1 1 0 011 1v10"/><path d="M14 15v2a1 1 0 01-1 1H6l-3 3V11a1 1 0 011-1h2"/></svg>
+<span>本文阅读量 <span id=busuanzi_value_page_pv></span> 次</span></section></footer></article><aside class=related-contents--wrapper><h2 class=section-title>相关文章</h2><div class=related-contents><div class="flex article-list--tile"><article><a href=/2026/axi-stream-testbench/><div class=article-details><h2 class=article-title>AXI-Stream Testbench 设计经验：从踩坑到正确架构</h2></div></a></article><article><a href=/2026/linux-fpga-remote-jtag-hw-server/><div class=article-details><h2 class=article-title>Linux环境下FPGA远程JTAG调试配置指南</h2></div></a></article><article class=has-image><a href=/post---%E5%89%AF%E6%9C%AC-2/linux-fpga-remote-jtag-hw-server/><div class=article-image><img src=/img/slug:%20linux-fpga-remote-jtag-hw-server loading=lazy data-key data-hash="/img/slug: linux-fpga-remote-jtag-hw-server"></div><div class=article-details><h2 class=article-title>Linux环境下FPGA远程JTAG调试配置指南</h2></div></a></article></div></div></aside><script src=https://giscus.app/client.js data-repo=deerstar/deerstar.github.io data-repo-id=R_kgDOOlNrow data-category=Announcements data-category-id=DIC_kwDOOlNro84C0BBh data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=top data-theme=light data-lang=zh-CN data-loading crossorigin=anonymous async></script><script>function setGiscusTheme(e){let t=document.querySelector("iframe.giscus-frame");t&&t.contentWindow.postMessage({giscus:{setConfig:{theme:e}}},"https://giscus.app")}(function(){addEventListener("message",t=>{if(event.origin!=="https://giscus.app")return;e()}),window.addEventListener("onColorSchemeChange",e);function e(){setGiscusTheme(document.documentElement.dataset.scheme==="light"?"light":"dark")}})()</script><footer class=site-footer><script>(function(e,t){var s=document,o="script",n=s.createElement(o),i=s.getElementsByTagName(o)[0];n.src=e,t&&n.addEventListener("load",function(e){t(e)}),i.parentNode.insertBefore(n,i)})("//testingcf.jsdelivr.net/npm/pangu@4.0.7/dist/browser/pangu.min.js",function(){pangu.spacingPage()})</script><section class=copyleft>🄯
+2025 -
+2026 DeerStar的博客·<i class="fas fa-bell"></i> <a id=days>0</a>Days<br>共书写了73.6k字·共 14篇文章<br><span id=busuanzi_container_site_pv>本站总访问量 <span id=busuanzi_value_site_pv></span> 次</span> ·
+<span id=busuanzi_container_site_uv>访客数 <span id=busuanzi_value_site_uv></span> 人</span><br><span><p></section><section class=powerby>DeerStar的一些笔记<br>使用 <a href=https://gohugo.io/ target=_blank rel=noopener>Hugo</a> 构建<br>主题 <b><a href=https://codeberg.org/iceyear/hugo-theme-stack-mod target=_blank rel=noopener data-version=3.29.0>Stack Mod</a></b> 由 <a href=https://iceyear.eu.org target=_blank rel=noopener>Ice Year</a> 设计<br><a href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank>🄯 Licensed Under CC BY-NC-SA 4.0</a></section><script>var days,number_of_days,s1="2025-12-18",s1=new Date(s1.replace(/-/g,"/"));s2=new Date,days=s2.getTime()-s1.getTime(),number_of_days=parseInt(days/(1e3*60*60*24)),document.getElementById("days").innerHTML=number_of_days</script></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+<button class="pswp__button pswp__button--share" title=Share></button>
+<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+</button>
+<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><script src=https://testingcf.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo=" crossorigin=anonymous defer></script><script src=https://testingcf.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU=" crossorigin=anonymous defer></script><link rel=stylesheet href=https://testingcf.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css crossorigin=anonymous><link rel=stylesheet href=https://testingcf.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css crossorigin=anonymous></main></div><script src=https://testingcf.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z+KMkF24hUW8WePSA9HM=" crossorigin=anonymous></script><script type=text/javascript src=/ts/main.0bd16652234b138336e9a2f765908650df99e335b845d48acb8f49e6e0626a8f.js defer></script><script>(function(){const e=document.createElement("link");e.href="https://fonts.bunny.net/css2?family=Lato:wght@300;400;700&display=swap",e.type="text/css",e.rel="stylesheet",document.head.appendChild(e)})()</script></body></html>
